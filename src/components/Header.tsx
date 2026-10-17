@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 
 export const Header: React.FC = () => {
   const { totalItems, openCart, openSearch, openChat } = useCart();
-  const { user, isApproved, isPending, isAdmin } = useAuth();
+  const { user, isApproved, isPending } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopHovered, setIsShopHovered] = useState(false);
 
@@ -199,22 +199,23 @@ export const Header: React.FC = () => {
                   </Link>
                 </>
               )}
-              {isAdmin && (
-                <Link
-                  href="/admin"
-                  style={{
-                    backgroundColor: "#111111",
-                    color: "#f59e0b",
-                    fontSize: "0.75rem",
-                    fontWeight: 800,
-                    padding: "0.45rem 0.75rem",
-                    borderRadius: "6px",
-                    border: "1px solid #f59e0b",
-                  }}
-                >
-                  Admin
-                </Link>
-              )}
+              <Link
+                href="/admin"
+                style={{
+                  backgroundColor: "#111111",
+                  color: "#f59e0b",
+                  fontSize: "0.75rem",
+                  fontWeight: 800,
+                  padding: "0.45rem 0.75rem",
+                  borderRadius: "6px",
+                  border: "1px solid #f59e0b",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
+                Admin
+              </Link>
             </div>
 
             {/* Mobile Search Icon Button */}
@@ -630,6 +631,26 @@ export const Header: React.FC = () => {
             <Sparkles size={16} color="#f59e0b" />
             <span>Ask Pro Stylist AI</span>
           </button>
+          <Link
+            href="/admin"
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              backgroundColor: "#111111",
+              color: "#f59e0b",
+              padding: "0.75rem 1rem",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              fontSize: "0.85rem",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              border: "1px solid #f59e0b",
+            }}
+          >
+            <span>Admin Dashboard</span>
+            <span style={{ fontSize: "10px", backgroundColor: "#f59e0b", color: "#000", padding: "2px 6px", borderRadius: "4px" }}>PORTAL</span>
+          </Link>
           <hr style={{ border: "none", borderTop: "1px solid #eeeeee", margin: "0.2rem 0" }} />
           <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>SHOP ALL PRODUCTS (4,200+)</Link>
           <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>BRANDS DIRECTORY</Link>
