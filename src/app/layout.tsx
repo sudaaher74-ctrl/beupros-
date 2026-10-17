@@ -2,14 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
-import { Header } from "@/components/Header";
-import { CartDrawer } from "@/components/CartDrawer";
-import { QuickViewModal } from "@/components/QuickViewModal";
-import { SearchModal } from "@/components/SearchModal";
-import { Toast } from "@/components/Toast";
-import { ProStylistChat } from "@/components/ProStylistChat";
-import { MobileBottomNav } from "@/components/MobileBottomNav";
-import { Footer } from "@/components/Footer";
+import { StoreLayoutWrapper } from "@/components/StoreLayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Beupros | Pro Salon Beauty Supplies, Hair Color & Professional Products",
@@ -28,15 +21,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <AuthProvider>
           <CartProvider>
-            <Header />
-            <main style={{ flex: 1 }}>{children}</main>
-            <CartDrawer />
-            <QuickViewModal />
-            <SearchModal />
-            <Toast />
-            <ProStylistChat />
-            <MobileBottomNav />
-            <Footer />
+            <StoreLayoutWrapper>{children}</StoreLayoutWrapper>
           </CartProvider>
         </AuthProvider>
       </body>

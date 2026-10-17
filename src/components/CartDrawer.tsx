@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X, Trash2, Plus, Minus, ShoppingBag, ShieldCheck, ArrowRight, Truck } from "lucide-react";
+import { X, Trash2, Plus, Minus, ShoppingBag, ShieldCheck, ArrowRight, Truck, CheckCircle2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export const CartDrawer: React.FC = () => {
@@ -13,11 +13,29 @@ export const CartDrawer: React.FC = () => {
     closeCart,
     removeFromCart,
     updateQuantity,
+    clearCart,
     totalItems,
     subtotal,
     freeShippingThreshold,
     amountUntilFreeShipping,
   } = useCart();
+
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [submittingOrder, setSubmittingOrder] = useState(false);
+  const [confirmedOrder, setConfirmedOrder] = useState<any>(null);
+
+  const [checkoutData, setCheckoutData] = useState({
+    salonName: "Studio Elegance Salon",
+    customerName: "Rohan Varma",
+    phone: "+91 98765 01234",
+    email: "rohan@elegancesalon.in",
+    street: "Shop 4, Ground Floor, Grand Galleria Mall",
+    city: "Mumbai",
+    state: "Maharashtra",
+    pincode: "400050",
+    paymentMethod: "Pay on Delivery (Trade Wholesale)",
+    notes: "Please call upon arrival at salon premises.",
+  });
 
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
@@ -385,12 +403,10 @@ export const CartDrawer: React.FC = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+              {/* Action Buttons */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginTop: "0.75rem" }}>
               <button
-                onClick={() => {
-                  alert(`Thank you! Wholesale order initiated for ₹${grandTotal.toLocaleString("en-IN")}. (Building & Testing Phase: Checkout open without login)`);
-                }}
+                onClick={() => setIsCheckoutOpen(true)}
                 className="btn-pill-black"
                 style={{
                   width: "100%",
@@ -399,7 +415,7 @@ export const CartDrawer: React.FC = () => {
                   cursor: "pointer",
                 }}
               >
-                <ShieldCheck size={18} /> Proceed to Checkout
+                <ShieldCheck size={18} /> Proceed to Wholesale Checkout
               </button>
               <Link
                 href="/cart"
@@ -413,6 +429,323 @@ export const CartDrawer: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* ========================================================================= */}
+      {/* WHOLESALE TRADE CHECKOUT MODAL */}
+      {/* ========================================================================= */}
+      {isCheckoutOpen && (
+        <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.65)", zIndex: 120, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}>
+          <div style={{ backgroundColor: "#ffffff", borderRadius: "16px", maxWidth: "560px", width: "100%", maxHeight: "90vh", overflowY: "auto", padding: "1.75rem", position: "relative", boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)" }}>
+            <button
+              onClick={() => {
+                setIsCheckoutOpen(false);
+                setConfirmedOrder(null);
+              }}
+              style={{ position: "absolute", right: "1.25rem", top: "1.25rem", background: "none", border: "none", cursor: "pointer", color: "#6b7280" }}
+            >
+              <X size={22} />
+            </button>
+
+            {confirmedOrder ? (
+              <div style={{ textAlign: "center", padding: "1.5rem 0" }}>
+                <div style={{ width: "60px", height: "60px", borderRadius: "50%", backgroundColor: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem auto", color: "#059669" }}>
+                  <CheckCircle2 size={36} />
+                </div>
+                <h3 style={{ fontSize: "1.4rem", fontWeight: 900, textTransform: "uppercase", color: "#111827", margin: "0 0 0.5rem 0" }}>
+                  Trade Order Confirmed!
+                </h3>
+                <p style={{ fontSize: "0.9rem", color: "#4b5563", marginBottom: "1.25rem" }}>
+                  Thank you! Your order <strong style={{ color: "#000", fontFamily: "monospace" }}>{confirmedOrder.id}</strong> has been received and routed to the BeuPROS fulfillment warehouse.
+                </p>
+
+                <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "1rem", textAlign: "left", fontSize: "0.85rem", marginBottom: "1.5rem", border: "1px solid #e5e7eb" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                    <span style={{ color: "#6b7280" }}>Salon:</span>
+                    <strong style={{ color: "#111827" }}>{confirmedOrder.salonName}</strong>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                    <span style={{ color: "#6b7280" }}>Payment:</span>
+                    <strong style={{ color: "#111827" }}>{confirmedOrder.paymentMethod}</strong>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                    <span style={{ color: "#6b7280" }}>Items:</span>
+                    <strong style={{ color: "#111827" }}>{confirmedOrder.items?.length} SKUs</strong>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #e5e7eb", paddingTop: "6px", marginTop: "6px", fontSize: "1rem", fontWeight: 900 }}>
+                    <span>Order Total:</span>
+                    <span style={{ color: "#065f46" }}>₹{confirmedOrder.total?.toLocaleString("en-IN")}</span>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+                  <Link
+                    href="/admin"
+                    onClick={() => {
+                      setIsCheckoutOpen(false);
+                      setConfirmedOrder(null);
+                      closeCart();
+                    }}
+                    style={{
+                      backgroundColor: "#111827",
+                      color: "#f59e0b",
+                      padding: "0.65rem 1.25rem",
+                      borderRadius: "8px",
+                      fontSize: "0.85rem",
+                      fontWeight: 800,
+                      textTransform: "uppercase",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      border: "1px solid #f59e0b",
+                    }}
+                  >
+                    View in Admin Orders →
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setIsCheckoutOpen(false);
+                      setConfirmedOrder(null);
+                      closeCart();
+                    }}
+                    style={{
+                      backgroundColor: "#f3f4f6",
+                      color: "#374151",
+                      padding: "0.65rem 1.25rem",
+                      borderRadius: "8px",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      border: "1px solid #d1d5db",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "1rem" }}>
+                  <div style={{ backgroundColor: "#065f46", color: "#6ee7b7", padding: "4px 8px", borderRadius: "6px", fontSize: "11px", fontWeight: 800, textTransform: "uppercase" }}>
+                    Wholesale Pro Checkout
+                  </div>
+                </div>
+                <h3 style={{ fontSize: "1.35rem", fontWeight: 900, textTransform: "uppercase", color: "#111827", margin: "0 0 1.25rem 0" }}>
+                  Confirm Salon Trade Order
+                </h3>
+
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setSubmittingOrder(true);
+                    try {
+                      const res = await fetch("/api/admin/orders", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          salonName: checkoutData.salonName,
+                          customerName: checkoutData.customerName,
+                          phone: checkoutData.phone,
+                          email: checkoutData.email,
+                          shippingAddress: {
+                            street: checkoutData.street,
+                            city: checkoutData.city,
+                            state: checkoutData.state,
+                            pincode: checkoutData.pincode,
+                          },
+                          items: cart.map((item) => ({
+                            productId: item.product.id,
+                            name: item.product.name,
+                            brand: item.product.brand,
+                            image: item.product.image,
+                            quantity: item.quantity,
+                            price: item.product.salePrice,
+                            mrp: item.product.mrp,
+                          })),
+                          subtotal,
+                          discount: discountAmount,
+                          shipping: shippingCost,
+                          total: grandTotal,
+                          paymentMethod: checkoutData.paymentMethod,
+                          notes: checkoutData.notes,
+                        }),
+                      });
+
+                      const data = await res.json();
+                      if (res.ok && data.order) {
+                        setConfirmedOrder(data.order);
+                        clearCart();
+                      } else {
+                        alert(data.error || "Failed to place order.");
+                      }
+                    } catch {
+                      alert("Error processing wholesale order.");
+                    } finally {
+                      setSubmittingOrder(false);
+                    }
+                  }}
+                  style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}
+                >
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <div>
+                      <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Salon Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={checkoutData.salonName}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, salonName: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Stylist / Owner Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={checkoutData.customerName}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, customerName: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+                    <div>
+                      <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Phone Number</label>
+                      <input
+                        type="tel"
+                        required
+                        value={checkoutData.phone}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, phone: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Email Address</label>
+                      <input
+                        type="email"
+                        required
+                        value={checkoutData.email}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, email: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Salon Delivery Address</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Shop / Unit number, street, landmark"
+                      value={checkoutData.street}
+                      onChange={(e) => setCheckoutData({ ...checkoutData, street: e.target.value })}
+                      style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box" }}
+                    />
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
+                    <div>
+                      <label style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>City</label>
+                      <input
+                        type="text"
+                        required
+                        value={checkoutData.city}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, city: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.82rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>State</label>
+                      <input
+                        type="text"
+                        required
+                        value={checkoutData.state}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, state: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.82rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>PIN Code</label>
+                      <input
+                        type="text"
+                        required
+                        value={checkoutData.pincode}
+                        onChange={(e) => setCheckoutData({ ...checkoutData, pincode: e.target.value })}
+                        style={{ width: "100%", padding: "0.55rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.82rem", marginTop: "3px", boxSizing: "border-box" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: "#374151" }}>Trade Payment Method</label>
+                    <select
+                      value={checkoutData.paymentMethod}
+                      onChange={(e) => setCheckoutData({ ...checkoutData, paymentMethod: e.target.value })}
+                      style={{ width: "100%", padding: "0.55rem 0.75rem", border: "1.5px solid #d1d5db", borderRadius: "6px", fontSize: "0.85rem", marginTop: "3px", boxSizing: "border-box", backgroundColor: "#fff" }}
+                    >
+                      <option value="Pay on Delivery (Trade Wholesale)">Pay on Delivery (Trade Wholesale)</option>
+                      <option value="UPI / Direct Bank Transfer">UPI / Direct Bank Transfer</option>
+                      <option value="Pro Trade Credit (Net 30)">Pro Trade Credit (Net 30)</option>
+                    </select>
+                  </div>
+
+                  {/* Summary Box */}
+                  <div style={{ backgroundColor: "#f9fafb", borderRadius: "8px", padding: "0.75rem", border: "1px solid #e5e7eb", marginTop: "0.25rem", fontSize: "0.82rem" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2px" }}>
+                      <span style={{ color: "#6b7280" }}>Subtotal ({totalItems} items):</span>
+                      <span>₹{subtotal.toLocaleString("en-IN")}</span>
+                    </div>
+                    {discountAmount > 0 && (
+                      <div style={{ display: "flex", justifyContent: "space-between", color: "#16a34a", marginBottom: "2px" }}>
+                        <span>Pro Discount:</span>
+                        <span>-₹{discountAmount.toLocaleString("en-IN")}</span>
+                      </div>
+                    )}
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+                      <span style={{ color: "#6b7280" }}>Shipping:</span>
+                      <span style={{ color: shippingCost === 0 ? "#16a34a" : "#000", fontWeight: 700 }}>
+                        {shippingCost === 0 ? "FREE" : `₹${shippingCost}`}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", borderTop: "1px solid #e5e7eb", paddingTop: "4px", fontSize: "0.95rem", fontWeight: 900 }}>
+                      <span>Total Payable:</span>
+                      <span style={{ color: "#065f46" }}>₹{grandTotal.toLocaleString("en-IN")}</span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end", marginTop: "0.5rem" }}>
+                    <button
+                      type="button"
+                      onClick={() => setIsCheckoutOpen(false)}
+                      style={{ padding: "0.6rem 1.1rem", borderRadius: "8px", border: "1px solid #d1d5db", backgroundColor: "#fff", fontWeight: 700, cursor: "pointer", fontSize: "0.85rem" }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submittingOrder}
+                      style={{
+                        padding: "0.6rem 1.4rem",
+                        borderRadius: "8px",
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
+                        border: "none",
+                        fontWeight: 800,
+                        cursor: submittingOrder ? "not-allowed" : "pointer",
+                        fontSize: "0.85rem",
+                        opacity: submittingOrder ? 0.7 : 1,
+                      }}
+                    >
+                      {submittingOrder ? "Confirming Order..." : "Confirm & Place Order"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 };
+
