@@ -7,14 +7,13 @@ import { useCart } from '@/context/CartContext';
 import { ShoppingBag, Eye, Check, Sparkles } from 'lucide-react';
 import { Product } from '@/types/product';
 
-// Curated bundles from the client's 4,276 Salowin catalog
-const STYLES_DATA = [
+const BUNDLE_STYLES = [
   {
     id: 'pro-box',
     name: 'ProBox',
-    tagline: 'Curated Hair Care & Color Essentials',
-    description: 'Our premier salon package delivering top-tier treatments, reconstructive oils, and restorative masks directly to your station.',
-    bundleDiscount: 'Special Bundle Savings: 40% OFF',
+    subtitle: 'Hair Care & Restorative Color Essentials',
+    description: 'Our flagship station package featuring gold quinoa restorative oils, keratin elixirs, and deep color protection masks.',
+    discountBadge: '40% BUNDLE SAVINGS',
     products: [
       {
         id: '830',
@@ -28,7 +27,7 @@ const STYLES_DATA = [
         image: '/product-images/16726344631637eaf0b1.jpg',
         rating: 4.8,
         reviewsCount: 184,
-        description: 'Salon exclusive restorative oil enriched with Gold Quinoa and protein for damaged hair.',
+        description: 'Salon exclusive restorative oil enriched with Gold Quinoa and wheat protein for damaged hair fibers.',
         availability: 'In Stock',
       },
       {
@@ -43,7 +42,7 @@ const STYLES_DATA = [
         image: '/product-images/070dfc30637496576bb8.jpg',
         rating: 4.9,
         reviewsCount: 220,
-        description: 'Transforms hair texture with luxurious oils for long-lasting smoothness and keratin protection.',
+        description: 'Transforms hair texture with argan, jojoba, and almond oils for lasting keratin protection.',
         availability: 'In Stock',
       },
       {
@@ -58,7 +57,7 @@ const STYLES_DATA = [
         image: '/product-images/73d83e9720c7ce370a19.jpg',
         rating: 4.7,
         reviewsCount: 142,
-        description: 'Smooths frizzy and unmanageable hair for sleek, salon-perfect results every wash.',
+        description: 'Tames frizz and unmanageable textures for silk-like salon finish that resists humidity.',
         availability: 'In Stock',
       },
       {
@@ -73,7 +72,7 @@ const STYLES_DATA = [
         image: '/product-images/ecdaa8ac8d33a85407ac.jpg',
         rating: 4.8,
         reviewsCount: 98,
-        description: 'Vibrant color protection treatment with Copper Encapsulating Molecules and antioxidant shield.',
+        description: 'Intense treatment with Copper Encapsulating Molecules and antioxidant shield for colored hair.',
         availability: 'In Stock',
       },
       {
@@ -88,7 +87,7 @@ const STYLES_DATA = [
         image: '/product-images/b5b1e19a55e2108558fb.jpg',
         rating: 4.9,
         reviewsCount: 312,
-        description: 'Legendary mattifying volume powder providing 24h root lift and lightweight rough texture.',
+        description: 'Iconic mattifying powder delivering instant root lift, rough grip, and 24-hour volume.',
         availability: 'In Stock',
       },
     ],
@@ -96,9 +95,9 @@ const STYLES_DATA = [
   {
     id: 'pro-bag',
     name: 'ProBag',
-    tagline: 'Styling, Thermal & Blowout Essentials',
-    description: 'The on-the-go kit for master stylists featuring thermal protectors, high-shine sprays, and pro styling tools.',
-    bundleDiscount: 'Special Bundle Savings: 35% OFF',
+    subtitle: 'Thermal Defense, Styling & Blowout Kit',
+    description: 'The master stylist on-the-go kit with 230°C thermal barrier sprays, high-shine mists, and salon styling appliances.',
+    discountBadge: '35% BUNDLE SAVINGS',
     products: [
       {
         id: '1377',
@@ -127,7 +126,7 @@ const STYLES_DATA = [
         image: '/product-images/3c77bbdcc085c29b1817.jpg',
         rating: 4.7,
         reviewsCount: 115,
-        description: 'Lightweight silicone-free shine spray for an instant glossy finish and detangling.',
+        description: 'Silicone-free light finish shine spray for an instant glossy finish and effortless detangling.',
         availability: 'In Stock',
       },
       {
@@ -180,9 +179,9 @@ const STYLES_DATA = [
   {
     id: 'salon-wear',
     name: 'SalonWEAR',
-    tagline: 'Salon Equipment, Tools & Consumables',
-    description: 'Everything to keep your salon stations fully stocked: wax heaters, massage devices, and clinical facial kits.',
-    bundleDiscount: 'Special Bundle Savings: 45% OFF',
+    subtitle: 'Salon Equipment, Station Tools & Consumables',
+    description: 'Keep your treatment booths and washing stations fully equipped with commercial heaters, massage tools, and bulk care.',
+    discountBadge: '45% BUNDLE SAVINGS',
     products: [
       {
         id: '6',
@@ -248,110 +247,134 @@ const STYLES_DATA = [
   },
 ];
 
-export function SpiceProductsHero() {
+export function CuratedBundlesHero() {
   const { addToCart, openQuickView, showToast } = useCart();
-  const [selectedStyleIndex, setSelectedStyleIndex] = useState(0);
-  const [addedAll, setAddedAll] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [addedBundle, setAddedBundle] = useState(false);
 
-  const currentStyle = STYLES_DATA[selectedStyleIndex];
-  const totalPrice = currentStyle.products.reduce((acc, p) => acc + p.salePrice, 0);
-  const totalMrp = currentStyle.products.reduce((acc, p) => acc + p.mrp, 0);
+  const currentBundle = BUNDLE_STYLES[activeTab];
+  const totalPrice = currentBundle.products.reduce((acc, p) => acc + p.salePrice, 0);
+  const totalMrp = currentBundle.products.reduce((acc, p) => acc + p.mrp, 0);
 
-  const handleAddAllToCart = () => {
-    currentStyle.products.forEach((product) => {
+  const handleAddBundleToCart = () => {
+    currentBundle.products.forEach((product) => {
       addToCart(product as unknown as Product);
     });
-    setAddedAll(true);
-    showToast(`Added ${currentStyle.name} (${currentStyle.products.length} items) to your bag!`);
-    setTimeout(() => setAddedAll(false), 2400);
+    setAddedBundle(true);
+    showToast(`Added ${currentBundle.name} collection (${currentBundle.products.length} products) to your bag!`);
+    setTimeout(() => setAddedBundle(false), 2400);
   };
 
   return (
     <div style={{ backgroundColor: '#ffffff' }}>
-      {/* 1. Main Hero Banner matching The Spice Suite design */}
+      {/* 1. Hero Banner matching reference typography & layout */}
       <section
         style={{
-          backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%), url(/spice-suite/beupros-hero-bundle.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          background: 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%)',
           position: 'relative',
-          padding: '80px 48px 90px',
+          padding: '70px 36px 80px',
           overflow: 'hidden',
-          minHeight: '640px',
+          minHeight: '620px',
           display: 'flex',
           alignItems: 'center',
+          color: '#ffffff',
         }}
       >
+        {/* Subtle background glow */}
         <div
-          className="spice-hero-grid"
+          style={{
+            position: 'absolute',
+            top: '-20%',
+            right: '-10%',
+            width: '600px',
+            height: '600px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(0,0,0,0) 70%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <div
+          className="beupros-hero-grid"
           style={{
             maxWidth: '1440px',
             margin: '0 auto',
             width: '100%',
             display: 'grid',
-            gridTemplateColumns: '1.1fr 1fr',
+            gridTemplateColumns: '1fr 1fr',
             alignItems: 'center',
-            gap: '48px',
+            gap: '50px',
+            position: 'relative',
+            zIndex: 1,
           }}
         >
-          {/* Left Side: Spacer for the 3D products in the background image with floating interactive badge */}
+          {/* Left Column: Beupros Luxury Pro Box Visual */}
           <div
             style={{
               position: 'relative',
               width: '100%',
-              minHeight: '380px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
+              aspectRatio: '16 / 9',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
             }}
           >
+            <Image
+              src="/images/beupros-pro-box-bundle.jpg"
+              alt="Beupros Pro Box Premium Salon Collection"
+              fill
+              priority
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 900px) 100vw, 50vw"
+            />
+            {/* Floating Tag */}
             <div
               style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.65)',
+                position: 'absolute',
+                top: '20px',
+                left: '20px',
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
                 backdropFilter: 'blur(10px)',
                 color: '#ffffff',
-                padding: '8px 18px',
+                padding: '8px 16px',
                 borderRadius: '9999px',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 800,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
               }}
             >
-              <Sparkles size={14} color="#30cb99" />
+              <Sparkles size={13} color="#f59e0b" />
               <span>BEUPROS PRO BOX • CURATED TRADE BUNDLE</span>
             </div>
           </div>
 
-          {/* Right Side: Exact The Spice Suite Typography & Outline Pill Button */}
+          {/* Right Column: Reference Typography & Button */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              gap: '26px',
-              color: '#ffffff',
-              paddingLeft: '16px',
+              gap: '24px',
+              paddingLeft: '10px',
             }}
           >
             <h1
               style={{
-                fontSize: 'clamp(38px, 5.2vw, 76px)',
+                fontSize: 'clamp(42px, 5.4vw, 80px)',
                 fontWeight: 900,
-                lineHeight: 1.04,
-                letterSpacing: '-0.025em',
+                lineHeight: 1.02,
+                letterSpacing: '-0.03em',
                 textTransform: 'uppercase',
                 margin: 0,
                 color: '#ffffff',
-                textShadow: '0 2px 14px rgba(0,0,0,0.35)',
                 fontFamily: 'var(--font-main)',
+                textShadow: '0 4px 20px rgba(0,0,0,0.5)',
               }}
             >
               CHOOSE YOUR
@@ -361,47 +384,44 @@ export function SpiceProductsHero() {
 
             <p
               style={{
-                fontSize: 'clamp(18px, 1.85vw, 25px)',
+                fontSize: 'clamp(18px, 1.8vw, 24px)',
                 fontWeight: 600,
-                lineHeight: 1.38,
-                color: 'rgba(255, 255, 255, 0.96)',
+                lineHeight: 1.35,
+                color: 'rgba(255, 255, 255, 0.92)',
                 margin: 0,
                 maxWidth: '560px',
-                textShadow: '0 1px 8px rgba(0,0,0,0.3)',
+                textShadow: '0 2px 10px rgba(0,0,0,0.4)',
               }}
             >
-              No matter your taste, our ProBox, ProBag or SalonWEAR box gets you a variety of professional beauty
-              essentials.
+              No matter your specialty, our ProBox, ProBag or SalonWEAR bundle gets you a curated variety of professional beauty essentials.
             </p>
 
-            <div style={{ marginTop: '8px' }}>
+            <div style={{ marginTop: '8px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
               <Link
                 href="/shop"
                 style={{
                   display: 'inline-block',
                   backgroundColor: 'transparent',
                   color: '#ffffff',
-                  border: '2.5px solid #ffffff',
+                  border: '2px solid #ffffff',
                   borderRadius: '9999px',
                   padding: '16px 54px',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   fontWeight: 800,
-                  letterSpacing: '0.28em',
+                  letterSpacing: '0.26em',
                   textTransform: 'uppercase',
                   transition: 'all 0.25s ease',
-                  boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = '#ffffff';
                   e.currentTarget.style.color = '#111111';
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 28px rgba(0,0,0,0.35)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
                   e.currentTarget.style.color = '#ffffff';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.25)';
                 }}
               >
                 SHOP NOW
@@ -411,7 +431,7 @@ export function SpiceProductsHero() {
         </div>
       </section>
 
-      {/* 2. Interactive Products Experience: Choose your style & explore the client's products */}
+      {/* 2. Interactive Products Showcase with Style Tabs */}
       <section
         style={{
           backgroundColor: '#fafafa',
@@ -421,8 +441,8 @@ export function SpiceProductsHero() {
         }}
       >
         <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
-          {/* Header & Style Tabs */}
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          {/* Header & Tabs */}
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <span
               style={{
                 display: 'inline-block',
@@ -430,11 +450,11 @@ export function SpiceProductsHero() {
                 fontWeight: 800,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
-                color: '#30cb99',
+                color: '#b45309',
                 marginBottom: '8px',
               }}
             >
-              CURATED SALON BUNDLES
+              CURATED SALON PACKAGES
             </span>
             <h2
               style={{
@@ -443,24 +463,25 @@ export function SpiceProductsHero() {
                 textTransform: 'uppercase',
                 letterSpacing: '-0.02em',
                 color: '#111111',
-                margin: '0 0 16px',
+                margin: '0 0 14px',
+                fontFamily: 'var(--font-main)',
               }}
             >
-              PRODUCTS INSIDE YOUR {currentStyle.name.toUpperCase()}
+              PRODUCTS INSIDE YOUR {currentBundle.name.toUpperCase()}
             </h2>
             <p
               style={{
                 fontSize: '16px',
                 color: '#666666',
                 maxWidth: '680px',
-                margin: '0 auto 32px',
+                margin: '0 auto 28px',
                 lineHeight: 1.5,
               }}
             >
-              {currentStyle.description}
+              {currentBundle.description}
             </p>
 
-            {/* Pill Tabs for Styles */}
+            {/* Pill Tabs */}
             <div
               style={{
                 display: 'inline-flex',
@@ -475,20 +496,20 @@ export function SpiceProductsHero() {
                 justifyContent: 'center',
               }}
             >
-              {STYLES_DATA.map((style, idx) => {
-                const isActive = idx === selectedStyleIndex;
+              {BUNDLE_STYLES.map((style, idx) => {
+                const isActive = idx === activeTab;
                 return (
                   <button
                     key={style.id}
                     type="button"
-                    onClick={() => setSelectedStyleIndex(idx)}
+                    onClick={() => setActiveTab(idx)}
                     style={{
                       backgroundColor: isActive ? '#111111' : 'transparent',
                       color: isActive ? '#ffffff' : '#444444',
                       border: 'none',
                       borderRadius: '9999px',
                       padding: '12px 28px',
-                      fontSize: '13.5px',
+                      fontSize: '13px',
                       fontWeight: 800,
                       letterSpacing: '0.12em',
                       textTransform: 'uppercase',
@@ -521,8 +542,8 @@ export function SpiceProductsHero() {
             }}
           >
             <div>
-              <div style={{ fontSize: '13px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
-                {currentStyle.name} Complete Collection • {currentStyle.products.length} Products
+              <div style={{ fontSize: '13px', color: '#888888', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>
+                {currentBundle.name} Complete Trade Bundle • {currentBundle.products.length} Products
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginTop: '4px' }}>
                 <span style={{ fontSize: '26px', fontWeight: 900, color: '#111111' }}>₹{totalPrice.toLocaleString()}</span>
@@ -536,16 +557,16 @@ export function SpiceProductsHero() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={handleAddAllToCart}
+                onClick={handleAddBundleToCart}
                 style={{
-                  backgroundColor: addedAll ? '#169970' : '#111111',
+                  backgroundColor: addedBundle ? '#169970' : '#111111',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '9999px',
                   padding: '14px 32px',
                   fontSize: '13px',
                   fontWeight: 800,
-                  letterSpacing: '0.15em',
+                  letterSpacing: '0.14em',
                   textTransform: 'uppercase',
                   cursor: 'pointer',
                   display: 'inline-flex',
@@ -555,7 +576,7 @@ export function SpiceProductsHero() {
                   boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                 }}
               >
-                {addedAll ? (
+                {addedBundle ? (
                   <>
                     <Check size={16} />
                     <span>ADDED TO BAG!</span>
@@ -563,7 +584,7 @@ export function SpiceProductsHero() {
                 ) : (
                   <>
                     <ShoppingBag size={16} />
-                    <span>ADD COMPLETE {currentStyle.name.toUpperCase()} TO BAG</span>
+                    <span>ADD COMPLETE {currentBundle.name.toUpperCase()} TO BAG</span>
                   </>
                 )}
               </button>
@@ -583,19 +604,15 @@ export function SpiceProductsHero() {
                   textTransform: 'uppercase',
                   transition: 'all 0.2s',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f0f0f0';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
-                VIEW FULL CATALOG
+                EXPLORE 4,200+ PRODUCTS →
               </Link>
             </div>
           </div>
 
-          {/* Products Grid from Client's Catalog */}
+          {/* Products Grid */}
           <div
             style={{
               display: 'grid',
@@ -603,7 +620,7 @@ export function SpiceProductsHero() {
               gap: '24px',
             }}
           >
-            {currentStyle.products.map((product) => (
+            {currentBundle.products.map((product) => (
               <div
                 key={product.id}
                 style={{
@@ -707,7 +724,7 @@ export function SpiceProductsHero() {
                       gap: '6px',
                       transition: 'background-color 0.2s',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#30cb99')}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b45309')}
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#111111')}
                   >
                     <ShoppingBag size={14} />
@@ -741,12 +758,12 @@ export function SpiceProductsHero() {
 
       <style jsx>{`
         @media (max-width: 900px) {
-          .spice-hero-grid {
+          .beupros-hero-grid {
             grid-template-columns: 1fr !important;
             gap: 36px !important;
             text-align: center;
           }
-          .spice-hero-grid div:last-child {
+          .beupros-hero-grid div:last-child {
             align-items: center !important;
             padding-left: 0 !important;
           }
