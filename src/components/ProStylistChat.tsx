@@ -20,9 +20,122 @@ const samplePrompts = [
   "Which hair color is best for curly hair?",
   "How to get 100% resistant grey coverage?",
   "What iron temperature for keratin smoothing?",
-  "Best facial kits for bridal glow?",
-  "How can I increase salon retail margins?",
+  "Which haircut suits a round face shape?",
+  "How to neutralize orange brassy tones?",
+  "Rica wax temperature & application guide",
+  "How to sanitize tools using Barbicide?",
+  "How to market salon on Instagram for new clients?",
+  "What licenses are needed to open a salon?",
 ];
+
+const renderInlineFormatting = (text: string) => {
+  const parts = text.split(/(\*\*.*?\*\*|\*.*?\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={i} style={{ fontWeight: 800 }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith("*") && part.endsWith("*")) {
+      return (
+        <em key={i} style={{ fontStyle: "italic" }}>
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+    return part;
+  });
+};
+
+const renderFormattedContent = (content: string, isUser: boolean) => {
+  if (isUser) {
+    return <span>{content}</span>;
+  }
+
+  const lines = content.split("\n");
+  return lines.map((line, idx) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      return <div key={idx} style={{ height: "6px" }} />;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      return (
+        <h4
+          key={idx}
+          style={{
+            fontSize: "14px",
+            fontWeight: 800,
+            color: "#111111",
+            marginTop: idx === 0 ? "0" : "10px",
+            marginBottom: "4px",
+            letterSpacing: "0.01em",
+          }}
+        >
+          {trimmed.replace(/^###\s+/, "")}
+        </h4>
+      );
+    }
+
+    if (trimmed.startsWith("## ")) {
+      return (
+        <h3
+          key={idx}
+          style={{
+            fontSize: "15px",
+            fontWeight: 900,
+            color: "#111111",
+            marginTop: idx === 0 ? "0" : "12px",
+            marginBottom: "6px",
+          }}
+        >
+          {trimmed.replace(/^##\s+/, "")}
+        </h3>
+      );
+    }
+
+    if (/^\d+\.\s+/.test(trimmed)) {
+      const match = trimmed.match(/^(\d+\.)\s+(.*)$/);
+      if (match) {
+        return (
+          <div key={idx} style={{ display: "flex", gap: "6px", marginTop: "4px", marginBottom: "4px" }}>
+            <span style={{ fontWeight: 800, color: "#d97706", minWidth: "18px", flexShrink: 0 }}>
+              {match[1]}
+            </span>
+            <div style={{ flex: 1 }}>{renderInlineFormatting(match[2])}</div>
+          </div>
+        );
+      }
+    }
+
+    if (trimmed.startsWith("- ") || trimmed.startsWith("* ") || trimmed.startsWith("• ")) {
+      const itemText = trimmed.replace(/^[-*•]\s+/, "");
+      return (
+        <div
+          key={idx}
+          style={{
+            display: "flex",
+            gap: "6px",
+            marginTop: "3px",
+            marginBottom: "3px",
+            paddingLeft: "6px",
+          }}
+        >
+          <span style={{ color: "#d97706", fontWeight: "bold", flexShrink: 0 }}>•</span>
+          <div style={{ flex: 1 }}>{renderInlineFormatting(itemText)}</div>
+        </div>
+      );
+    }
+
+    return (
+      <p key={idx} style={{ margin: "2px 0", lineHeight: 1.55 }}>
+        {renderInlineFormatting(line)}
+      </p>
+    );
+  });
+};
 
 export const ProStylistChat: React.FC = () => {
   const { isChatOpen, openChat, closeChat, chatInitialQuery, clearChatInitialQuery, addToCart } = useCart();
@@ -32,9 +145,16 @@ export const ProStylistChat: React.FC = () => {
       sender: "assistant",
       text: `Hello! I'm your **Beupros Pro Cosmetology & Salon Advisor**. 
 
-I can assist you with technical hair color formulations, developer ratios, keratin smoothing protocols, curl-safe coloring, esthetician facial regimens, and salon business profitability.
+You can ask me **anything about the salon**:
+• **Hair Chemistry:** Color formulations, 20V/30V/40V developers, grey coverage, bleach ratios, toning brassy hair.
+• **Chemical Services:** Keratin iron temperatures, Hair Botox, Nanoplastia, rebonding, hair spa protocols.
+• **Styling & Barbering:** Face-shape haircut recommendations, seamless skin fades, beard grooming.
+• **Esthetics & Skin:** O3+ bridal facials, D-Tan, Rica liposoluble waxing, ingrown prevention.
+• **Nails & Feet:** Gel polish retention, UV lamps, clinical cracked-heel pedicures.
+• **Hygiene & Safety:** Hospital-grade Barbicide 10-minute disinfection, autoclaving, allergy patch tests.
+• **Salon Business:** Opening a salon, licensing, service pricing, staff commissions, Instagram marketing, and bulk backbar 5L can savings.
 
-Ask me any question below, or select a topic to get started!`,
+Type any question below or pick a topic to get started!`,
       suggestedFollowUps: samplePrompts,
       timestamp: "Just now",
     },
@@ -119,7 +239,7 @@ Ask me any question below, or select a topic to get started!`,
       {
         id: "welcome-reset",
         sender: "assistant",
-        text: `Conversation cleared! How can I assist your salon today? Ask any hair color, treatment, appliance, or business question.`,
+        text: `Conversation cleared! You can ask me **anything about the salon**: hair colors, keratin formulas, haircuts for face shapes, bridal facials, waxing guides, tool sterilization, or salon business advice.`,
         suggestedFollowUps: samplePrompts,
         timestamp: "Just now",
       },
@@ -191,7 +311,7 @@ Ask me any question below, or select a topic to get started!`,
             backgroundColor: "#ffffff",
             borderRadius: "20px",
             boxShadow: "0 25px 60px rgba(0,0,0,0.35)",
-            border: "1px solid #e5e5e5",
+            border: "1px solid #e5e7eb",
             zIndex: 100,
             display: "flex",
             flexDirection: "column",
@@ -245,7 +365,7 @@ Ask me any question below, or select a topic to get started!`,
                   </span>
                 </div>
                 <div style={{ fontSize: "11px", color: "#a1a1aa", marginTop: "2px" }}>
-                  Technical Formulas & Salon Business Advisor
+                  Ask Any Hair, Esthetics, Barbering or Salon Business Question
                 </div>
               </div>
             </div>
@@ -325,8 +445,8 @@ Ask me any question below, or select a topic to get started!`,
                       wordBreak: "break-word",
                     }}
                   >
-                    <div style={{ whiteSpace: "pre-line" }}>
-                      {m.text}
+                    <div>
+                      {renderFormattedContent(m.text, isUser)}
                     </div>
 
                     {/* Recommended Products Carousel Cards inside chat bubble */}
@@ -487,7 +607,7 @@ Ask me any question below, or select a topic to get started!`,
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Ask any salon formula or business query..."
+                placeholder="Ask anything: hair color, cuts, treatments, skin, waxing, salon business..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={loading}
@@ -522,7 +642,7 @@ Ask me any question below, or select a topic to get started!`,
             </form>
 
             <div style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", marginTop: "6px" }}>
-              Exclusively trained on cosmetology standards & 4,200+ salon products.
+              Exclusively trained on master cosmetology standards, salon operations & 4,200+ salon products.
             </div>
           </div>
         </div>
