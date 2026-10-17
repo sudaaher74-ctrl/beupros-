@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, ShieldCheck, Truck, Zap, Award } from 'lucide-react';
+import { ShieldCheck, Truck, Zap, Award } from 'lucide-react';
 
 const PERKS = [
   { icon: ShieldCheck, text: '100% GENUINE SALON FORMULATIONS' },

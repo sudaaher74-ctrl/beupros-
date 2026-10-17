@@ -9,14 +9,23 @@ import { Flame } from "lucide-react";
 export default function DealsPage() {
   const [dealProducts, setDealProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeDealTab, setActiveDealTab] = useState<"all" | "Hair" | "Tools" | "Beauty" | "clearance">("all");
 
   useEffect(() => {
-    fetch("/api/products?minDiscount=25&limit=24&sort=discount")
+    setLoading(true);
+    let url = "/api/products?minDiscount=25&limit=24&sort=discount";
+    if (activeDealTab === "clearance") {
+      url = "/api/products?minDiscount=40&limit=24&sort=discount";
+    } else if (activeDealTab !== "all") {
+      url = `/api/products?category=${activeDealTab}&minDiscount=20&limit=24&sort=discount`;
+    }
+
+    fetch(url)
       .then((res) => res.json())
       .then((data) => setDealProducts(data.products || []))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [activeDealTab]);
 
   return (
     <div style={{ backgroundColor: "#ffffff", paddingBottom: "5rem" }}>
@@ -106,9 +115,43 @@ export default function DealsPage() {
         </div>
 
         {/* Product Grid */}
-        <h2 style={{ fontSize: "1.8rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "1.75rem" }}>
-          Top Discounted Pro Products
-        </h2>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", marginBottom: "1.75rem" }}>
+          <h2 style={{ fontSize: "1.8rem", fontWeight: 800, textTransform: "uppercase", margin: 0 }}>
+            Top Discounted Pro Products
+          </h2>
+
+          {/* Deal Category Tabs */}
+          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            {[
+              { id: "all", label: "All Pro Deals" },
+              { id: "Hair", label: "Hair & Color" },
+              { id: "Tools", label: "Tools & Stylers" },
+              { id: "Beauty", label: "Skincare" },
+              { id: "clearance", label: "🔥 Clearance (40%+ Off)" },
+            ].map((tab) => {
+              const isActive = activeDealTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveDealTab(tab.id as any)}
+                  style={{
+                    padding: "0.45rem 1rem",
+                    borderRadius: "9999px",
+                    fontSize: "0.82rem",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    backgroundColor: isActive ? "#000000" : "#f5f5f5",
+                    color: isActive ? "#ffffff" : "#444444",
+                    border: isActive ? "1.5px solid #000000" : "1.5px solid #e5e5e5",
+                  }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {loading ? (
           <div style={{ textAlign: "center", padding: "4rem" }}>Loading pro deals...</div>

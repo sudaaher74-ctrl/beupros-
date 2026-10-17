@@ -55,6 +55,7 @@ function ShopContent() {
   const priceRange = searchParams.get("priceRange") || "all";
 
   const fetchProducts = useCallback(async () => {
+    setLoading(true);
     let minPrice: number | undefined;
     let maxPrice: number | undefined;
 
@@ -502,6 +503,199 @@ function ShopContent() {
           </main>
         </div>
       </div>
+
+      {/* Mobile Filter Drawer */}
+      {mobileFilterOpen && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              backdropFilter: "blur(4px)",
+              zIndex: 110,
+            }}
+            onClick={() => setMobileFilterOpen(false)}
+          />
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              width: "85%",
+              maxWidth: "340px",
+              backgroundColor: "#ffffff",
+              zIndex: 111,
+              display: "flex",
+              flexDirection: "column",
+              boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+            }}
+          >
+            {/* Drawer Header */}
+            <div
+              style={{
+                padding: "1.25rem 1.5rem",
+                borderBottom: "1px solid #eeeeee",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 800, textTransform: "uppercase" }}>
+                Filter Catalog
+              </h3>
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                style={{ padding: "0.4rem", borderRadius: "50%", backgroundColor: "#f5f5f5" }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Drawer Body */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              {/* Categories */}
+              <div>
+                <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.6rem" }}>
+                  Categories
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+                  {categoriesList.map((cat) => (
+                    <button
+                      key={cat.value}
+                      onClick={() => {
+                        updateParam("category", cat.value);
+                        setMobileFilterOpen(false);
+                      }}
+                      style={{
+                        textAlign: "left",
+                        padding: "0.4rem 0.5rem",
+                        fontSize: "0.85rem",
+                        borderRadius: "4px",
+                        backgroundColor: category === cat.value ? "#f0f0f0" : "transparent",
+                        fontWeight: category === cat.value ? 800 : 500,
+                      }}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Brands */}
+              <div>
+                <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.6rem" }}>
+                  Top Brands
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem", maxHeight: "180px", overflowY: "auto" }}>
+                  {topBrands.map((b) => {
+                    const val = b === "All Brands" ? "all" : b;
+                    return (
+                      <button
+                        key={b}
+                        onClick={() => {
+                          updateParam("brand", val);
+                          setMobileFilterOpen(false);
+                        }}
+                        style={{
+                          textAlign: "left",
+                          padding: "0.4rem 0.5rem",
+                          fontSize: "0.85rem",
+                          borderRadius: "4px",
+                          backgroundColor: brand.toLowerCase() === val.toLowerCase() ? "#f0f0f0" : "transparent",
+                          fontWeight: brand.toLowerCase() === val.toLowerCase() ? 800 : 500,
+                        }}
+                      >
+                        {b}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Price Range */}
+              <div>
+                <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.6rem" }}>
+                  Price (INR)
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", fontSize: "0.85rem" }}>
+                  {[
+                    { label: "All Prices", val: "all" },
+                    { label: "Under ₹500", val: "under-500" },
+                    { label: "₹500 to ₹1,000", val: "500-1000" },
+                    { label: "₹1,000 to ₹2,500", val: "1000-2500" },
+                    { label: "Above ₹2,500", val: "above-2500" },
+                  ].map((item) => (
+                    <label key={item.val} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <input
+                        type="radio"
+                        name="mobilePriceRange"
+                        checked={priceRange === item.val}
+                        onChange={() => {
+                          updateParam("priceRange", item.val);
+                          setMobileFilterOpen(false);
+                        }}
+                      />
+                      <span>{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Discounts */}
+              <div>
+                <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.6rem" }}>
+                  Pro Discounts
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem", fontSize: "0.85rem" }}>
+                  {[
+                    { label: "All Discounts", val: "" },
+                    { label: "10% off or more", val: "10" },
+                    { label: "20% off or more", val: "20" },
+                    { label: "30% off or more", val: "30" },
+                    { label: "40% off or more", val: "40" },
+                  ].map((item) => (
+                    <label key={item.val} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <input
+                        type="radio"
+                        name="mobileMinDiscount"
+                        checked={minDiscount === item.val}
+                        onChange={() => {
+                          updateParam("minDiscount", item.val);
+                          setMobileFilterOpen(false);
+                        }}
+                      />
+                      <span>{item.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Drawer Footer */}
+            <div style={{ padding: "1.25rem", borderTop: "1px solid #eeeeee", display: "flex", gap: "0.5rem" }}>
+              <button
+                onClick={() => {
+                  clearAllFilters();
+                  setMobileFilterOpen(false);
+                }}
+                className="btn-pill-white"
+                style={{ flex: 1, padding: "0.75rem", fontSize: "0.85rem" }}
+              >
+                Clear All
+              </button>
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                className="btn-pill-black"
+                style={{ flex: 1, padding: "0.75rem", fontSize: "0.85rem" }}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       <style jsx>{`
         @media (max-width: 900px) {

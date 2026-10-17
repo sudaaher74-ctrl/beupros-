@@ -378,7 +378,7 @@ export const Header: React.FC = () => {
           </div>
 
           <Link
-            href="/shop"
+            href="/brands"
             style={{
               fontSize: "0.9rem",
               fontWeight: 700,
@@ -386,7 +386,7 @@ export const Header: React.FC = () => {
               textTransform: "uppercase",
             }}
           >
-            DISCOVER
+            BRANDS
           </Link>
 
           <Link
@@ -415,7 +415,7 @@ export const Header: React.FC = () => {
           </Link>
 
           <Link
-            href="/shop"
+            href="/catalogs"
             style={{
               fontSize: "0.9rem",
               fontWeight: 700,
@@ -427,7 +427,7 @@ export const Header: React.FC = () => {
           </Link>
 
           <Link
-            href="/shop"
+            href="/stores"
             style={{
               fontSize: "0.9rem",
               fontWeight: 700,
@@ -436,6 +436,18 @@ export const Header: React.FC = () => {
             }}
           >
             STORES
+          </Link>
+
+          <Link
+            href="/shop"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}
+          >
+            DISCOVER
           </Link>
 
           <Link
@@ -474,12 +486,16 @@ export const Header: React.FC = () => {
           }}
         >
           <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>SHOP ALL PRODUCTS (4,200+)</Link>
+          <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>BRANDS DIRECTORY</Link>
+          <Link href="/deals" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, color: "#c91f37", textTransform: "uppercase" }}>DEALS & PROMOTIONS</Link>
+          <Link href="/education" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>PRO EDUCATION & THE PLAYBOOK</Link>
+          <Link href="/catalogs" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>DIGITAL PRO CATALOGS</Link>
+          <Link href="/stores" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>STORES & PRO HUBS</Link>
+          <hr style={{ border: "none", borderTop: "1px solid #eeeeee", margin: "0.2rem 0" }} />
           <Link href="/shop?category=Hair" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Hair Care & Color</Link>
           <Link href="/shop?category=Beauty" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Beauty & Skincare</Link>
           <Link href="/shop?category=Tools" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Tools & Appliances</Link>
           <Link href="/shop?category=Nails" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Nails & Accessories</Link>
-          <Link href="/deals" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, color: "#c91f37", textTransform: "uppercase" }}>DEALS & PROMOTIONS</Link>
-          <Link href="/education" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>PRO EDUCATION</Link>
         </div>
       )}
     </header>

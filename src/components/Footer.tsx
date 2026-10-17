@@ -53,12 +53,11 @@ export const Footer: React.FC = () => {
             </h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.65rem", fontSize: "0.85rem", color: "#a3a3a3" }}>
               <li><Link href="/shop" style={{ color: "inherit" }}>Ways To Shop</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Beupros Trade Account</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Download the Beupros App</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Store Locator & Pro Hubs</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Sign Up For Alerts & Deals</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Shop Our Digital Catalogs</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Auto Replenish Consumables</Link></li>
+              <li><Link href="/brands" style={{ color: "inherit" }}>Brand Directory</Link></li>
+              <li><Link href="/stores" style={{ color: "inherit" }}>Store Locator & Pro Hubs</Link></li>
+              <li><Link href="/deals" style={{ color: "inherit" }}>Salon Deals & Alerts</Link></li>
+              <li><Link href="/catalogs" style={{ color: "inherit" }}>Shop Digital Catalogs</Link></li>
+              <li><Link href="/cart" style={{ color: "inherit" }}>Your Shopping Bag</Link></li>
             </ul>
           </div>
 

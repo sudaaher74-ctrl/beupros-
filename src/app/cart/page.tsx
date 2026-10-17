@@ -23,11 +23,12 @@ export default function CartPage() {
 
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
-    if (couponCode.trim().toUpperCase() === "PRO10") {
+    const code = couponCode.trim().toUpperCase();
+    if (code === "PRO10" || code === "BEUPROS10") {
       setCouponApplied(true);
       setDiscountAmount(Math.round(subtotal * 0.1));
     } else if (couponCode.trim()) {
-      alert("Invalid code. Try 'PRO10' for 10% pro discount!");
+      alert("Invalid code. Try 'PRO10' or 'BEUPROS10' for 10% pro discount!");
     }
   };
 

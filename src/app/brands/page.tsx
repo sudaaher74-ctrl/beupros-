@@ -37,10 +37,15 @@ const allBrandsData = [
 
 export default function BrandsPage() {
   const [filter, setFilter] = useState("");
+  const [activeLetter, setActiveLetter] = useState("ALL");
 
-  const filtered = allBrandsData.filter((b) =>
-    b.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const alphabet = ["ALL", ..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")];
+
+  const filtered = allBrandsData.filter((b) => {
+    const matchesSearch = b.name.toLowerCase().includes(filter.toLowerCase());
+    const matchesLetter = activeLetter === "ALL" || b.name.toUpperCase().startsWith(activeLetter);
+    return matchesSearch && matchesLetter;
+  });
 
   return (
     <div style={{ backgroundColor: "#ffffff", paddingBottom: "5rem" }}>
@@ -57,7 +62,7 @@ export default function BrandsPage() {
       </div>
 
       <div className="container-custom" style={{ paddingTop: "2.5rem" }}>
-        {/* Search Filter */}
+        {/* Search & Alphabet Filter Tabs */}
         <div style={{ marginBottom: "2.5rem" }}>
           <input
             type="text"
@@ -72,8 +77,40 @@ export default function BrandsPage() {
               width: "100%",
               maxWidth: "480px",
               outline: "none",
+              marginBottom: "1.25rem",
             }}
           />
+
+          {/* A-Z Letter Tabs */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", alignItems: "center" }}>
+            <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#666666", marginRight: "0.4rem" }}>
+              Filter by Letter:
+            </span>
+            {alphabet.map((letter) => {
+              const isActive = activeLetter === letter;
+              return (
+                <button
+                  key={letter}
+                  onClick={() => setActiveLetter(letter)}
+                  style={{
+                    minWidth: "32px",
+                    height: "32px",
+                    padding: "0 0.4rem",
+                    borderRadius: "6px",
+                    fontSize: "0.78rem",
+                    fontWeight: isActive ? 800 : 600,
+                    cursor: "pointer",
+                    transition: "all 0.15s ease",
+                    backgroundColor: isActive ? "#000000" : "#f5f5f5",
+                    color: isActive ? "#ffffff" : "#444444",
+                    border: isActive ? "1px solid #000000" : "1px solid #e0e0e0",
+                  }}
+                >
+                  {letter}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Brand Grid */}

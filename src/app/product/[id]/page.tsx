@@ -19,7 +19,7 @@ export default function ProductDetailPage({
   const [related, setRelated] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [qty, setQty] = useState(1);
-  const [activeTab, setActiveTab] = useState<"overview" | "specs" | "guarantee">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "specs" | "usage" | "guarantee">("overview");
 
   useEffect(() => {
     setLoading(true);
@@ -298,6 +298,7 @@ export default function ProductDetailPage({
             {[
               { id: "overview", label: "Product Overview" },
               { id: "specs", label: "Pro Specifications" },
+              { id: "usage", label: "Salon Application" },
               { id: "guarantee", label: "Beupros Guarantee" },
             ].map((tab) => (
               <button
@@ -356,6 +357,25 @@ export default function ProductDetailPage({
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            )}
+            {activeTab === "usage" && (
+              <div>
+                <h4 style={{ fontSize: "1rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.5rem" }}>
+                  Professional Direction of Use
+                </h4>
+                <p style={{ marginBottom: "1rem" }}>
+                  1. Conduct a preliminary client consultation and patch test 24–48 hours before chemical application.
+                </p>
+                <p style={{ marginBottom: "1rem" }}>
+                  2. Apply using appropriate professional tools (tint brush, foil sheets, or sectioning clips) working in consistent 1/4-inch sections.
+                </p>
+                <p style={{ marginBottom: "1rem" }}>
+                  3. Adhere strictly to recommended processing times and developer volumes (20V/30V/40V depending on target lift).
+                </p>
+                <p>
+                  4. Rinse thoroughly with lukewarm water until runoff is clear, followed by appropriate post-service pH-balancing treatment.
+                </p>
               </div>
             )}
             {activeTab === "guarantee" && (
