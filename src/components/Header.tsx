@@ -12,57 +12,6 @@ export const Header: React.FC = () => {
 
   return (
     <header style={{ position: "sticky", top: 0, zIndex: 90, backgroundColor: "#ffffff" }}>
-      {/* Top ProRewards Announcement Banner */}
-      <div
-        style={{
-          backgroundColor: "#30cb99",
-          color: "#000000",
-          padding: "0.5rem 1rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-          fontSize: "0.85rem",
-          fontWeight: 700,
-          borderBottom: "1px solid rgba(0,0,0,0.06)",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", justifyContent: "center" }}>
-          <span
-            style={{
-              backgroundColor: "#000000",
-              color: "#ffffff",
-              padding: "0.2rem 0.6rem",
-              borderRadius: "4px",
-              fontSize: "0.75rem",
-              letterSpacing: "0.06em",
-              fontWeight: 800,
-            }}
-          >
-            PROREWARDS
-          </span>
-          <span style={{ letterSpacing: "0.03em", textTransform: "uppercase" }}>
-            MEMBERS GET FREE SHIPPING & SAME DAY DELIVERY
-          </span>
-          <span style={{ fontWeight: 500, opacity: 0.85, fontSize: "0.8rem" }}>
-            When you spend ₹1,500+ • Valid Today
-          </span>
-        </div>
-        <Link
-          href="/shop"
-          className="btn-pill-black"
-          style={{
-            padding: "0.3rem 0.9rem",
-            fontSize: "0.75rem",
-            backgroundColor: "#000000",
-            color: "#ffffff",
-          }}
-        >
-          SHOP NOW
-        </Link>
-      </div>
-
       {/* Main Top Nav Bar */}
       <div
         style={{
