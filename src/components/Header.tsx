@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, Menu, X, Sparkles, ChevronDown } from "lucide-react";
+import { Search, ShoppingBag, Menu, X, Sparkles, ChevronDown, User, ShieldCheck, Clock } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export const Header: React.FC = () => {
   const { totalItems, openCart, openSearch, openChat } = useCart();
+  const { user, isApproved, isPending, isAdmin } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopHovered, setIsShopHovered] = useState(false);
 
@@ -162,14 +164,57 @@ export const Header: React.FC = () => {
               <span>Ask Pro AI</span>
             </button>
 
-            {/* Desktop Auth Buttons */}
+            {/* Desktop Auth / User Status */}
             <div className="desktop-only" style={{ alignItems: "center", gap: "0.6rem" }}>
-              <Link href="/shop" className="btn-pill-white">
-                Sign Up
-              </Link>
-              <Link href="/shop" className="btn-pill-black">
-                Log In
-              </Link>
+              {user ? (
+                <Link
+                  href="/account"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "0.45rem 0.85rem",
+                    backgroundColor: isApproved ? "#ecfdf5" : isPending ? "#fffbeb" : "#f3f4f6",
+                    border: `1px solid ${isApproved ? "#a7f3d0" : isPending ? "#fde68a" : "#d1d5db"}`,
+                    borderRadius: "9999px",
+                    fontSize: "0.8rem",
+                    fontWeight: 700,
+                    color: isApproved ? "#065f46" : isPending ? "#92400e" : "#111111",
+                  }}
+                >
+                  {isApproved && <ShieldCheck size={14} color="#10b981" />}
+                  {isPending && <Clock size={14} color="#d97706" />}
+                  {!isApproved && !isPending && <User size={14} />}
+                  <span style={{ maxWidth: "120px" }} className="line-clamp-1">
+                    {user.salonName || user.name}
+                  </span>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/register" className="btn-pill-white">
+                    Sign Up
+                  </Link>
+                  <Link href="/login" className="btn-pill-black">
+                    Log In
+                  </Link>
+                </>
+              )}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  style={{
+                    backgroundColor: "#111111",
+                    color: "#f59e0b",
+                    fontSize: "0.75rem",
+                    fontWeight: 800,
+                    padding: "0.45rem 0.75rem",
+                    borderRadius: "6px",
+                    border: "1px solid #f59e0b",
+                  }}
+                >
+                  Admin
+                </Link>
+              )}
             </div>
 
             {/* Mobile Search Icon Button */}
@@ -510,6 +555,56 @@ export const Header: React.FC = () => {
             WebkitOverflowScrolling: "touch",
           }}
         >
+          {/* User Account Bar in Mobile Menu */}
+          {user ? (
+            <Link
+              href="/account"
+              onClick={() => setIsMobileMenuOpen(false)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0.75rem 1rem",
+                borderRadius: "8px",
+                backgroundColor: isApproved ? "#ecfdf5" : isPending ? "#fffbeb" : "#f3f4f6",
+                border: `1px solid ${isApproved ? "#a7f3d0" : isPending ? "#fde68a" : "#d1d5db"}`,
+                color: isApproved ? "#065f46" : isPending ? "#92400e" : "#111111",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                {isApproved && <ShieldCheck size={18} color="#10b981" />}
+                {isPending && <Clock size={18} color="#d97706" />}
+                {!isApproved && !isPending && <User size={18} />}
+                <div>
+                  <div style={{ fontSize: "13px", fontWeight: 800 }}>{user.salonName || user.name}</div>
+                  <div style={{ fontSize: "11px", fontWeight: 600, opacity: 0.85 }}>
+                    {isApproved ? "VERIFIED PRO TRADE ACCOUNT" : isPending ? "VERIFICATION PENDING" : "TRADE ACCOUNT"}
+                  </div>
+                </div>
+              </div>
+              <span style={{ fontSize: "12px", fontWeight: 700, textDecoration: "underline" }}>Manage</span>
+            </Link>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-pill-black"
+                style={{ padding: "0.6rem", fontSize: "12px", textAlign: "center" }}
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="btn-pill-white"
+                style={{ padding: "0.6rem", fontSize: "12px", textAlign: "center" }}
+              >
+                Register Salon
+              </Link>
+            </div>
+          )}
+
           <button
             onClick={() => {
               setIsMobileMenuOpen(false);

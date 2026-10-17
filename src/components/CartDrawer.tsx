@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X, Trash2, Plus, Minus, ShoppingBag, ShieldCheck, ArrowRight, Truck } from "lucide-react";
+import { X, Trash2, Plus, Minus, ShoppingBag, ShieldCheck, ArrowRight, Truck, Clock, Lock } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ export const CartDrawer: React.FC = () => {
     freeShippingThreshold,
     amountUntilFreeShipping,
   } = useCart();
+  const { user, isApproved, isPending } = useAuth();
 
   const [couponCode, setCouponCode] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
@@ -385,16 +387,63 @@ export const CartDrawer: React.FC = () => {
               </div>
             </div>
 
+            {/* Wholesale Access Gate Notice */}
+            {!user && (
+              <div style={{ backgroundColor: "#f3f4f6", borderRadius: "8px", padding: "0.85rem", marginBottom: "0.75rem", textAlign: "center", border: "1px solid #e5e7eb" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: "#111111", textTransform: "uppercase", marginBottom: "2px" }}>
+                  <Lock size={13} style={{ display: "inline", verticalAlign: "text-bottom", marginRight: "4px" }} />
+                  Licensed Salon Login Required
+                </div>
+                <div style={{ fontSize: "11px", color: "#6b7280", marginBottom: "8px" }}>
+                  Trade pricing & checkout is exclusively available to verified salons.
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
+                  <Link href="/login" onClick={closeCart} className="btn-pill-black" style={{ padding: "0.45rem", fontSize: "11px" }}>
+                    Sign In
+                  </Link>
+                  <Link href="/register" onClick={closeCart} className="btn-pill-white" style={{ padding: "0.45rem", fontSize: "11px" }}>
+                    Apply Account
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {isPending && (
+              <div style={{ backgroundColor: "#fffbeb", borderRadius: "8px", padding: "0.85rem", marginBottom: "0.75rem", border: "1.5px solid #fde68a" }}>
+                <div style={{ fontSize: "12px", fontWeight: 800, color: "#92400e", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <Clock size={15} color="#d97706" /> Application Pending Approval
+                </div>
+                <div style={{ fontSize: "11px", color: "#b45309", marginTop: "3px" }}>
+                  Our team is verifying your salon registration. Checkout will unlock upon approval.
+                </div>
+              </div>
+            )}
+
             {/* Action Buttons */}
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               <button
                 onClick={() => {
-                  alert("Proceeding to Beupros Pro Verified Checkout!");
+                  if (!user) {
+                    alert("Please sign in or register your salon trade account to proceed with checkout.");
+                    return;
+                  }
+                  if (isPending) {
+                    alert("Your trade account is under review. Please wait for admin approval before checkout.");
+                    return;
+                  }
+                  alert(`Thank you, ${user.salonName}! Your wholesale trade order has been initiated for verified processing.`);
                 }}
+                disabled={!user || isPending}
                 className="btn-pill-black"
-                style={{ width: "100%", padding: "0.75rem", fontSize: "0.9rem" }}
+                style={{
+                  width: "100%",
+                  padding: "0.75rem",
+                  fontSize: "0.9rem",
+                  opacity: !user || isPending ? 0.6 : 1,
+                  cursor: !user || isPending ? "not-allowed" : "pointer",
+                }}
               >
-                <ShieldCheck size={18} /> Checkout Now
+                <ShieldCheck size={18} /> {isApproved ? "Verified Trade Checkout" : "Trade Login Required"}
               </button>
               <Link
                 href="/cart"

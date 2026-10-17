@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "admin:dev": "npm --prefix admin run dev",
+    "admin:build": "npm --prefix admin run build"
   },
   "dependencies": {
     "lucide-react": "^1.59.0",

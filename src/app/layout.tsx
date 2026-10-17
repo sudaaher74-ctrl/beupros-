@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { Header } from "@/components/Header";
 import { CartDrawer } from "@/components/CartDrawer";
@@ -25,17 +26,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <CartProvider>
-          <Header />
-          <main style={{ flex: 1 }}>{children}</main>
-          <CartDrawer />
-          <QuickViewModal />
-          <SearchModal />
-          <Toast />
-          <ProStylistChat />
-          <MobileBottomNav />
-          <Footer />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Header />
+            <main style={{ flex: 1 }}>{children}</main>
+            <CartDrawer />
+            <QuickViewModal />
+            <SearchModal />
+            <Toast />
+            <ProStylistChat />
+            <MobileBottomNav />
+            <Footer />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
