@@ -12,6 +12,8 @@ export interface Product {
   reviewsCount: number;
   description: string;
   availability: string;
+  stock?: number;
+  sku?: string;
   sourceUrl?: string;
 }
 
