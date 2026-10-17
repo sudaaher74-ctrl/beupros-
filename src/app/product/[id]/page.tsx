@@ -74,14 +74,14 @@ export default function ProductDetailPage({
         </div>
       </div>
 
-      <div className="container-custom" style={{ paddingTop: "2.5rem" }}>
+      <div className="container-custom" style={{ paddingTop: "1.5rem" }}>
         {/* Main Product Layout */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-            gap: "3.5rem",
-            marginBottom: "4rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "clamp(1.5rem, 4vw, 3.5rem)",
+            marginBottom: "3rem",
           }}
         >
           {/* Left: Product Media Gallery */}
@@ -107,7 +107,7 @@ export default function ProductDetailPage({
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "contain", padding: "2.5rem" }}
+                style={{ objectFit: "contain", padding: "1.25rem" }}
               />
               {product.discountPercent > 0 && (
                 <span

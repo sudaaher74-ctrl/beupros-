@@ -252,6 +252,7 @@ Type any question below or pick a topic to get started!`,
       {!isChatOpen && (
         <button
           onClick={() => openChat()}
+          className="chat-trigger-mobile"
           style={{
             position: "fixed",
             bottom: "28px",
@@ -300,6 +301,7 @@ Type any question below or pick a topic to get started!`,
       {/* 2. Chat Window Drawer */}
       {isChatOpen && (
         <div
+          className="chat-window-mobile"
           style={{
             position: "fixed",
             bottom: "24px",

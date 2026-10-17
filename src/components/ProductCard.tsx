@@ -91,22 +91,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
               onError={() => setImgSrc("/placeholder.png")}
-              style={{ objectFit: "contain", padding: "1rem" }}
+              style={{ objectFit: "contain", padding: "0.65rem" }}
             />
           </Link>
         </div>
 
         {/* Info */}
-        <div style={{ padding: "1rem 1rem 0.5rem 1rem" }}>
+        <div style={{ padding: "0.75rem 0.75rem 0.35rem 0.75rem" }}>
           {/* Brand */}
           <div
             style={{
-              fontSize: "0.75rem",
+              fontSize: "0.72rem",
               fontWeight: 800,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               color: "#444444",
-              marginBottom: "0.3rem",
+              marginBottom: "0.25rem",
             }}
           >
             {product.brand}
@@ -116,13 +116,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
           <Link
             href={`/product/${product.id}`}
             style={{
-              fontSize: "0.88rem",
-              fontWeight: 500,
+              fontSize: "0.84rem",
+              fontWeight: 600,
               color: "#111111",
-              lineHeight: 1.35,
+              lineHeight: 1.3,
               textDecoration: "none",
               display: "block",
-              minHeight: "2.7rem",
+              minHeight: "2.3rem",
             }}
             className="line-clamp-2"
             title={product.name}
@@ -136,8 +136,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
               display: "flex",
               alignItems: "center",
               gap: "0.2rem",
-              marginTop: "0.5rem",
-              fontSize: "0.78rem",
+              marginTop: "0.4rem",
+              fontSize: "0.75rem",
               color: "#666666",
             }}
           >
@@ -145,7 +145,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
-                  size={13}
+                  size={12}
                   fill={star <= Math.round(product.rating) ? "#000000" : "none"}
                   color="#000000"
                 />
@@ -159,18 +159,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
             style={{
               display: "flex",
               alignItems: "baseline",
-              gap: "0.5rem",
-              marginTop: "0.75rem",
+              gap: "0.4rem",
+              marginTop: "0.5rem",
               flexWrap: "wrap",
             }}
           >
-            <span style={{ fontSize: "1.1rem", fontWeight: 800, color: "#000000" }}>
+            <span style={{ fontSize: "1.02rem", fontWeight: 800, color: "#000000" }}>
               ₹{product.salePrice.toLocaleString("en-IN")}
             </span>
             {product.mrp > product.salePrice && (
               <span
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "0.78rem",
                   textDecoration: "line-through",
                   color: "#888888",
                 }}
@@ -183,17 +183,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, style }) => {
       </div>
 
       {/* Add To Bag Button */}
-      <div style={{ padding: "0.75rem 1rem 1rem 1rem" }}>
+      <div style={{ padding: "0.5rem 0.75rem 0.75rem 0.75rem" }}>
         <button
           onClick={() => addToCart(product, 1)}
           className="btn-pill-black"
           style={{
             width: "100%",
-            padding: "0.6rem 1rem",
-            fontSize: "0.8rem",
+            padding: "0.55rem 0.8rem",
+            fontSize: "0.78rem",
           }}
         >
-          <ShoppingBag size={15} /> Add to Bag
+          <ShoppingBag size={14} /> Add to Bag
         </button>
       </div>
     </div>

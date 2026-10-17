@@ -402,18 +402,12 @@ function ShopContent() {
           {/* Products Grid */}
           <main style={{ flex: 1 }}>
             {loading ? (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-                  gap: "1.5rem",
-                }}
-              >
+              <div className="product-grid-mobile">
                 {[...Array(12)].map((_, i) => (
                   <div
                     key={i}
                     style={{
-                      height: "360px",
+                      height: "320px",
                       backgroundColor: "#f5f5f5",
                       borderRadius: "8px",
                     }}
@@ -422,13 +416,7 @@ function ShopContent() {
               </div>
             ) : products.length > 0 ? (
               <>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
-                    gap: "1.5rem",
-                  }}
-                >
+                <div className="product-grid-mobile">
                   {products.map((p) => (
                     <ProductCard key={p.id} product={p} />
                   ))}

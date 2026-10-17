@@ -156,7 +156,7 @@ export const SparkleLineup: React.FC = () => {
               key={p.id}
               className="snap-card"
               style={{
-                width: "280px",
+                width: "clamp(210px, 65vw, 280px)",
                 flexShrink: 0,
               }}
             >

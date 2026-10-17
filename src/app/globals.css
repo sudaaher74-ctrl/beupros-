@@ -324,3 +324,83 @@ img {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ==========================================================
+   MOBILE-FIRST APP UTILITIES (99% Mobile-Optimized)
+   ========================================================== */
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: flex !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: flex !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  body {
+    padding-bottom: 68px; /* Safe space for sticky bottom navigation bar */
+  }
+}
+
+/* 2-Column High-Density Product Grid on Mobile */
+.product-grid-mobile {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .product-grid-mobile {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .product-grid-mobile {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile Fullscreen Search Modal */
+@media (max-width: 640px) {
+  .search-modal-container {
+    padding: 0 !important;
+  }
+  .search-modal-card {
+    max-height: 100dvh !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    width: 100vw !important;
+  }
+}
+
+/* Mobile Fullscreen Native AI Chat Window */
+@media (max-width: 640px) {
+  .chat-window-mobile {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+  }
+  .chat-trigger-mobile {
+    bottom: 74px !important;
+    right: 14px !important;
+    padding: 9px 15px !important;
+    font-size: 11.5px !important;
+  }
+}
+

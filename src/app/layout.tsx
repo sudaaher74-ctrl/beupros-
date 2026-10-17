@@ -7,6 +7,7 @@ import { QuickViewModal } from "@/components/QuickViewModal";
 import { SearchModal } from "@/components/SearchModal";
 import { Toast } from "@/components/Toast";
 import { ProStylistChat } from "@/components/ProStylistChat";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
           <SearchModal />
           <Toast />
           <ProStylistChat />
+          <MobileBottomNav />
           <Footer />
         </CartProvider>
       </body>

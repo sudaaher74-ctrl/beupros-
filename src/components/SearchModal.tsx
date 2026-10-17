@@ -87,6 +87,7 @@ export const SearchModal: React.FC = () => {
 
   return (
     <div
+      className="search-modal-container"
       style={{
         position: "fixed",
         inset: 0,
@@ -101,6 +102,7 @@ export const SearchModal: React.FC = () => {
       onClick={handleClose}
     >
       <div
+        className="search-modal-card"
         style={{
           backgroundColor: "#ffffff",
           borderRadius: "14px",

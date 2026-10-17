@@ -86,13 +86,13 @@ export const Header: React.FC = () => {
             </div>
           </Link>
 
-          {/* Desktop Search Trigger & Actions */}
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            {/* Instant Search Bar Trigger */}
+          {/* Right Side Actions */}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            {/* Desktop Instant Search Bar Trigger */}
             <button
               onClick={openSearch}
+              className="desktop-only"
               style={{
-                display: "flex",
                 alignItems: "center",
                 gap: "0.6rem",
                 padding: "0.55rem 1.2rem",
@@ -130,11 +130,11 @@ export const Header: React.FC = () => {
               </kbd>
             </button>
 
-            {/* Ask Pro AI Stylist Button */}
+            {/* Desktop Ask Pro AI Stylist Button */}
             <button
               onClick={() => openChat()}
+              className="desktop-only"
               style={{
-                display: "inline-flex",
                 alignItems: "center",
                 gap: "0.45rem",
                 padding: "0.5rem 0.95rem",
@@ -162,8 +162,8 @@ export const Header: React.FC = () => {
               <span>Ask Pro AI</span>
             </button>
 
-            {/* Auth Buttons */}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            {/* Desktop Auth Buttons */}
+            <div className="desktop-only" style={{ alignItems: "center", gap: "0.6rem" }}>
               <Link href="/shop" className="btn-pill-white">
                 Sign Up
               </Link>
@@ -172,12 +172,28 @@ export const Header: React.FC = () => {
               </Link>
             </div>
 
-            {/* Shopping Bag Button */}
+            {/* Mobile Search Icon Button */}
+            <button
+              onClick={openSearch}
+              className="mobile-only"
+              style={{
+                padding: "0.5rem",
+                borderRadius: "50%",
+                backgroundColor: "#f5f5f5",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              aria-label="Search"
+            >
+              <Search size={20} color="#000000" />
+            </button>
+
+            {/* Shopping Bag Button (Desktop & Mobile) */}
             <button
               onClick={openCart}
               style={{
                 position: "relative",
-                padding: "0.6rem",
+                padding: "0.55rem",
                 borderRadius: "50%",
                 backgroundColor: "#f5f5f5",
                 display: "flex",
@@ -200,8 +216,8 @@ export const Header: React.FC = () => {
                     color: "#ffffff",
                     fontSize: "0.7rem",
                     fontWeight: 700,
-                    width: "20px",
-                    height: "20px",
+                    width: "18px",
+                    height: "18px",
                     borderRadius: "50%",
                     display: "flex",
                     alignItems: "center",
@@ -213,19 +229,44 @@ export const Header: React.FC = () => {
               )}
             </button>
 
-            {/* Mobile Hamburger Menu */}
+            {/* Mobile Hamburger Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="mobile-only"
               style={{
-                display: "none",
                 padding: "0.5rem",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#000000",
               }}
-              className="mobile-toggle"
               aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
+        </div>
+
+        {/* Mobile Full-Width Quick Search Trigger Bar */}
+        <div className="mobile-only" style={{ padding: "0.6rem 1rem 0 1rem" }}>
+          <button
+            onClick={openSearch}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.65rem",
+              padding: "0.65rem 1rem",
+              backgroundColor: "#f5f5f5",
+              borderRadius: "9999px",
+              border: "1px solid #e5e5e5",
+              color: "#71717a",
+              fontSize: "0.85rem",
+              cursor: "pointer",
+            }}
+          >
+            <Search size={16} color="#111111" />
+            <span style={{ flex: 1, textAlign: "left" }}>Search 4,200+ salon products...</span>
+          </button>
         </div>
       </div>
 
@@ -459,11 +500,14 @@ export const Header: React.FC = () => {
             right: 0,
             backgroundColor: "#ffffff",
             borderBottom: "2px solid #000000",
-            padding: "1.5rem",
+            padding: "1.25rem 1.5rem",
             display: "flex",
             flexDirection: "column",
-            gap: "1rem",
+            gap: "0.85rem",
             boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+            maxHeight: "calc(100vh - 120px)",
+            overflowY: "auto",
+            WebkitOverflowScrolling: "touch",
           }}
         >
           <button
