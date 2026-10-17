@@ -6,6 +6,7 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { QuickViewModal } from "@/components/QuickViewModal";
 import { SearchModal } from "@/components/SearchModal";
 import { Toast } from "@/components/Toast";
+import { ProStylistChat } from "@/components/ProStylistChat";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
           <QuickViewModal />
           <SearchModal />
           <Toast />
+          <ProStylistChat />
           <Footer />
         </CartProvider>
       </body>

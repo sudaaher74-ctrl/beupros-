@@ -22,6 +22,12 @@ interface CartContextType {
   isSearchOpen: boolean;
   openSearch: () => void;
   closeSearch: () => void;
+  isChatOpen: boolean;
+  openChat: (initialQuery?: string) => void;
+  closeChat: () => void;
+  toggleChat: () => void;
+  chatInitialQuery: string | null;
+  clearChatInitialQuery: () => void;
   toastMessage: string | null;
   showToast: (msg: string) => void;
 }
@@ -44,6 +50,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatInitialQuery, setChatInitialQuery] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Save to localStorage when cart changes
@@ -127,6 +135,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isSearchOpen,
         openSearch: () => setIsSearchOpen(true),
         closeSearch: () => setIsSearchOpen(false),
+        isChatOpen,
+        openChat: (initialQuery?: string) => {
+          if (initialQuery) setChatInitialQuery(initialQuery);
+          setIsChatOpen(true);
+        },
+        closeChat: () => setIsChatOpen(false),
+        toggleChat: () => setIsChatOpen((prev) => !prev),
+        chatInitialQuery,
+        clearChatInitialQuery: () => setChatInitialQuery(null),
         toastMessage,
         showToast,
       }}

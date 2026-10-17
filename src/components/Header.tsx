@@ -6,7 +6,7 @@ import { Search, ShoppingBag, Menu, X, Sparkles, ChevronDown } from "lucide-reac
 import { useCart } from "@/context/CartContext";
 
 export const Header: React.FC = () => {
-  const { totalItems, openCart, openSearch } = useCart();
+  const { totalItems, openCart, openSearch, openChat } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopHovered, setIsShopHovered] = useState(false);
 
@@ -179,6 +179,38 @@ export const Header: React.FC = () => {
               >
                 ⌘K
               </kbd>
+            </button>
+
+            {/* Ask Pro AI Stylist Button */}
+            <button
+              onClick={() => openChat()}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.45rem",
+                padding: "0.5rem 0.95rem",
+                borderRadius: "9999px",
+                border: "1.5px solid #000000",
+                backgroundColor: "#ffffff",
+                color: "#000000",
+                fontSize: "0.8rem",
+                fontWeight: 800,
+                letterSpacing: "0.04em",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#000000";
+                e.currentTarget.style.color = "#ffffff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#ffffff";
+                e.currentTarget.style.color = "#000000";
+              }}
+              title="Ask Pro Stylist AI for formulations or salon advice"
+            >
+              <Sparkles size={14} color="#d97706" />
+              <span>Ask Pro AI</span>
             </button>
 
             {/* Auth Buttons */}
@@ -485,6 +517,32 @@ export const Header: React.FC = () => {
             boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
           }}
         >
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              openChat();
+            }}
+            style={{
+              backgroundColor: "#111111",
+              color: "#ffffff",
+              padding: "0.8rem 1rem",
+              borderRadius: "8px",
+              border: "1px solid #f59e0b",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              fontSize: "0.9rem",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              cursor: "pointer",
+            }}
+          >
+            <Sparkles size={16} color="#f59e0b" />
+            <span>Ask Pro Stylist AI</span>
+          </button>
+          <hr style={{ border: "none", borderTop: "1px solid #eeeeee", margin: "0.2rem 0" }} />
           <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>SHOP ALL PRODUCTS (4,200+)</Link>
           <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>BRANDS DIRECTORY</Link>
           <Link href="/deals" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, color: "#c91f37", textTransform: "uppercase" }}>DEALS & PROMOTIONS</Link>
