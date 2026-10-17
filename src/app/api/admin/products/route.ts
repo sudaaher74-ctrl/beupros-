@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     const brandSet = new Set<string>();
 
     allProducts.forEach((p) => {
-      const stock = p.stock !== undefined ? p.stock : 25;
+      const stock = p.stock !== undefined ? p.stock : 0;
       const sVal = stock * p.salePrice;
       totalStockValue += sVal;
 
@@ -77,11 +77,11 @@ export async function GET(request: Request) {
 
     if (stockStatus && stockStatus !== "all") {
       if (stockStatus === "in_stock") {
-        filtered = filtered.filter((p) => (p.stock !== undefined ? p.stock > 20 : true) && p.availability !== "Out of Stock");
+        filtered = filtered.filter((p) => (p.stock !== undefined && p.stock > 20) && p.availability !== "Out of Stock");
       } else if (stockStatus === "low_stock") {
-        filtered = filtered.filter((p) => (p.stock !== undefined ? p.stock > 0 && p.stock <= 20 : false) || p.availability === "Low Stock");
+        filtered = filtered.filter((p) => (p.stock !== undefined && p.stock > 0 && p.stock <= 20) || p.availability === "Low Stock");
       } else if (stockStatus === "out_of_stock") {
-        filtered = filtered.filter((p) => p.stock === 0 || p.availability === "Out of Stock");
+        filtered = filtered.filter((p) => (p.stock === undefined || p.stock === 0) || p.availability === "Out of Stock");
       }
     }
 
@@ -134,7 +134,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, brand, category, salePrice, mrp, image, description, availability } = body;
+    const { name, brand, category, salePrice, mrp, image, description, availability, stock, sku } = body;
 
     if (!name || !brand || !category || salePrice === undefined || mrp === undefined) {
       return NextResponse.json(
@@ -157,6 +157,8 @@ export async function POST(request: Request) {
       mrp: mPrice,
       discount,
       discountPercent,
+      stock: stock !== undefined ? Number(stock) : 0,
+      sku: sku ? sku.trim() : `BP-${Date.now().toString().slice(-4)}`,
       image: image || "/placeholder.png",
       rating: 4.8,
       reviewsCount: 1,
@@ -183,7 +185,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { id, name, brand, category, salePrice, mrp, image, description, availability } = body;
+    const { id, name, brand, category, salePrice, mrp, image, description, availability, stock, sku } = body;
 
     if (!id) {
       return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
@@ -204,6 +206,8 @@ export async function PUT(request: Request) {
     if (image) target.image = image.trim();
     if (description) target.description = description.trim();
     if (availability) target.availability = availability;
+    if (stock !== undefined) target.stock = Number(stock);
+    if (sku !== undefined) target.sku = sku.trim();
 
     if (salePrice !== undefined || mrp !== undefined) {
       const sPrice = salePrice !== undefined ? Number(salePrice) : target.salePrice;

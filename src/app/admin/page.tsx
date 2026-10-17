@@ -181,7 +181,7 @@ export default function DedicatedAdminDashboard() {
     sku: "",
     wholesalePrice: 0,
     mrp: 0,
-    stock: 25,
+    stock: 0,
     availability: "In Stock",
     image: "",
     description: "",
@@ -271,16 +271,13 @@ export default function DedicatedAdminDashboard() {
       const data = await res.json();
       if (data.orders) {
         setOrders(data.orders);
-        if (data.orders.length > 0 && !selectedOrder) {
-          setSelectedOrder(data.orders[0]);
-        }
       }
     } catch {
       setOrders([]);
     } finally {
       setOrdersLoading(false);
     }
-  }, [orderStatusTab, selectedOrder]);
+  }, [orderStatusTab]);
 
   const fetchCoupons = useCallback(async () => {
     setCouponsLoading(true);
@@ -480,6 +477,8 @@ export default function DedicatedAdminDashboard() {
         category: productForm.category,
         salePrice: productForm.wholesalePrice,
         mrp: productForm.mrp,
+        stock: productForm.stock,
+        sku: productForm.sku,
         image: productForm.image,
         availability: productForm.availability,
         description: productForm.description,
@@ -512,6 +511,7 @@ export default function DedicatedAdminDashboard() {
         body: JSON.stringify({
           id: adjustingStockItem.id,
           availability: newAvail,
+          stock: stockAdjustUnits,
         }),
       });
 
@@ -1157,7 +1157,7 @@ export default function DedicatedAdminDashboard() {
                       sku: `BP-${Date.now().toString().slice(-4)}`,
                       wholesalePrice: 0,
                       mrp: 0,
-                      stock: 25,
+                      stock: 0,
                       availability: "In Stock",
                       image: "",
                       description: "",
@@ -1276,7 +1276,7 @@ export default function DedicatedAdminDashboard() {
                                     sku: p.sku || `BP-${p.id}`,
                                     wholesalePrice: p.salePrice,
                                     mrp: p.mrp,
-                                    stock: p.stock || 25,
+                                    stock: p.stock ?? 0,
                                     availability: p.availability || "In Stock",
                                     image: p.image,
                                     description: p.description || "",
@@ -1790,7 +1790,7 @@ export default function DedicatedAdminDashboard() {
                       </thead>
                       <tbody>
                         {products.map((item) => {
-                          const stockUnits = item.stock !== undefined ? item.stock : 25;
+                          const stockUnits = item.stock ?? 0;
                           const stockVal = stockUnits * item.salePrice;
                           return (
                             <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
@@ -2176,6 +2176,126 @@ export default function DedicatedAdminDashboard() {
                   Approve Verified Pro
                 </button>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Order Inspector Drawer */}
+      {selectedOrder && (
+        <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 110, display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ width: "100%", maxWidth: "560px", backgroundColor: "#ffffff", height: "100vh", display: "flex", flexDirection: "column", boxShadow: "-10px 0 25px rgba(0,0,0,0.15)" }}>
+            <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", margin: 0, fontFamily: "monospace" }}>{selectedOrder.id}</h2>
+                  <span style={{ fontSize: "10px", fontWeight: 800, padding: "2px 8px", borderRadius: "9999px", backgroundColor: selectedOrder.status === "Delivered" ? "#dcfce7" : selectedOrder.status === "Dispatched" ? "#e0e7ff" : "#fef3c7", color: selectedOrder.status === "Delivered" ? "#16a34a" : selectedOrder.status === "Dispatched" ? "#4338ca" : "#b45309" }}>
+                    {selectedOrder.status}
+                  </span>
+                </div>
+                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+                  Placed on {new Date(selectedOrder.createdAt).toLocaleString()}
+                </div>
+              </div>
+              <button onClick={() => setSelectedOrder(null)} style={{ border: "none", background: "none", cursor: "pointer", color: "#64748b" }}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div style={{ flex: 1, overflowY: "auto", padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              <div style={{ backgroundColor: "#f8fafc", borderRadius: "10px", border: "1px solid #e2e8f0", padding: "1rem" }}>
+                <h3 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.75rem 0", textTransform: "uppercase" }}>Customer & Delivery Info</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", fontSize: "12px" }}>
+                  <div>
+                    <span style={{ color: "#64748b", display: "block" }}>Salon Partner</span>
+                    <strong style={{ color: "#0f172a" }}>{selectedOrder.salonName}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#64748b", display: "block" }}>Contact Name</span>
+                    <strong style={{ color: "#0f172a" }}>{selectedOrder.customerName}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#64748b", display: "block" }}>Phone Number</span>
+                    <strong style={{ color: "#0f172a" }}>{selectedOrder.phone}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: "#64748b", display: "block" }}>Email</span>
+                    <strong style={{ color: "#0f172a" }}>{selectedOrder.email}</strong>
+                  </div>
+                  <div style={{ gridColumn: "span 2" }}>
+                    <span style={{ color: "#64748b", display: "block" }}>Shipping Address</span>
+                    <strong style={{ color: "#0f172a" }}>
+                      {selectedOrder.shippingAddress.street}, {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state} - {selectedOrder.shippingAddress.pincode}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: "#ffffff", borderRadius: "10px", border: "1px solid #e2e8f0", padding: "1rem" }}>
+                <label style={{ display: "block", fontSize: "11px", fontWeight: 700, color: "#475569", marginBottom: "6px" }}>Update Fulfillment Status</label>
+                <select
+                  value={selectedOrder.status}
+                  onChange={(e) => handleUpdateOrderStatus(selectedOrder.id, e.target.value as any)}
+                  style={{ width: "100%", padding: "0.55rem 0.8rem", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "#f8fafc", fontSize: "13px", fontWeight: 800, color: "#0f172a" }}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Packing">Packing</option>
+                  <option value="Dispatched">Dispatched</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+
+              <div>
+                <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.75rem 0" }}>Ordered Items ({selectedOrder.items.length})</h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {selectedOrder.items.map((item, idx) => (
+                    <div key={idx} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0.75rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#f8fafc" }}>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "6px", overflow: "hidden", backgroundColor: "#e2e8f0", position: "relative", flexShrink: 0 }}>
+                        <Image src={item.image || "/placeholder.png"} alt={item.name} fill style={{ objectFit: "cover" }} />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 700, color: "#0f172a", fontSize: "13px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
+                        <div style={{ fontSize: "11px", color: "#64748b" }}>{item.brand} • Qty: {item.quantity} × ₹ {item.price.toLocaleString("en-IN")}</div>
+                      </div>
+                      <div style={{ fontWeight: 800, color: "#0f172a", fontSize: "13px" }}>
+                        ₹ {(item.price * item.quantity).toLocaleString("en-IN")}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: "#f8fafc", borderRadius: "10px", border: "1px solid #e2e8f0", padding: "1rem", display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#64748b" }}>
+                  <span>Subtotal:</span>
+                  <span>₹ {selectedOrder.subtotal.toLocaleString("en-IN")}</span>
+                </div>
+                {selectedOrder.discount > 0 && (
+                  <div style={{ display: "flex", justifyContent: "space-between", color: "#16a34a" }}>
+                    <span>Trade Discount:</span>
+                    <span>- ₹ {selectedOrder.discount.toLocaleString("en-IN")}</span>
+                  </div>
+                )}
+                <div style={{ display: "flex", justifyContent: "space-between", color: "#64748b" }}>
+                  <span>Shipping:</span>
+                  <span>{selectedOrder.shipping === 0 ? "Free Shipping" : `₹ ${selectedOrder.shipping.toLocaleString("en-IN")}`}</span>
+                </div>
+                <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "6px", display: "flex", justifyContent: "space-between", fontSize: "14px", fontWeight: 800, color: "#0f172a" }}>
+                  <span>Total Value:</span>
+                  <span>₹ {selectedOrder.total.toLocaleString("en-IN")}</span>
+                </div>
+                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px" }}>
+                  Payment: <strong>{selectedOrder.paymentMethod}</strong> ({selectedOrder.paymentStatus})
+                </div>
+              </div>
+            </div>
+
+            <div style={{ padding: "1.25rem 1.5rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "flex-end" }}>
+              <button onClick={() => setSelectedOrder(null)} style={{ padding: "0.55rem 1.1rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontWeight: 700, fontSize: "12px", cursor: "pointer" }}>
+                Close
+              </button>
             </div>
           </div>
         </div>
