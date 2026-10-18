@@ -10,24 +10,27 @@ export default function Home() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* IMMERSIVE FULL-PAGE WAVY RETRO PARALLAX EXPERIENCE                       */}
-      {/* Complete home screen seamlessly enveloped in the iconic wavy background   */}
+      {/* 1ST SCROLL: ICONIC RETRO WAVY BACKGROUND THEME                            */}
+      {/* Hero 3D Product Stage & Pro Manifesto Banner on continuous wavy graphic   */}
       {/* ========================================================================= */}
-      <div className="stuck-wavy-full-wrapper">
-        {/* 1. Hero Banner: "CHOOSE YOUR FAVORITE STYLE!" with 3D product stage */}
+      <div className="stuck-wavy-hero-wrapper">
         <CuratedBundlesHero transparentBg={true} theme="wavy" />
-
-        {/* 2. Pro Manifesto Quote Banner */}
         <ProManifestoBanner transparentBg={true} theme="wavy" />
+      </div>
 
-        {/* 3. Visual 12-Tile Category Grid */}
-        <ShopByCategory theme="wavy" />
+      {/* ========================================================================= */}
+      {/* 2ND SCROLL: SLEEK NOIR BLACK LUXURY THEME                                 */}
+      {/* Shop By Category, Brand Partners, and Salon Community in sleek black      */}
+      {/* ========================================================================= */}
+      <div className="theme-noir-black-wrapper" style={{ backgroundColor: '#000000' }}>
+        {/* Visual 12-Tile Category Grid in Noir Black */}
+        <ShopByCategory theme="black" />
 
-        {/* 4. Official Authorized Brand Partners Showcase */}
-        <BrandPartnersShowcase theme="wavy" />
+        {/* Official Authorized Brand Partners in Noir Black */}
+        <BrandPartnersShowcase theme="black" />
 
-        {/* 5. Instagram / Stylist Community Social Grid */}
-        <SalonCommunityGrid theme="wavy" />
+        {/* Instagram / Stylist Community Social Grid in Noir Black */}
+        <SalonCommunityGrid theme="black" />
       </div>
 
       {/* Exclusive 10% Pro Discount Newsletter Modal */}
