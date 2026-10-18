@@ -34,6 +34,8 @@ import {
   Store,
   CreditCard,
   ChevronDown,
+  DollarSign,
+  IndianRupee,
 } from "lucide-react";
 
 // ============================================================================
@@ -1434,15 +1436,17 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "verifications" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Salon Verifications Queue</h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+              <div style={{ marginBottom: "20px" }}>
+                <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                  Salon Verifications Queue
+                </h1>
+                <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                   Review trade licenses and GST registrations for wholesale pro authorization
                 </p>
               </div>
 
-              {/* Status Tabs */}
-              <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #e2e8f0", marginBottom: "1.25rem", overflowX: "auto" }}>
+              {/* Saledash Pill Filter Tabs */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px", overflowX: "auto", paddingBottom: "4px" }}>
                 {[
                   { id: "all", label: `All (${userMetrics.total})` },
                   { id: "pending", label: `Pending (${userMetrics.pending})` },
@@ -1453,15 +1457,17 @@ export default function DedicatedAdminDashboard() {
                     key={t.id}
                     onClick={() => setUserFilterStatus(t.id)}
                     style={{
-                      padding: "0.55rem 1rem",
-                      border: "none",
-                      backgroundColor: "transparent",
-                      borderBottom: userFilterStatus === t.id ? "2px solid #0f172a" : "2px solid transparent",
-                      color: userFilterStatus === t.id ? "#0f172a" : "#64748b",
-                      fontSize: "0.85rem",
-                      fontWeight: userFilterStatus === t.id ? 800 : 600,
+                      padding: "8px 18px",
+                      borderRadius: "9999px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      border: userFilterStatus === t.id ? "1px solid #000000" : "1px solid #eef0f3",
+                      backgroundColor: userFilterStatus === t.id ? "#000000" : "#ffffff",
+                      color: userFilterStatus === t.id ? "#ffffff" : "#64748b",
                       cursor: "pointer",
                       whiteSpace: "nowrap",
+                      transition: "all 0.15s ease",
+                      boxShadow: userFilterStatus === t.id ? "0 2px 6px rgba(0,0,0,0.12)" : "none",
                     }}
                   >
                     {t.label}
@@ -1469,59 +1475,132 @@ export default function DedicatedAdminDashboard() {
                 ))}
               </div>
 
-              {/* Verifications Table with Horizontal Scroll Wrap */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              {/* Verifications Table Card with Saledash 20px corners */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  overflow: "hidden",
+                }}
+              >
                 {salonUsers.length === 0 ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
                     No salon accounts found.
                   </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "850px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "850px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Salon Name</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Owner / Stylist</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>City & State</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>GST / Trade License</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Salon Name</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Owner / Stylist</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>City & State</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>GST / Trade License</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {salonUsers.map((u) => (
-                          <tr key={u.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "180px" }}>
+                          <tr
+                            key={u.id}
+                            style={{
+                              borderBottom: "1px solid #f8fafc",
+                              transition: "background-color 0.15s ease",
+                            }}
+                          >
+                            <td style={{ padding: "14px 18px", minWidth: "180px" }}>
                               <div style={{ fontWeight: 800, color: "#0f172a" }}>{u.salonName}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{u.businessType}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>{u.businessType}</div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "150px" }}>
-                              <div style={{ fontWeight: 600, color: "#1e293b" }}>{u.name}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{u.phone}</div>
+                            <td style={{ padding: "14px 18px", minWidth: "150px" }}>
+                              <div style={{ fontWeight: 700, color: "#1e293b" }}>{u.name}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>{u.phone}</div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", color: "#334155", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", color: "#475569", fontWeight: 600, whiteSpace: "nowrap" }}>
                               {u.city}, {u.state}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", fontFamily: "monospace", color: "#475569", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", fontFamily: "monospace", color: "#64748b", fontSize: "11.5px", whiteSpace: "nowrap" }}>
                               {u.gstNumber || u.licenseNumber || "Not Provided"}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "9999px", backgroundColor: u.status === "approved" ? "#dcfce7" : u.status === "pending" ? "#fef3c7" : "#fee2e2", color: u.status === "approved" ? "#16a34a" : u.status === "pending" ? "#b45309" : "#dc2626" }}>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                  padding: "4px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  backgroundColor: u.status === "approved" ? "#dcfce7" : u.status === "pending" ? "#fef3c7" : "#fee2e2",
+                                  color: u.status === "approved" ? "#16a34a" : u.status === "pending" ? "#b45309" : "#dc2626",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    borderRadius: "50%",
+                                    backgroundColor: u.status === "approved" ? "#16a34a" : u.status === "pending" ? "#b45309" : "#dc2626",
+                                  }}
+                                />
                                 {u.status === "approved" ? "Verified Pro" : u.status === "pending" ? "Pending Review" : "Rejected"}
                               </span>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                               <div style={{ display: "inline-flex", gap: "6px" }}>
-                                <button onClick={() => setSelectedUserDetail(u)} style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}>
+                                <button
+                                  onClick={() => setSelectedUserDetail(u)}
+                                  style={{
+                                    padding: "5px 12px",
+                                    borderRadius: "9999px",
+                                    border: "1px solid #eef0f3",
+                                    backgroundColor: "#f8f9fa",
+                                    color: "#0f172a",
+                                    fontSize: "11.5px",
+                                    fontWeight: 700,
+                                    cursor: "pointer",
+                                    transition: "all 0.15s ease",
+                                  }}
+                                >
                                   Inspect
                                 </button>
                                 {u.status !== "approved" && (
-                                  <button onClick={() => handleApproveUser(u.id)} style={{ padding: "4px 8px", borderRadius: "4px", border: "none", backgroundColor: "#0f172a", color: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}>
+                                  <button
+                                    onClick={() => handleApproveUser(u.id)}
+                                    style={{
+                                      padding: "5px 14px",
+                                      borderRadius: "9999px",
+                                      border: "none",
+                                      backgroundColor: "#000000",
+                                      color: "#ffffff",
+                                      fontSize: "11.5px",
+                                      fontWeight: 700,
+                                      cursor: "pointer",
+                                      transition: "all 0.15s ease",
+                                    }}
+                                  >
                                     Approve
                                   </button>
                                 )}
                                 {u.status !== "rejected" && (
-                                  <button onClick={() => handleRejectUser(u.id)} style={{ padding: "4px 8px", borderRadius: "4px", border: "none", backgroundColor: "#ef4444", color: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}>
+                                  <button
+                                    onClick={() => handleRejectUser(u.id)}
+                                    style={{
+                                      padding: "5px 12px",
+                                      borderRadius: "9999px",
+                                      border: "none",
+                                      backgroundColor: "#fee2e2",
+                                      color: "#dc2626",
+                                      fontSize: "11.5px",
+                                      fontWeight: 700,
+                                      cursor: "pointer",
+                                      transition: "all 0.15s ease",
+                                    }}
+                                  >
                                     Reject
                                   </button>
                                 )}
@@ -1542,10 +1621,12 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "catalog" && (
             <div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "10px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
                 <div>
-                  <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Product Catalog</h1>
-                  <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+                  <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                    Product Catalog
+                  </h1>
+                  <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                     Manage all {totalProducts} active products in your live wholesale inventory database
                   </p>
                 </div>
@@ -1566,16 +1647,57 @@ export default function DedicatedAdminDashboard() {
                     });
                     setIsProductDrawerOpen(true);
                   }}
-                  style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0.6rem 1.15rem", borderRadius: "8px", border: "none", backgroundColor: "#0f172a", fontSize: "0.82rem", fontWeight: 700, color: "#ffffff", cursor: "pointer", whiteSpace: "nowrap" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 20px",
+                    borderRadius: "9999px",
+                    border: "none",
+                    backgroundColor: "#000000",
+                    fontSize: "12.5px",
+                    fontWeight: 700,
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                    transition: "all 0.15s ease",
+                  }}
                 >
                   <Plus size={15} />
                   <span>Add Product</span>
                 </button>
               </div>
 
-              {/* Filters */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "0.85rem 1rem", marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", flexWrap: "wrap" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "0.45rem 0.8rem", flex: "1 1 260px", maxWidth: "380px" }}>
+              {/* Saledash Search & Filters Pill Bar */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "18px",
+                  border: "1px solid #f0f2f5",
+                  padding: "12px 16px",
+                  marginBottom: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #eef0f3",
+                    borderRadius: "9999px",
+                    padding: "7px 16px",
+                    flex: "1 1 260px",
+                    maxWidth: "380px",
+                  }}
+                >
                   <Search size={15} color="#94a3b8" />
                   <input
                     type="text"
@@ -1585,7 +1707,7 @@ export default function DedicatedAdminDashboard() {
                       setProductSearch(e.target.value);
                       setProductPage(1);
                     }}
-                    style={{ border: "none", backgroundColor: "transparent", fontSize: "0.82rem", width: "100%", outline: "none" }}
+                    style={{ border: "none", backgroundColor: "transparent", fontSize: "12.5px", width: "100%", outline: "none", color: "#0f172a" }}
                   />
                 </div>
 
@@ -1596,7 +1718,17 @@ export default function DedicatedAdminDashboard() {
                       setSelectedCategoryTab(e.target.value);
                       setProductPage(1);
                     }}
-                    style={{ padding: "0.45rem 0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontSize: "0.8rem", fontWeight: 600, color: "#334155", cursor: "pointer" }}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "1px solid #eef0f3",
+                      backgroundColor: "#f8f9fa",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#334155",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
                     <option value="All Categories">All Categories ({categoriesList.length})</option>
                     {categoriesList.map((c) => (
@@ -1612,7 +1744,17 @@ export default function DedicatedAdminDashboard() {
                       setSelectedBrandFilter(e.target.value);
                       setProductPage(1);
                     }}
-                    style={{ padding: "0.45rem 0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontSize: "0.8rem", fontWeight: 600, color: "#334155", cursor: "pointer" }}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "1px solid #eef0f3",
+                      backgroundColor: "#f8f9fa",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#334155",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
                     <option value="All Brands">All Brands ({brandsList.length})</option>
                     {brandsList.map((b) => (
@@ -1622,52 +1764,90 @@ export default function DedicatedAdminDashboard() {
                 </div>
               </div>
 
-              {/* Products Table with Horizontal Scroll */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              {/* Products Table Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  overflow: "hidden",
+                }}
+              >
                 {productsLoading ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>Loading live catalog...</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    Loading live catalog...
+                  </div>
                 ) : products.length === 0 ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>No products found matching criteria.</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    No products found matching criteria.
+                  </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "900px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "900px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Product</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Brand</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Category</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Wholesale Price</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>MRP</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Product</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Brand</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Category</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Wholesale Price</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>MRP</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {products.map((p) => (
-                          <tr key={p.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.75rem 1rem", minWidth: "220px" }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                <div style={{ width: "36px", height: "36px", borderRadius: "6px", overflow: "hidden", backgroundColor: "#f1f5f9", position: "relative", flexShrink: 0 }}>
+                          <tr
+                            key={p.id}
+                            style={{
+                              borderBottom: "1px solid #f8fafc",
+                              transition: "background-color 0.15s ease",
+                            }}
+                          >
+                            <td style={{ padding: "14px 18px", minWidth: "220px" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                <div style={{ width: "40px", height: "40px", borderRadius: "10px", overflow: "hidden", backgroundColor: "#f1f5f9", position: "relative", flexShrink: 0, border: "1px solid #edf0f2" }}>
                                   <Image src={p.image || "/placeholder.png"} alt={p.name} fill style={{ objectFit: "cover" }} />
                                 </div>
                                 <div style={{ maxWidth: "260px" }}>
-                                  <div style={{ fontWeight: 700, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                  <div style={{ fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                     {p.name}
                                   </div>
-                                  <div style={{ fontSize: "11px", color: "#64748b", fontFamily: "monospace" }}>ID: {p.id}</div>
+                                  <div style={{ fontSize: "11px", color: "#94a3b8", fontFamily: "monospace", marginTop: "2px" }}>ID: {p.id}</div>
                                 </div>
                               </div>
                             </td>
-                            <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#334155", whiteSpace: "nowrap" }}>{p.brand}</td>
-                            <td style={{ padding: "0.75rem 1rem", color: "#475569", whiteSpace: "nowrap" }}>{p.category}</td>
-                            <td style={{ padding: "0.75rem 1rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {p.salePrice.toLocaleString("en-IN")}</td>
-                            <td style={{ padding: "0.75rem 1rem", color: "#64748b", whiteSpace: "nowrap" }}>₹ {p.mrp.toLocaleString("en-IN")}</td>
-                            <td style={{ padding: "0.75rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "9999px", backgroundColor: p.availability === "Out of Stock" ? "#fee2e2" : p.availability === "Low Stock" ? "#fef3c7" : "#dcfce7", color: p.availability === "Out of Stock" ? "#dc2626" : p.availability === "Low Stock" ? "#b45309" : "#16a34a" }}>
+                            <td style={{ padding: "14px 18px", fontWeight: 700, color: "#334155", whiteSpace: "nowrap" }}>{p.brand}</td>
+                            <td style={{ padding: "14px 18px", color: "#64748b", whiteSpace: "nowrap" }}>{p.category}</td>
+                            <td style={{ padding: "14px 18px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {p.salePrice.toLocaleString("en-IN")}</td>
+                            <td style={{ padding: "14px 18px", color: "#94a3b8", whiteSpace: "nowrap" }}>₹ {p.mrp.toLocaleString("en-IN")}</td>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                  padding: "4px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  backgroundColor: p.availability === "Out of Stock" ? "#fee2e2" : p.availability === "Low Stock" ? "#fef3c7" : "#dcfce7",
+                                  color: p.availability === "Out of Stock" ? "#dc2626" : p.availability === "Low Stock" ? "#b45309" : "#16a34a",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    borderRadius: "50%",
+                                    backgroundColor: p.availability === "Out of Stock" ? "#dc2626" : p.availability === "Low Stock" ? "#b45309" : "#16a34a",
+                                  }}
+                                />
                                 {p.availability || "In Stock"}
                               </span>
                             </td>
-                            <td style={{ padding: "0.75rem 1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                               <button
                                 onClick={() => {
                                   setEditingProductId(p.id);
@@ -1685,7 +1865,17 @@ export default function DedicatedAdminDashboard() {
                                   });
                                   setIsProductDrawerOpen(true);
                                 }}
-                                style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                                style={{
+                                  padding: "5px 14px",
+                                  borderRadius: "9999px",
+                                  border: "1px solid #eef0f3",
+                                  backgroundColor: "#f8f9fa",
+                                  color: "#0f172a",
+                                  fontSize: "11.5px",
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                  transition: "all 0.15s ease",
+                                }}
                               >
                                 Edit
                               </button>
@@ -1697,23 +1887,43 @@ export default function DedicatedAdminDashboard() {
                   </div>
                 )}
 
-                {/* Pagination */}
-                <div style={{ padding: "0.85rem 1rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
-                  <div style={{ fontSize: "12px", color: "#64748b" }}>
+                {/* Saledash Clean Pagination */}
+                <div style={{ padding: "14px 20px", borderTop: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                  <div style={{ fontSize: "12px", color: "#94a3b8", fontWeight: 600 }}>
                     Showing page {productPage} of {totalPages} ({totalProducts} total products)
                   </div>
                   <div style={{ display: "flex", gap: "6px" }}>
                     <button
                       disabled={productPage <= 1}
                       onClick={() => setProductPage((p) => Math.max(1, p - 1))}
-                      style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", cursor: productPage <= 1 ? "not-allowed" : "pointer", opacity: productPage <= 1 ? 0.5 : 1 }}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "9999px",
+                        border: "1px solid #eef0f3",
+                        backgroundColor: "#f8f9fa",
+                        color: "#0f172a",
+                        cursor: productPage <= 1 ? "not-allowed" : "pointer",
+                        opacity: productPage <= 1 ? 0.4 : 1,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
                       <ChevronLeft size={14} />
                     </button>
                     <button
                       disabled={productPage >= totalPages}
                       onClick={() => setProductPage((p) => Math.min(totalPages, p + 1))}
-                      style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", cursor: productPage >= totalPages ? "not-allowed" : "pointer", opacity: productPage >= totalPages ? 0.5 : 1 }}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "9999px",
+                        border: "1px solid #eef0f3",
+                        backgroundColor: "#f8f9fa",
+                        color: "#0f172a",
+                        cursor: productPage >= totalPages ? "not-allowed" : "pointer",
+                        opacity: productPage >= totalPages ? 0.4 : 1,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
                     >
                       <ChevronRight size={14} />
                     </button>
@@ -1728,15 +1938,17 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "orders" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Orders & Fulfillment</h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+              <div style={{ marginBottom: "20px" }}>
+                <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                  Orders & Fulfillment
+                </h1>
+                <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                   Track live wholesale salon orders from checkout through delivery
                 </p>
               </div>
 
-              {/* Status Tabs */}
-              <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #e2e8f0", marginBottom: "1.25rem", overflowX: "auto" }}>
+              {/* Saledash Pill Filter Tabs */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px", overflowX: "auto", paddingBottom: "4px" }}>
                 {[
                   { id: "all", label: `All (${orderMetrics.totalOrders})` },
                   { id: "Pending", label: `Pending (${orderMetrics.pendingCount})` },
@@ -1749,15 +1961,17 @@ export default function DedicatedAdminDashboard() {
                     key={t.id}
                     onClick={() => setOrderStatusTab(t.id)}
                     style={{
-                      padding: "0.55rem 1rem",
-                      border: "none",
-                      backgroundColor: "transparent",
-                      borderBottom: orderStatusTab === t.id ? "2px solid #0f172a" : "2px solid transparent",
-                      color: orderStatusTab === t.id ? "#0f172a" : "#64748b",
-                      fontSize: "0.85rem",
-                      fontWeight: orderStatusTab === t.id ? 800 : 600,
+                      padding: "8px 18px",
+                      borderRadius: "9999px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      border: orderStatusTab === t.id ? "1px solid #000000" : "1px solid #eef0f3",
+                      backgroundColor: orderStatusTab === t.id ? "#000000" : "#ffffff",
+                      color: orderStatusTab === t.id ? "#ffffff" : "#64748b",
                       cursor: "pointer",
                       whiteSpace: "nowrap",
+                      transition: "all 0.15s ease",
+                      boxShadow: orderStatusTab === t.id ? "0 2px 6px rgba(0,0,0,0.12)" : "none",
                     }}
                   >
                     {t.label}
@@ -1765,46 +1979,102 @@ export default function DedicatedAdminDashboard() {
                 ))}
               </div>
 
-              {/* Orders Table with Horizontal Scroll */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              {/* Orders Table Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  overflow: "hidden",
+                }}
+              >
                 {ordersLoading ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>Loading real orders...</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    Loading real orders...
+                  </div>
                 ) : orders.length === 0 ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>No orders found for this status.</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    No orders found for this status.
+                  </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "900px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "900px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Order ID</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Salon Partner</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Items Count</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Total Value</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Payment</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Fulfillment Status</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Order ID</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Salon Partner</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Items Count</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Total Value</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Payment</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Fulfillment Status</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {orders.map((ord) => (
-                          <tr key={ord.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 800, fontFamily: "monospace", color: "#0f172a", whiteSpace: "nowrap" }}>{ord.id}</td>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "180px" }}>
-                              <div style={{ fontWeight: 800, color: "#0f172a" }}>{ord.salonName}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{ord.customerName} • {ord.shippingAddress.city}</div>
+                          <tr
+                            key={ord.id}
+                            style={{
+                              borderBottom: "1px solid #f8fafc",
+                              transition: "background-color 0.15s ease",
+                            }}
+                          >
+                            <td style={{ padding: "14px 18px", fontWeight: 800, fontFamily: "monospace", color: "#0f172a", whiteSpace: "nowrap" }}>
+                              {ord.id}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", color: "#475569", whiteSpace: "nowrap" }}>{ord.items.length} items</td>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {ord.total.toLocaleString("en-IN")}</td>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 700, color: ord.paymentStatus === "Paid" ? "#16a34a" : "#b45309" }}>
+                            <td style={{ padding: "14px 18px", minWidth: "180px" }}>
+                              <div style={{ fontWeight: 800, color: "#0f172a" }}>{ord.salonName}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>
+                                {ord.customerName} • {ord.shippingAddress.city}
+                              </div>
+                            </td>
+                            <td style={{ padding: "14px 18px", color: "#64748b", whiteSpace: "nowrap" }}>
+                              {ord.items.length} items
+                            </td>
+                            <td style={{ padding: "14px 18px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>
+                              ₹ {ord.total.toLocaleString("en-IN")}
+                            </td>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  color: ord.paymentStatus === "Paid" ? "#16a34a" : "#b45309",
+                                  backgroundColor: ord.paymentStatus === "Paid" ? "#dcfce7" : "#fef3c7",
+                                  padding: "3px 8px",
+                                  borderRadius: "6px",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    borderRadius: "50%",
+                                    backgroundColor: ord.paymentStatus === "Paid" ? "#16a34a" : "#b45309",
+                                  }}
+                                />
                                 {ord.paymentMethod} ({ord.paymentStatus})
                               </span>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
                               <select
                                 value={ord.status}
                                 onChange={(e) => handleUpdateOrderStatus(ord.id, e.target.value as any)}
-                                style={{ padding: "3px 8px", borderRadius: "6px", border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", fontSize: "11px", fontWeight: 800, cursor: "pointer" }}
+                                style={{
+                                  padding: "5px 12px",
+                                  borderRadius: "9999px",
+                                  border: "1px solid #eef0f3",
+                                  backgroundColor: "#f8f9fa",
+                                  fontSize: "11.5px",
+                                  fontWeight: 700,
+                                  color: "#0f172a",
+                                  cursor: "pointer",
+                                  outline: "none",
+                                }}
                               >
                                 <option value="Pending">Pending</option>
                                 <option value="Confirmed">Confirmed</option>
@@ -1814,10 +2084,20 @@ export default function DedicatedAdminDashboard() {
                                 <option value="Cancelled">Cancelled</option>
                               </select>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                               <button
                                 onClick={() => setSelectedOrder(ord)}
-                                style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                                style={{
+                                  padding: "5px 14px",
+                                  borderRadius: "9999px",
+                                  border: "1px solid #eef0f3",
+                                  backgroundColor: "#f8f9fa",
+                                  color: "#0f172a",
+                                  fontSize: "11.5px",
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                  transition: "all 0.15s ease",
+                                }}
                               >
                                 View
                               </button>
@@ -1837,50 +2117,94 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "analytics" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Wholesale Analytics</h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+              <div style={{ marginBottom: "20px" }}>
+                <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                  Wholesale Analytics
+                </h1>
+                <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                   Revenue trends and top buyer salons calculated directly from actual orders
                 </p>
               </div>
 
-              {/* 3 Analytics KPI cards */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ fontSize: "12px", color: "#64748b" }}>Delivered Orders GMV</div>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0f172a", marginTop: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                    ₹ {orderMetrics.totalRevenue.toLocaleString("en-IN")}
+              {/* 3 Saledash KPI stat cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+                {/* 1. Delivered Orders GMV */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <TrendingUp size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Delivered Orders GMV</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>
+                        ₹ {orderMetrics.totalRevenue.toLocaleString("en-IN")}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ fontSize: "12px", color: "#64748b" }}>Avg Order Value</div>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0f172a", marginTop: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                    ₹ {orderMetrics.totalOrders > 0 ? Math.round(orderMetrics.totalRevenue / orderMetrics.totalOrders).toLocaleString("en-IN") : 0}
+
+                {/* 2. Avg Order Value */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <DollarSign size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Avg Order Value</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>
+                        ₹ {orderMetrics.totalOrders > 0 ? Math.round(orderMetrics.totalRevenue / orderMetrics.totalOrders).toLocaleString("en-IN") : 0}
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ fontSize: "12px", color: "#64748b" }}>Active Buying Salons</div>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#0f172a", marginTop: "4px" }}>
-                    {salonsWithMetrics.filter((s) => s.totalOrders > 0).length}
+
+                {/* 3. Active Buying Salons */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Users size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Active Buying Salons</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a" }}>
+                        {salonsWithMetrics.filter((s) => s.totalOrders > 0).length}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        Active
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Top Salons Table */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.5rem" }}>
-                <h3 style={{ fontSize: "1.05rem", fontWeight: 800, color: "#0f172a", margin: "0 0 1rem 0" }}>Top Salon Buyers</h3>
+              {/* Top Salons Table Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  padding: "24px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                }}
+              >
+                <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", margin: "0 0 16px 0", letterSpacing: "-0.01em" }}>
+                  Top Salon Buyers
+                </h3>
                 {salonsWithMetrics.filter((s) => s.totalOrders > 0).length === 0 ? (
-                  <div style={{ padding: "2rem", textAlign: "center", color: "#64748b" }}>No buyer history available yet.</div>
+                  <div style={{ padding: "3rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    No buyer history available yet.
+                  </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "750px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "750px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Salon Partner</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Owner</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>City</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Orders Count</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Total Spend</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>Salon Partner</th>
+                          <th style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>Owner</th>
+                          <th style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>City</th>
+                          <th style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>Orders Count</th>
+                          <th style={{ padding: "12px 16px", whiteSpace: "nowrap" }}>Total Spend</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1888,12 +2212,12 @@ export default function DedicatedAdminDashboard() {
                           .filter((s) => s.totalOrders > 0)
                           .sort((a, b) => b.totalSpend - a.totalSpend)
                           .map((s) => (
-                            <tr key={s.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                              <td style={{ padding: "0.75rem 1rem", fontWeight: 800, color: "#0f172a", minWidth: "180px" }}>{s.salonName}</td>
-                              <td style={{ padding: "0.75rem 1rem", color: "#475569", whiteSpace: "nowrap" }}>{s.name}</td>
-                              <td style={{ padding: "0.75rem 1rem", color: "#64748b", whiteSpace: "nowrap" }}>{s.city}</td>
-                              <td style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>{s.totalOrders}</td>
-                              <td style={{ padding: "0.75rem 1rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {s.totalSpend.toLocaleString("en-IN")}</td>
+                            <tr key={s.id} style={{ borderBottom: "1px solid #f8fafc" }}>
+                              <td style={{ padding: "12px 16px", fontWeight: 800, color: "#0f172a", minWidth: "180px" }}>{s.salonName}</td>
+                              <td style={{ padding: "12px 16px", color: "#475569", whiteSpace: "nowrap" }}>{s.name}</td>
+                              <td style={{ padding: "12px 16px", color: "#64748b", whiteSpace: "nowrap" }}>{s.city}</td>
+                              <td style={{ padding: "12px 16px", fontWeight: 700, color: "#0f172a", whiteSpace: "nowrap" }}>{s.totalOrders}</td>
+                              <td style={{ padding: "12px 16px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {s.totalSpend.toLocaleString("en-IN")}</td>
                             </tr>
                           ))}
                       </tbody>
@@ -1909,72 +2233,123 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "customers" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Customers (Salons)</h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+              <div style={{ marginBottom: "20px" }}>
+                <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                  Customers (Salons)
+                </h1>
+                <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                   Manage registered salon partners, verification status & wholesale accounts
                 </p>
               </div>
 
-              {/* 4 KPI Cards (Responsive Grid) */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total Customers</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Users size={16} />
+              {/* 4 Saledash KPI Stat Cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+                {/* 1. Total Customers */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Users size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total Customers</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>{userMetrics.total}</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        Active
+                      </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>{userMetrics.total}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Registered salon accounts</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Verified Pro Salons</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <CheckCircle2 size={16} />
+                {/* 2. Verified Pro Salons */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <CheckCircle2 size={20} color="#16a34a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Verified Pro Salons</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>{userMetrics.verified}</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#16a34a", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#16a34a" }} />
+                        Verified
+                      </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>{userMetrics.verified}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>With approved trade license</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Pending Verification</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fffbeb", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Clock size={16} />
+                {/* 3. Pending Verification */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Clock size={20} color="#d97706" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Pending Verification</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: userMetrics.pending > 0 ? "#d97706" : "#0f172a" }}>
+                        {userMetrics.pending}
+                      </span>
+                      {userMetrics.pending > 0 && (
+                        <span style={{ fontSize: "11px", fontWeight: 700, color: "#d97706", display: "flex", alignItems: "center", gap: "3px" }}>
+                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#d97706" }} />
+                          Queue
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: userMetrics.pending > 0 ? "#d97706" : "#0f172a" }}>
-                    {userMetrics.pending}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Awaiting document review</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Rejected Applications</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fef2f2", color: "#dc2626", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <XCircle size={16} />
+                {/* 4. Rejected */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <XCircle size={20} color="#dc2626" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Rejected Applications</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>{userMetrics.rejected}</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8" }}>Incomplete</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>{userMetrics.rejected}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Incomplete documents</div>
                 </div>
               </div>
 
-              {/* Filters */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "0.85rem 1rem", marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", flexWrap: "wrap" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "0.45rem 0.8rem", flex: "1 1 260px", maxWidth: "380px" }}>
+              {/* Saledash Search & Filter Bar */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "18px",
+                  border: "1px solid #f0f2f5",
+                  padding: "12px 16px",
+                  marginBottom: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #eef0f3",
+                    borderRadius: "9999px",
+                    padding: "7px 16px",
+                    flex: "1 1 260px",
+                    maxWidth: "380px",
+                  }}
+                >
                   <Search size={15} color="#94a3b8" />
                   <input
                     type="text"
                     placeholder="Search salons by name, owner, city, phone..."
                     value={customerSearch}
                     onChange={(e) => setCustomerSearch(e.target.value)}
-                    style={{ border: "none", backgroundColor: "transparent", fontSize: "0.82rem", width: "100%", outline: "none" }}
+                    style={{ border: "none", backgroundColor: "transparent", fontSize: "12.5px", width: "100%", outline: "none", color: "#0f172a" }}
                   />
                 </div>
 
@@ -1982,7 +2357,17 @@ export default function DedicatedAdminDashboard() {
                   <select
                     value={customerStatusFilter}
                     onChange={(e) => setCustomerStatusFilter(e.target.value)}
-                    style={{ padding: "0.5rem 0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontSize: "0.8rem", fontWeight: 600, color: "#334155", cursor: "pointer" }}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "1px solid #eef0f3",
+                      backgroundColor: "#f8f9fa",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#334155",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
                     <option value="all">All Status ({userMetrics.total})</option>
                     <option value="approved">Verified Pro ({userMetrics.verified})</option>
@@ -1993,7 +2378,17 @@ export default function DedicatedAdminDashboard() {
                   <select
                     value={customerCityFilter}
                     onChange={(e) => setCustomerCityFilter(e.target.value)}
-                    style={{ padding: "0.5rem 0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontSize: "0.8rem", fontWeight: 600, color: "#334155", cursor: "pointer" }}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "1px solid #eef0f3",
+                      backgroundColor: "#f8f9fa",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#334155",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
                     <option value="all">All Cities</option>
                     {userCities.map((city) => (
@@ -2004,7 +2399,17 @@ export default function DedicatedAdminDashboard() {
                   <select
                     value={customerSort}
                     onChange={(e) => setCustomerSort(e.target.value)}
-                    style={{ padding: "0.5rem 0.85rem", borderRadius: "8px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", fontSize: "0.8rem", fontWeight: 600, color: "#334155", cursor: "pointer" }}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "1px solid #eef0f3",
+                      backgroundColor: "#f8f9fa",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      color: "#334155",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
                     <option value="newest">Sort: Newest First</option>
                     <option value="spend">Sort: Highest Spend</option>
@@ -2014,55 +2419,101 @@ export default function DedicatedAdminDashboard() {
                 </div>
               </div>
 
-              {/* Salons List Table with Horizontal Scroll Wrap */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              {/* Salons Table Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  overflow: "hidden",
+                }}
+              >
                 {filteredSalons.length === 0 ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>No salons found matching your criteria.</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    No salons found matching your criteria.
+                  </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "950px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "950px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Salon Name</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Owner / Stylist</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>City</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Business Type</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Orders Placed</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Total Spend</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Salon Name</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Owner / Stylist</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>City</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Business Type</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Orders Placed</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Total Spend</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {filteredSalons.map((salon) => (
-                          <tr key={salon.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "180px" }}>
+                          <tr
+                            key={salon.id}
+                            style={{
+                              borderBottom: "1px solid #f8fafc",
+                              transition: "background-color 0.15s ease",
+                            }}
+                          >
+                            <td style={{ padding: "14px 18px", minWidth: "180px" }}>
                               <div style={{ fontWeight: 800, color: "#0f172a" }}>{salon.salonName}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b", fontFamily: "monospace" }}>ID: {salon.id}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", fontFamily: "monospace", marginTop: "2px" }}>ID: {salon.id}</div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "150px" }}>
-                              <div style={{ fontWeight: 600, color: "#1e293b" }}>{salon.name}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{salon.phone}</div>
+                            <td style={{ padding: "14px 18px", minWidth: "150px" }}>
+                              <div style={{ fontWeight: 700, color: "#1e293b" }}>{salon.name}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>{salon.phone}</div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", color: "#334155", fontWeight: 600, whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", color: "#334155", fontWeight: 600, whiteSpace: "nowrap" }}>
                               {salon.city}, {salon.state}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", color: "#475569", whiteSpace: "nowrap" }}>{salon.businessType}</td>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "9999px", backgroundColor: salon.status === "approved" ? "#dcfce7" : salon.status === "pending" ? "#fef3c7" : "#fee2e2", color: salon.status === "approved" ? "#16a34a" : salon.status === "pending" ? "#b45309" : "#dc2626" }}>
+                            <td style={{ padding: "14px 18px", color: "#64748b", whiteSpace: "nowrap" }}>{salon.businessType}</td>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                  padding: "4px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  backgroundColor: salon.status === "approved" ? "#dcfce7" : salon.status === "pending" ? "#fef3c7" : "#fee2e2",
+                                  color: salon.status === "approved" ? "#16a34a" : salon.status === "pending" ? "#b45309" : "#dc2626",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    borderRadius: "50%",
+                                    backgroundColor: salon.status === "approved" ? "#16a34a" : salon.status === "pending" ? "#b45309" : "#dc2626",
+                                  }}
+                                />
                                 {salon.status === "approved" ? "Verified Pro" : salon.status === "pending" ? "Pending" : "Rejected"}
                               </span>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 700, color: "#1e293b", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", fontWeight: 700, color: "#0f172a", whiteSpace: "nowrap" }}>
                               {salon.totalOrders > 0 ? `${salon.totalOrders} orders` : "—"}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>
                               {salon.totalSpend > 0 ? `₹ ${salon.totalSpend.toLocaleString("en-IN")}` : "₹ 0"}
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                               <button
                                 onClick={() => setSelectedCustomer(salon)}
-                                style={{ padding: "0.4rem 0.85rem", borderRadius: "6px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", color: "#0f172a", fontSize: "0.78rem", fontWeight: 700, cursor: "pointer" }}
+                                style={{
+                                  padding: "5px 14px",
+                                  borderRadius: "9999px",
+                                  border: "1px solid #eef0f3",
+                                  backgroundColor: "#f8f9fa",
+                                  color: "#0f172a",
+                                  fontSize: "11.5px",
+                                  fontWeight: 700,
+                                  cursor: "pointer",
+                                  transition: "all 0.15s ease",
+                                }}
                               >
                                 Inspect
                               </button>
@@ -2082,68 +2533,88 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "inventory" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Inventory Management</h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+              <div style={{ marginBottom: "20px" }}>
+                <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                  Inventory Management
+                </h1>
+                <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                   Track stock levels, reorder thresholds & warehouse valuation across all categories
                 </p>
               </div>
 
-              {/* 4 KPI Cards (Responsive Grid) */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total Stock Value</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <TrendingUp size={16} />
+              {/* 4 Saledash KPI Stat Cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+                {/* 1. Total Stock Value */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <TrendingUp size={20} color="#0f172a" />
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total Stock Value</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={`₹ ${inventoryStats.totalStockValue.toLocaleString("en-IN")}`}>
+                        ₹ {inventoryStats.totalStockValue.toLocaleString("en-IN")}
+                      </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={`₹ ${inventoryStats.totalStockValue.toLocaleString("en-IN")}`}>
-                    ₹ {inventoryStats.totalStockValue.toLocaleString("en-IN")}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Sum of physical stock × wholesale price</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total SKUs</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Boxes size={16} />
+                {/* 2. Total SKUs */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Boxes size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total SKUs</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>{totalProducts}</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#64748b" }}>{categoriesList.length} Categories</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>{totalProducts}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Across {categoriesList.length} categories</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Low Stock Items</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fffbeb", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <AlertTriangle size={16} />
+                {/* 3. Low Stock Items */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <AlertTriangle size={20} color="#d97706" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Low Stock Items</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: inventoryStats.lowStockCount > 0 ? "#d97706" : "#0f172a" }}>
+                        {inventoryStats.lowStockCount}
+                      </span>
+                      {inventoryStats.lowStockCount > 0 && (
+                        <span style={{ fontSize: "11px", fontWeight: 700, color: "#d97706", display: "flex", alignItems: "center", gap: "3px" }}>
+                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#d97706" }} />
+                          Reorder
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: inventoryStats.lowStockCount > 0 ? "#d97706" : "#0f172a" }}>
-                    {inventoryStats.lowStockCount}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Below 20 units threshold</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Out of Stock</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fef2f2", color: "#dc2626", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <XCircle size={16} />
+                {/* 4. Out of Stock */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <XCircle size={20} color="#dc2626" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Out of Stock</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: inventoryStats.outOfStockCount > 0 ? "#dc2626" : "#0f172a" }}>
+                        {inventoryStats.outOfStockCount}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: inventoryStats.outOfStockCount > 0 ? "#dc2626" : "#10b981" }}>
+                        0 Units
+                      </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: inventoryStats.outOfStockCount > 0 ? "#dc2626" : "#0f172a" }}>
-                    {inventoryStats.outOfStockCount}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>0 units available</div>
                 </div>
               </div>
 
-              {/* Status Tabs */}
-              <div style={{ display: "flex", gap: "8px", borderBottom: "1px solid #e2e8f0", marginBottom: "1.25rem", overflowX: "auto" }}>
+              {/* Saledash Pill Status Tabs */}
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "20px", overflowX: "auto", paddingBottom: "4px" }}>
                 {[
                   { id: "all", label: `All Products (${totalProducts})` },
                   { id: "in_stock", label: `In Stock (${inventoryStats.inStockCount})` },
@@ -2158,15 +2629,17 @@ export default function DedicatedAdminDashboard() {
                       setProductPage(1);
                     }}
                     style={{
-                      padding: "0.55rem 1rem",
-                      border: "none",
-                      backgroundColor: "transparent",
-                      borderBottom: inventoryStockTab === t.id ? "2px solid #0f172a" : "2px solid transparent",
-                      color: inventoryStockTab === t.id ? "#0f172a" : "#64748b",
-                      fontSize: "0.85rem",
-                      fontWeight: inventoryStockTab === t.id ? 800 : 600,
+                      padding: "8px 18px",
+                      borderRadius: "9999px",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      border: inventoryStockTab === t.id ? "1px solid #000000" : "1px solid #eef0f3",
+                      backgroundColor: inventoryStockTab === t.id ? "#000000" : "#ffffff",
+                      color: inventoryStockTab === t.id ? "#ffffff" : "#64748b",
                       cursor: "pointer",
                       whiteSpace: "nowrap",
+                      transition: "all 0.15s ease",
+                      boxShadow: inventoryStockTab === t.id ? "0 2px 6px rgba(0,0,0,0.12)" : "none",
                     }}
                   >
                     {t.label}
@@ -2175,19 +2648,29 @@ export default function DedicatedAdminDashboard() {
               </div>
 
               {/* Responsive Layout: Left Table + Right Valuation Widget */}
-              <div style={{ display: "flex", flexDirection: "row", gap: "1.25rem", flexWrap: "wrap", alignItems: "flex-start" }}>
+              <div style={{ display: "flex", flexDirection: "row", gap: "20px", flexWrap: "wrap", alignItems: "flex-start" }}>
                 {/* Main Table Container */}
-                <div style={{ flex: "1 1 600px", minWidth: 0, backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+                <div
+                  style={{
+                    flex: "1 1 600px",
+                    minWidth: 0,
+                    backgroundColor: "#ffffff",
+                    borderRadius: "20px",
+                    border: "1px solid #f0f2f5",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    overflow: "hidden",
+                  }}
+                >
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "750px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "750px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>Product & SKU</th>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>Category</th>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>Available Units</th>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>Stock Value</th>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.85rem 0.75rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Product & SKU</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Category</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Available Units</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Stock Value</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -2195,42 +2678,78 @@ export default function DedicatedAdminDashboard() {
                           const stockUnits = item.stock ?? 0;
                           const stockVal = stockUnits * item.salePrice;
                           return (
-                            <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                              <td style={{ padding: "0.75rem", minWidth: "200px" }}>
-                                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                  <div style={{ width: "36px", height: "36px", borderRadius: "6px", overflow: "hidden", backgroundColor: "#f1f5f9", flexShrink: 0, position: "relative" }}>
+                            <tr
+                              key={item.id}
+                              style={{
+                                borderBottom: "1px solid #f8fafc",
+                                transition: "background-color 0.15s ease",
+                              }}
+                            >
+                              <td style={{ padding: "14px 18px", minWidth: "200px" }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                                  <div style={{ width: "40px", height: "40px", borderRadius: "10px", overflow: "hidden", backgroundColor: "#f1f5f9", flexShrink: 0, position: "relative", border: "1px solid #edf0f2" }}>
                                     <Image src={item.image || "/placeholder.png"} alt={item.name} fill style={{ objectFit: "cover" }} />
                                   </div>
                                   <div style={{ maxWidth: "230px" }}>
-                                    <div style={{ fontWeight: 700, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                    <div style={{ fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                       {item.name}
                                     </div>
-                                    <div style={{ fontSize: "11px", color: "#64748b", fontFamily: "monospace" }}>SKU: {item.sku || `BP-${item.id}`}</div>
+                                    <div style={{ fontSize: "11px", color: "#94a3b8", fontFamily: "monospace", marginTop: "2px" }}>SKU: {item.sku || `BP-${item.id}`}</div>
                                   </div>
                                 </div>
                               </td>
-                              <td style={{ padding: "0.75rem", color: "#475569", whiteSpace: "nowrap" }}>{item.category}</td>
-                              <td style={{ padding: "0.75rem", whiteSpace: "nowrap" }}>
+                              <td style={{ padding: "14px 18px", color: "#64748b", whiteSpace: "nowrap" }}>{item.category}</td>
+                              <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
                                 <span style={{ fontWeight: 800, color: stockUnits === 0 ? "#dc2626" : stockUnits <= 20 ? "#d97706" : "#16a34a" }}>
                                   {stockUnits} units
                                 </span>
                               </td>
-                              <td style={{ padding: "0.75rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>
+                              <td style={{ padding: "14px 18px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>
                                 ₹ {stockVal.toLocaleString("en-IN")}
                               </td>
-                              <td style={{ padding: "0.75rem", whiteSpace: "nowrap" }}>
-                                <span style={{ backgroundColor: item.availability === "Out of Stock" ? "#fee2e2" : item.availability === "Low Stock" ? "#fef3c7" : "#dcfce7", color: item.availability === "Out of Stock" ? "#dc2626" : item.availability === "Low Stock" ? "#b45309" : "#16a34a", padding: "3px 8px", borderRadius: "9999px", fontSize: "11px", fontWeight: 800 }}>
+                              <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                                <span
+                                  style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "5px",
+                                    padding: "4px 10px",
+                                    borderRadius: "6px",
+                                    fontSize: "11px",
+                                    fontWeight: 700,
+                                    backgroundColor: item.availability === "Out of Stock" ? "#fee2e2" : item.availability === "Low Stock" ? "#fef3c7" : "#dcfce7",
+                                    color: item.availability === "Out of Stock" ? "#dc2626" : item.availability === "Low Stock" ? "#b45309" : "#16a34a",
+                                  }}
+                                >
+                                  <span
+                                    style={{
+                                      width: "6px",
+                                      height: "6px",
+                                      borderRadius: "50%",
+                                      backgroundColor: item.availability === "Out of Stock" ? "#dc2626" : item.availability === "Low Stock" ? "#b45309" : "#16a34a",
+                                    }}
+                                  />
                                   {item.availability || "In Stock"}
                                 </span>
                               </td>
-                              <td style={{ padding: "0.75rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                              <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                                 <button
                                   onClick={() => {
                                     setAdjustingStockItem(item);
                                     setStockAdjustUnits(stockUnits);
                                     setIsAdjustStockModalOpen(true);
                                   }}
-                                  style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#ffffff", color: "#0f172a", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                                  style={{
+                                    padding: "5px 14px",
+                                    borderRadius: "9999px",
+                                    border: "1px solid #eef0f3",
+                                    backgroundColor: "#f8f9fa",
+                                    color: "#0f172a",
+                                    fontSize: "11.5px",
+                                    fontWeight: 700,
+                                    cursor: "pointer",
+                                    transition: "all 0.15s ease",
+                                  }}
                                 >
                                   Update
                                 </button>
@@ -2242,23 +2761,43 @@ export default function DedicatedAdminDashboard() {
                     </table>
                   </div>
 
-                  {/* Pagination */}
-                  <div style={{ padding: "0.85rem 1rem", borderTop: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
-                    <div style={{ fontSize: "12px", color: "#64748b" }}>
+                  {/* Saledash Pagination */}
+                  <div style={{ padding: "14px 20px", borderTop: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                    <div style={{ fontSize: "12px", color: "#94a3b8", fontWeight: 600 }}>
                       Showing page {productPage} of {totalPages}
                     </div>
                     <div style={{ display: "flex", gap: "6px" }}>
                       <button
                         disabled={productPage <= 1}
                         onClick={() => setProductPage((p) => Math.max(1, p - 1))}
-                        style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", cursor: productPage <= 1 ? "not-allowed" : "pointer", opacity: productPage <= 1 ? 0.5 : 1 }}
+                        style={{
+                          padding: "6px 12px",
+                          borderRadius: "9999px",
+                          border: "1px solid #eef0f3",
+                          backgroundColor: "#f8f9fa",
+                          color: "#0f172a",
+                          cursor: productPage <= 1 ? "not-allowed" : "pointer",
+                          opacity: productPage <= 1 ? 0.4 : 1,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
                       >
                         <ChevronLeft size={14} />
                       </button>
                       <button
                         disabled={productPage >= totalPages}
                         onClick={() => setProductPage((p) => Math.min(totalPages, p + 1))}
-                        style={{ padding: "4px 8px", borderRadius: "4px", border: "1px solid #e2e8f0", backgroundColor: "#fff", cursor: productPage >= totalPages ? "not-allowed" : "pointer", opacity: productPage >= totalPages ? 0.5 : 1 }}
+                        style={{
+                          padding: "6px 12px",
+                          borderRadius: "9999px",
+                          border: "1px solid #eef0f3",
+                          backgroundColor: "#f8f9fa",
+                          color: "#0f172a",
+                          cursor: productPage >= totalPages ? "not-allowed" : "pointer",
+                          opacity: productPage >= totalPages ? 0.4 : 1,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
                       >
                         <ChevronRight size={14} />
                       </button>
@@ -2267,13 +2806,23 @@ export default function DedicatedAdminDashboard() {
                 </div>
 
                 {/* Right Column: Category Stock Valuation */}
-                <div style={{ flex: "0 0 320px", maxWidth: "340px", width: "100%", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                  <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem" }}>
-                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 1rem 0" }}>Category Stock Valuation</h3>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ flex: "0 0 320px", maxWidth: "340px", width: "100%", display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div
+                    style={{
+                      backgroundColor: "#ffffff",
+                      borderRadius: "20px",
+                      border: "1px solid #f0f2f5",
+                      padding: "24px",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    }}
+                  >
+                    <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", margin: "0 0 16px 0", letterSpacing: "-0.01em" }}>
+                      Category Stock Valuation
+                    </h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                       {categoriesList.slice(0, 7).map((c) => (
                         <div key={c.name}>
-                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", marginBottom: "3px" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", marginBottom: "4px" }}>
                             <span style={{ fontWeight: 600, color: "#475569", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "160px" }}>{c.name}</span>
                             <span style={{ fontWeight: 800, color: "#0f172a" }}>₹ {c.value.toLocaleString("en-IN")}</span>
                           </div>
@@ -2293,18 +2842,26 @@ export default function DedicatedAdminDashboard() {
                   </div>
 
                   {/* Low Stock Alerts */}
-                  <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem" }}>
-                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.85rem 0" }}>
+                  <div
+                    style={{
+                      backgroundColor: "#ffffff",
+                      borderRadius: "20px",
+                      border: "1px solid #f0f2f5",
+                      padding: "24px",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    }}
+                  >
+                    <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", margin: "0 0 14px 0", letterSpacing: "-0.01em" }}>
                       Low Stock Alerts ({inventoryStats.lowStockCount})
                     </h3>
                     {realLowStockProducts.length === 0 ? (
-                      <div style={{ fontSize: "12px", color: "#64748b" }}>All products sufficiently stocked.</div>
+                      <div style={{ fontSize: "12.5px", color: "#94a3b8" }}>All products sufficiently stocked.</div>
                     ) : (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                         {realLowStockProducts.slice(0, 3).map((item) => (
-                          <div key={item.id} style={{ padding: "0.6rem", borderRadius: "8px", backgroundColor: "#fffbeb", border: "1px solid #fef3c7" }}>
-                            <div style={{ fontSize: "11px", fontWeight: 800, color: "#92400e" }}>{item.name}</div>
-                            <div style={{ fontSize: "10px", color: "#b45309" }}>{item.stock || 0} units left in catalog</div>
+                          <div key={item.id} style={{ padding: "12px 14px", borderRadius: "12px", backgroundColor: "#fffbeb", border: "1px solid #fef3c7" }}>
+                            <div style={{ fontSize: "12px", fontWeight: 800, color: "#92400e" }}>{item.name}</div>
+                            <div style={{ fontSize: "11px", color: "#b45309", marginTop: "2px" }}>{item.stock || 0} units left in catalog</div>
                           </div>
                         ))}
                       </div>
@@ -2320,117 +2877,175 @@ export default function DedicatedAdminDashboard() {
           {/* ================================================================= */}
           {activeTab === "coupons" && (
             <div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem", flexWrap: "wrap", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
                 <div>
-                  <h1 style={{ fontSize: "1.45rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Coupons & Pricing Rules</h1>
-                  <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+                  <h1 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                    Coupons & Pricing Rules
+                  </h1>
+                  <p style={{ fontSize: "13px", color: "#94a3b8", margin: "4px 0 0 0" }}>
                     Manage wholesale discount codes and promotional campaigns
                   </p>
                 </div>
                 <button
                   onClick={() => setIsCreateCouponDrawerOpen(true)}
-                  style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0.6rem 1.15rem", borderRadius: "8px", border: "none", backgroundColor: "#0f172a", fontSize: "0.82rem", fontWeight: 700, color: "#ffffff", cursor: "pointer", whiteSpace: "nowrap" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 20px",
+                    borderRadius: "9999px",
+                    border: "none",
+                    backgroundColor: "#000000",
+                    fontSize: "12.5px",
+                    fontWeight: 700,
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                    transition: "all 0.15s ease",
+                  }}
                 >
                   <Plus size={15} />
                   <span>Create New Coupon</span>
                 </button>
               </div>
 
-              {/* 4 KPI Cards (Responsive Grid) */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total Coupons</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Tag size={16} />
+              {/* 4 Saledash KPI Stat Cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+                {/* 1. Total Coupons */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Tag size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total Coupons</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>{coupons.length}</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#64748b" }}>Codes</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>{coupons.length}</div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Configured promo codes</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Active Coupons</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <CheckCircle2 size={16} />
+                {/* 2. Active Coupons */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <CheckCircle2 size={20} color="#16a34a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Active Coupons</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {coupons.filter((c) => c.status === "active").length}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        Live
+                      </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>
-                    {coupons.filter((c) => c.status === "active").length}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Currently live at checkout</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Expired Coupons</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#f8fafc", color: "#64748b", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Clock size={16} />
+                {/* 3. Expired Coupons */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Clock size={20} color="#64748b" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Expired Coupons</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {coupons.filter((c) => c.status === "expired").length}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8" }}>Archived</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>
-                    {coupons.filter((c) => c.status === "expired").length}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Past promotional campaigns</div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.2rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Avg Discount Value</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#faf5ff", color: "#9333ea", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Percent size={16} />
+                {/* 4. Avg Discount */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Percent size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Avg Discount Value</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {coupons.length > 0 ? `${Math.round(coupons.reduce((sum, c) => sum + (c.discountValue || 0), 0) / coupons.length)}%` : "0%"}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#2563eb" }}>Wholesale</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>
-                    {coupons.length > 0 ? `${Math.round(coupons.reduce((sum, c) => sum + (c.discountValue || 0), 0) / coupons.length)}%` : "0%"}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>Across wholesale codes</div>
                 </div>
               </div>
 
-              {/* Coupons Table with Horizontal Scroll Wrap */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              {/* Coupons Table Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  overflow: "hidden",
+                }}
+              >
                 {couponsLoading ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b" }}>Loading coupons...</div>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center", color: "#94a3b8", fontSize: "13px" }}>
+                    Loading coupons...
+                  </div>
                 ) : coupons.length === 0 ? (
-                  <div style={{ padding: "3.5rem 2rem", textAlign: "center" }}>
-                    <div style={{ width: "48px", height: "48px", borderRadius: "12px", backgroundColor: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem auto", color: "#64748b" }}>
+                  <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
+                    <div style={{ width: "52px", height: "52px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem auto", color: "#0f172a" }}>
                       <Tag size={24} />
                     </div>
-                    <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.5rem 0" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>
                       No Promotional Coupons Configured
                     </h3>
-                    <p style={{ fontSize: "0.85rem", color: "#64748b", maxWidth: "420px", margin: "0 auto 1.25rem auto" }}>
+                    <p style={{ fontSize: "13px", color: "#94a3b8", maxWidth: "420px", margin: "0 auto 1.5rem auto", lineHeight: 1.5 }}>
                       Create wholesale discount codes for first-time buyers, bulk orders, or seasonal salon promotions.
                     </p>
                     <button
                       onClick={() => setIsCreateCouponDrawerOpen(true)}
-                      style={{ padding: "0.55rem 1.15rem", borderRadius: "8px", border: "none", backgroundColor: "#0f172a", color: "#fff", fontWeight: 800, fontSize: "12px", cursor: "pointer" }}
+                      style={{
+                        padding: "8px 22px",
+                        borderRadius: "9999px",
+                        border: "none",
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
+                        fontWeight: 700,
+                        fontSize: "12px",
+                        cursor: "pointer",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                      }}
                     >
                       + Create First Coupon
                     </button>
                   </div>
                 ) : (
                   <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "850px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
+                    <table style={{ width: "100%", minWidth: "850px", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Coupon Code</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Campaign Name</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Discount</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Min. Order</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Usage</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.85rem 1rem", fontWeight: 700, textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
+                        <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #f1f5f9", color: "#94a3b8", fontSize: "11px", fontWeight: 700, letterSpacing: "0.04em" }}>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Coupon Code</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Campaign Name</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Discount</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Min. Order</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Usage</th>
+                          <th style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>Status</th>
+                          <th style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {coupons.map((coupon) => (
-                          <tr key={coupon.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
+                          <tr
+                            key={coupon.id}
+                            style={{
+                              borderBottom: "1px solid #f8fafc",
+                              transition: "background-color 0.15s ease",
+                            }}
+                          >
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
                               <div style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                                <span style={{ fontFamily: "monospace", fontWeight: 800, backgroundColor: "#f1f5f9", padding: "4px 8px", borderRadius: "6px" }}>
+                                <span style={{ fontFamily: "monospace", fontWeight: 800, backgroundColor: "#f8f9fa", border: "1px solid #eef0f3", padding: "4px 10px", borderRadius: "9999px", color: "#0f172a" }}>
                                   {coupon.code}
                                 </span>
                                 <button
@@ -2446,22 +3061,54 @@ export default function DedicatedAdminDashboard() {
                                 </button>
                               </div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", minWidth: "180px" }}>
-                              <div style={{ fontWeight: 700, color: "#0f172a" }}>{coupon.name}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{coupon.category}</div>
+                            <td style={{ padding: "14px 18px", minWidth: "180px" }}>
+                              <div style={{ fontWeight: 800, color: "#0f172a" }}>{coupon.name}</div>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>{coupon.category}</div>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 800, color: "#2563eb", whiteSpace: "nowrap" }}>{coupon.discountText}</td>
-                            <td style={{ padding: "0.85rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>₹ {coupon.minOrder.toLocaleString("en-IN")}</td>
-                            <td style={{ padding: "0.85rem 1rem", color: "#64748b", whiteSpace: "nowrap" }}>{coupon.usedCount} / {coupon.usageLimit}</td>
-                            <td style={{ padding: "0.85rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "9999px", backgroundColor: coupon.status === "active" ? "#dcfce7" : "#f1f5f9", color: coupon.status === "active" ? "#16a34a" : "#64748b" }}>
+                            <td style={{ padding: "14px 18px", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>{coupon.discountText}</td>
+                            <td style={{ padding: "14px 18px", fontWeight: 700, color: "#334155", whiteSpace: "nowrap" }}>₹ {coupon.minOrder.toLocaleString("en-IN")}</td>
+                            <td style={{ padding: "14px 18px", color: "#64748b", whiteSpace: "nowrap" }}>{coupon.usedCount} / {coupon.usageLimit}</td>
+                            <td style={{ padding: "14px 18px", whiteSpace: "nowrap" }}>
+                              <span
+                                style={{
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "5px",
+                                  padding: "4px 10px",
+                                  borderRadius: "6px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  backgroundColor: coupon.status === "active" ? "#dcfce7" : "#f1f5f9",
+                                  color: coupon.status === "active" ? "#16a34a" : "#64748b",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    width: "6px",
+                                    height: "6px",
+                                    borderRadius: "50%",
+                                    backgroundColor: coupon.status === "active" ? "#16a34a" : "#94a3b8",
+                                  }}
+                                />
                                 {coupon.status}
                               </span>
                             </td>
-                            <td style={{ padding: "0.85rem 1rem", textAlign: "right", whiteSpace: "nowrap" }}>
+                            <td style={{ padding: "14px 18px", textAlign: "right", whiteSpace: "nowrap" }}>
                               <button
                                 onClick={() => handleDeleteCoupon(coupon.id)}
-                                style={{ padding: "4px 6px", borderRadius: "4px", border: "1px solid #fee2e2", backgroundColor: "#fff", color: "#dc2626", cursor: "pointer" }}
+                                style={{
+                                  width: "32px",
+                                  height: "32px",
+                                  borderRadius: "50%",
+                                  border: "1px solid #fee2e2",
+                                  backgroundColor: "#fff",
+                                  color: "#dc2626",
+                                  cursor: "pointer",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  transition: "all 0.15s ease",
+                                }}
                               >
                                 <Trash2 size={13} />
                               </button>
@@ -2480,40 +3127,87 @@ export default function DedicatedAdminDashboard() {
           {/* TAB: SETTINGS */}
           {/* ================================================================= */}
           {activeTab === "settings" && (
-            <div style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: "1px solid #e2e8f0", padding: "2rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1.5rem", borderBottom: "1px solid #e2e8f0", paddingBottom: "1rem" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "#0f172a", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div
+              style={{
+                backgroundColor: "#ffffff",
+                borderRadius: "20px",
+                border: "1px solid #f0f2f5",
+                padding: "28px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "24px", borderBottom: "1px solid #f1f5f9", paddingBottom: "18px" }}>
+                <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", color: "#0f172a", display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Settings size={20} />
                 </div>
                 <div>
-                  <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>BeuPROS System Settings</h2>
-                  <p style={{ fontSize: "0.82rem", color: "#64748b", margin: "2px 0 0 0" }}>
+                  <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.01em" }}>BeuPROS System Settings</h2>
+                  <p style={{ fontSize: "13px", color: "#94a3b8", margin: "3px 0 0 0" }}>
                     Wholesale store configuration, taxes, notification webhooks & verified B2B policies
                   </p>
                 </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
-                <div style={{ border: "1px solid #e2e8f0", borderRadius: "10px", padding: "1.2rem", backgroundColor: "#f8fafc" }}>
-                  <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.5rem 0" }}>Store Identity</h3>
-                  <p style={{ fontSize: "0.8rem", color: "#64748b", margin: "0 0 1rem 0" }}>Store name, brand logos, support contact</p>
-                  <button onClick={() => alert("Store settings updated")} style={{ padding: "0.45rem 0.9rem", borderRadius: "6px", border: "1px solid #cbd5e1", backgroundColor: "#fff", fontWeight: 700, fontSize: "11px", cursor: "pointer" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px" }}>
+                <div style={{ border: "1px solid #f0f2f5", borderRadius: "16px", padding: "20px", backgroundColor: "#f8f9fc" }}>
+                  <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>Store Identity</h3>
+                  <p style={{ fontSize: "12.5px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.4 }}>Store name, brand logos, support contact</p>
+                  <button
+                    onClick={() => alert("Store settings updated")}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "none",
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                      fontWeight: 700,
+                      fontSize: "11.5px",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                    }}
+                  >
                     Configure Store
                   </button>
                 </div>
 
-                <div style={{ border: "1px solid #e2e8f0", borderRadius: "10px", padding: "1.2rem", backgroundColor: "#f8fafc" }}>
-                  <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.5rem 0" }}>GST & Invoicing</h3>
-                  <p style={{ fontSize: "0.8rem", color: "#64748b", margin: "0 0 1rem 0" }}>Tax slabs (18% GST), HSN codes, invoice prefixes</p>
-                  <button onClick={() => alert("Tax settings saved")} style={{ padding: "0.45rem 0.9rem", borderRadius: "6px", border: "1px solid #cbd5e1", backgroundColor: "#fff", fontWeight: 700, fontSize: "11px", cursor: "pointer" }}>
+                <div style={{ border: "1px solid #f0f2f5", borderRadius: "16px", padding: "20px", backgroundColor: "#f8f9fc" }}>
+                  <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>GST & Invoicing</h3>
+                  <p style={{ fontSize: "12.5px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.4 }}>Tax slabs (18% GST), HSN codes, invoice prefixes</p>
+                  <button
+                    onClick={() => alert("Tax settings saved")}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "none",
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                      fontWeight: 700,
+                      fontSize: "11.5px",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                    }}
+                  >
                     Manage Taxes
                   </button>
                 </div>
 
-                <div style={{ border: "1px solid #e2e8f0", borderRadius: "10px", padding: "1.2rem", backgroundColor: "#f8fafc" }}>
-                  <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: "0 0 0.5rem 0" }}>Shipping & Delivery</h3>
-                  <p style={{ fontSize: "0.8rem", color: "#64748b", margin: "0 0 1rem 0" }}>Delhivery & Blue Dart API integration, tracking links</p>
-                  <button onClick={() => alert("Shipping partners connected")} style={{ padding: "0.45rem 0.9rem", borderRadius: "6px", border: "1px solid #cbd5e1", backgroundColor: "#fff", fontWeight: 700, fontSize: "11px", cursor: "pointer" }}>
+                <div style={{ border: "1px solid #f0f2f5", borderRadius: "16px", padding: "20px", backgroundColor: "#f8f9fc" }}>
+                  <h3 style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>Shipping & Delivery</h3>
+                  <p style={{ fontSize: "12.5px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.4 }}>Delhivery & Blue Dart API integration, tracking links</p>
+                  <button
+                    onClick={() => alert("Shipping partners connected")}
+                    style={{
+                      padding: "7px 16px",
+                      borderRadius: "9999px",
+                      border: "none",
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                      fontWeight: 700,
+                      fontSize: "11.5px",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+                    }}
+                  >
                     Courier Settings
                   </button>
                 </div>
