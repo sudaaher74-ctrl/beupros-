@@ -13,10 +13,10 @@ export function ProManifestoBanner({
 
   return (
     <section
+      className="pro-manifesto-section"
       style={{
         backgroundColor: transparentBg ? 'transparent' : isBlack ? '#050505' : '#0c0a09',
         color: '#ffffff',
-        padding: '70px 24px 60px',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
@@ -34,10 +34,11 @@ export function ProManifestoBanner({
         }}
       >
         <blockquote
+          className="manifesto-quote"
           style={{
             margin: 0,
             padding: 0,
-            fontSize: 'clamp(20px, 2.5vw, 34px)',
+            fontSize: 'clamp(18px, 2.5vw, 34px)',
             fontWeight: 800,
             lineHeight: 1.35,
             letterSpacing: '-0.015em',
@@ -46,26 +47,44 @@ export function ProManifestoBanner({
           }}
         >
           &ldquo;An incubator for dreamers. A haven for the curious colorist.
-          <br />
-          Impeccably formulated salon standards with global adornments.
-          <br />
-          A love letter to salon craft &amp; beauty culture.&rdquo;
+          <br className="manifesto-br" />
+          {' '}Impeccably formulated salon standards with global adornments.
+          <br className="manifesto-br" />
+          {' '}A love letter to salon craft &amp; beauty culture.&rdquo;
         </blockquote>
 
         <div
           style={{
-            marginTop: '20px',
-            fontSize: '11.5px',
+            marginTop: '18px',
+            fontSize: '11px',
             fontWeight: 800,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: 'rgba(255, 255, 255, 0.85)',
             textShadow: '0 1px 6px rgba(0, 0, 0, 0.4)',
           }}
         >
           — THE BEUPROS SALON DIRECTIVE
         </div>
       </div>
+
+      <style jsx>{`
+        .pro-manifesto-section {
+          padding: 60px 24px 50px;
+        }
+        @media (max-width: 768px) {
+          .pro-manifesto-section {
+            padding: 34px 18px 30px !important;
+          }
+          .manifesto-br {
+            display: none;
+          }
+          .manifesto-quote {
+            font-size: 17px !important;
+            line-height: 1.45 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -105,9 +105,9 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
   return (
     <section
+      className="brand-partners-section"
       style={{
         backgroundColor: isWavy ? 'transparent' : isBlack ? '#0a0a0a' : '#fafafa',
-        padding: '5.5rem 1.5rem',
         borderTop: isWavy
           ? '1px solid rgba(255, 255, 255, 0.15)'
           : isBlack
@@ -125,7 +125,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
         {/* Section Header */}
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3.5rem auto' }}>
+        <div className="brand-header-box" style={{ textAlign: 'center', maxWidth: '720px' }}>
           <div
             style={{
               display: 'inline-flex',
@@ -159,7 +159,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
           <h2
             style={{
-              fontSize: 'clamp(30px, 3.4vw, 48px)',
+              fontSize: 'clamp(26px, 3.4vw, 48px)',
               fontWeight: 900,
               color: isWavy || isBlack ? '#ffffff' : '#111111',
               letterSpacing: '-0.02em',
@@ -173,7 +173,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
           <p
             style={{
-              fontSize: 'clamp(14px, 1.2vw, 16px)',
+              fontSize: 'clamp(13px, 1.2vw, 16px)',
               color: isWavy ? 'rgba(255, 255, 255, 0.92)' : isBlack ? '#a1a1aa' : '#666666',
               lineHeight: 1.6,
               margin: 0,
@@ -199,7 +199,6 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
                   : isWavy
                   ? '1px solid rgba(255, 255, 255, 0.4)'
                   : '1px solid #e8e8e8',
-                padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
@@ -217,6 +216,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
               <div>
                 {/* Category Pill */}
                 <div
+                  className="brand-card-category"
                   style={{
                     display: 'inline-block',
                     fontSize: '10px',
@@ -235,6 +235,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
                 {/* Brand Name */}
                 <h3
+                  className="brand-card-title"
                   style={{
                     fontSize: '17px',
                     fontWeight: 900,
@@ -249,6 +250,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
                 {/* Highlight */}
                 <p
+                  className="brand-card-highlight"
                   style={{
                     fontSize: '12px',
                     color: isBlack ? '#a1a1aa' : '#888888',
@@ -262,6 +264,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
 
               {/* Bottom Row */}
               <div
+                className="brand-card-bottom"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -274,6 +277,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
                 }}
               >
                 <span
+                  className="brand-card-count"
                   style={{
                     fontSize: '11.5px',
                     fontWeight: 800,
@@ -305,7 +309,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
         </div>
 
         {/* View All Brands CTA */}
-        <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
+        <div className="brand-cta-box" style={{ textAlign: 'center', marginTop: '3.5rem' }}>
           <Link
             href="/brands"
             style={{
@@ -314,7 +318,7 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
               gap: '10px',
               backgroundColor: '#000000',
               color: '#ffffff',
-              padding: '15px 36px',
+              padding: '14px 34px',
               borderRadius: '9999px',
               fontSize: '13px',
               fontWeight: 800,
@@ -340,10 +344,22 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
       </div>
 
       <style jsx>{`
+        .brand-partners-section {
+          padding: 5.5rem 1.5rem;
+        }
+
+        .brand-header-box {
+          margin: 0 auto 3.5rem auto;
+        }
+
         .brand-partners-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 20px;
+        }
+
+        :global(.brand-partner-card) {
+          padding: 24px 20px;
         }
 
         :global(.brand-partner-card:hover) {
@@ -365,15 +381,56 @@ export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'bl
         }
 
         @media (max-width: 768px) {
+          .brand-partners-section {
+            padding: 3rem 1rem 3.5rem 1rem !important;
+          }
+          .brand-header-box {
+            margin: 0 auto 1.75rem auto !important;
+          }
+          .brand-cta-box {
+            margin-top: 2rem !important;
+          }
           .brand-partners-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+            gap: 12px;
           }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
           .brand-partners-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+          }
+          :global(.brand-partner-card) {
+            padding: 13px 11px !important;
+            border-radius: 14px !important;
+          }
+          :global(.brand-card-category) {
+            font-size: 8.5px !important;
+            margin-bottom: 8px !important;
+            padding: 2px 6px !important;
+          }
+          :global(.brand-card-title) {
+            font-size: 14px !important;
+            margin-bottom: 3px !important;
+          }
+          :global(.brand-card-highlight) {
+            font-size: 11px !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+          :global(.brand-card-bottom) {
+            margin-top: 10px !important;
+            padding-top: 8px !important;
+          }
+          :global(.brand-card-count) {
+            font-size: 10px !important;
+          }
+          :global(.brand-arrow-icon) {
+            width: 22px !important;
+            height: 22px !important;
           }
         }
       `}</style>

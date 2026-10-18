@@ -428,8 +428,9 @@ img {
 @media (max-width: 768px) {
   .stuck-wavy-hero-wrapper,
   .stuck-wavy-full-wrapper {
-    background-attachment: scroll;
-    background-size: 100% auto;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center top !important;
   }
 }
 
@@ -458,7 +459,9 @@ img {
 
 @media (max-width: 768px) {
   .wavy-alternating-band {
-    background-attachment: scroll;
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center top !important;
   }
 }
 

@@ -92,9 +92,9 @@ export function ShopByCategory({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 
 
   return (
     <section
+      className="shop-by-category-section"
       style={{
         backgroundColor: isWavy ? 'transparent' : isBlack ? '#000000' : '#ffffff',
-        padding: '4.5rem 1rem 5rem 1rem',
         position: 'relative',
         zIndex: 2,
         transition: 'background-color 0.3s ease',
@@ -108,13 +108,13 @@ export function ShopByCategory({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 
       >
         {/* Section Heading */}
         <h2
+          className="shop-category-heading"
           style={{
-            fontSize: 'clamp(30px, 3.4vw, 48px)',
+            fontSize: 'clamp(26px, 3.4vw, 48px)',
             fontWeight: 900,
             textAlign: 'center',
             color: isWavy || isBlack ? '#ffffff' : '#111111',
             letterSpacing: '-0.02em',
-            margin: '0 0 2.5rem 0',
             textShadow: isWavy ? '0 4px 20px rgba(0, 0, 0, 0.45)' : 'none',
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}
@@ -196,6 +196,14 @@ export function ShopByCategory({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 
 
       {/* Responsive Styles */}
       <style jsx>{`
+        .shop-by-category-section {
+          padding: 4.5rem 1rem 5rem 1rem;
+        }
+
+        .shop-category-heading {
+          margin: 0 0 2.5rem 0;
+        }
+
         .saloncentric-category-grid {
           display: grid;
           grid-template-columns: repeat(6, 1fr);
@@ -218,19 +226,30 @@ export function ShopByCategory({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 
           }
         }
 
-        @media (max-width: 640px) {
-          .saloncentric-category-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px 12px;
+        @media (max-width: 768px) {
+          .shop-by-category-section {
+            padding: 2.75rem 1rem 3.5rem 1rem !important;
           }
-          :global(.category-card-squircle) {
-            border-radius: 18px !important;
+          .shop-category-heading {
+            margin: 0 0 1.75rem 0 !important;
+            font-size: 28px !important;
           }
         }
 
-        @media (max-width: 380px) {
+        @media (max-width: 640px) {
+          .saloncentric-category-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 10px;
+          }
+          :global(.category-card-squircle) {
+            border-radius: 16px !important;
+          }
+        }
+
+        @media (max-width: 360px) {
           .saloncentric-category-grid {
             grid-template-columns: repeat(2, 1fr);
+            gap: 14px 10px;
           }
         }
       `}</style>

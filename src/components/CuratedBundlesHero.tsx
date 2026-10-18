@@ -17,6 +17,7 @@ export function CuratedBundlesHero({
     <div style={{ backgroundColor: transparentBg ? 'transparent' : isBlack ? '#000000' : '#f04e23' }}>
       {/* Hero Banner */}
       <section
+        className="beupros-hero-section"
         style={{
           position: 'relative',
           padding: '70px 32px 85px',
@@ -53,6 +54,7 @@ export function CuratedBundlesHero({
           {/* LEFT: 3D SALON PRODUCT LINEUP & PRO BOX STAGE */}
           {/* =============================================================== */}
           <div
+            className="beupros-hero-stage-column"
             style={{
               position: 'relative',
               width: '100%',
@@ -343,6 +345,7 @@ export function CuratedBundlesHero({
           {/* RIGHT: TYPOGRAPHY, SUBTITLE & SHOP NOW PILL BUTTON */}
           {/* =============================================================== */}
           <div
+            className="beupros-hero-typography"
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -351,12 +354,13 @@ export function CuratedBundlesHero({
               paddingLeft: '10px',
             }}
           >
-            {/* Massive Bold Headline (Exact typography from the reference screenshot) */}
+            {/* Massive Bold Headline */}
             <h1
+              className="beupros-hero-headline"
               style={{
-                fontSize: 'clamp(44px, 5.2vw, 84px)',
+                fontSize: 'clamp(34px, 5vw, 84px)',
                 fontWeight: 900,
-                lineHeight: 0.98,
+                lineHeight: 1.02,
                 letterSpacing: '-0.025em',
                 textTransform: 'uppercase',
                 margin: 0,
@@ -366,16 +370,17 @@ export function CuratedBundlesHero({
               }}
             >
               CHOOSE YOUR
-              <br />
-              FAVORITE STYLE!
+              <br className="hero-desktop-br" />
+              {' '}FAVORITE STYLE!
             </h1>
 
-            {/* Subtitle (Exact layout and voice tailored for BeuPROS) */}
+            {/* Subtitle */}
             <p
+              className="beupros-hero-subhead"
               style={{
-                fontSize: 'clamp(18px, 1.8vw, 24px)',
+                fontSize: 'clamp(15px, 1.8vw, 24px)',
                 fontWeight: 700,
-                lineHeight: 1.35,
+                lineHeight: 1.4,
                 color: '#ffffff',
                 margin: 0,
                 maxWidth: '560px',
@@ -385,10 +390,11 @@ export function CuratedBundlesHero({
               No matter your taste, our ProBox, ProBag or Salon Essentials Crate gets you a variety of salon essentials.
             </p>
 
-            {/* Iconic Wide Pill Button (Exact shape & style from screenshot) */}
-            <div style={{ marginTop: '10px' }}>
+            {/* Iconic Wide Pill Button */}
+            <div style={{ marginTop: '8px' }}>
               <Link
                 href="/shop"
+                className="beupros-hero-btn"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -430,21 +436,48 @@ export function CuratedBundlesHero({
       {/* Responsive adjustments */}
       <style jsx>{`
         @media (max-width: 960px) {
-          .beupros-hero-container {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-            text-align: center;
+          .beupros-hero-section {
+            padding: 36px 16px 44px !important;
+            min-height: auto !important;
           }
-          .beupros-hero-container > div:last-child {
+          .beupros-hero-container {
+            display: flex !important;
+            flex-direction: column-reverse !important;
+            gap: 28px !important;
+            text-align: center !important;
+          }
+          .beupros-hero-typography {
             align-items: center !important;
             padding-left: 0 !important;
+            gap: 16px !important;
+          }
+          .beupros-hero-subhead {
+            max-width: 440px !important;
+            font-size: 15px !important;
+          }
+          .hero-desktop-br {
+            display: inline;
+          }
+          .beupros-hero-stage-column {
+            min-height: auto !important;
+            transform: scale(0.78) !important;
+            transform-origin: center top !important;
+            margin-bottom: -70px !important;
+            margin-top: 0 !important;
+          }
+          :global(.beupros-hero-btn) {
+            padding: 13px 40px !important;
+            font-size: 13px !important;
+            letter-spacing: 0.18em !important;
           }
         }
-        @media (max-width: 640px) {
-          .beupros-hero-container > div:first-child {
-            transform: scale(0.75);
-            transform-origin: center bottom;
-            margin-bottom: -40px;
+        @media (max-width: 440px) {
+          .beupros-hero-stage-column {
+            transform: scale(0.7) !important;
+            margin-bottom: -100px !important;
+          }
+          :global(.beupros-hero-headline) {
+            font-size: 32px !important;
           }
         }
       `}</style>
