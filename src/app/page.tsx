@@ -1,7 +1,6 @@
 import React from 'react';
 import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
 import { ProManifestoBanner } from '@/components/ProManifestoBanner';
-import { SalonProGearShowcase } from '@/components/SalonProGearShowcase';
 import { ShopByCategory } from '@/components/ShopByCategory';
 import { BrandPartnersShowcase } from '@/components/BrandPartnersShowcase';
 import { SalonCommunityGrid } from '@/components/SalonCommunityGrid';
@@ -21,16 +20,13 @@ export default function Home() {
         {/* 2. Pro Manifesto Quote Banner */}
         <ProManifestoBanner transparentBg={true} theme="wavy" />
 
-        {/* 3. Authentic Pro Salon Gear & Products Showcase (Filters, B2B Perks, Real Catalog) */}
-        <SalonProGearShowcase theme="wavy" />
-
-        {/* 4. Visual 12-Tile Category Grid */}
+        {/* 3. Visual 12-Tile Category Grid */}
         <ShopByCategory theme="wavy" />
 
-        {/* 5. Official Authorized Brand Partners Showcase */}
+        {/* 4. Official Authorized Brand Partners Showcase */}
         <BrandPartnersShowcase theme="wavy" />
 
-        {/* 6. Instagram / Stylist Community Social Grid */}
+        {/* 5. Instagram / Stylist Community Social Grid */}
         <SalonCommunityGrid theme="wavy" />
       </div>
 
