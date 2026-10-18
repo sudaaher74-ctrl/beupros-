@@ -9,8 +9,7 @@ export default function Home() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1ST SCROLL: ICONIC RETRO WAVY BACKGROUND THEME                            */}
-      {/* Hero 3D Product Stage & Pro Manifesto Banner on continuous wavy graphic   */}
+      {/* 1. HERO & MANIFESTO: COLORFUL RETRO WAVY BACKGROUND                       */}
       {/* ========================================================================= */}
       <div className="stuck-wavy-hero-wrapper">
         <CuratedBundlesHero transparentBg={true} theme="wavy" />
@@ -18,15 +17,17 @@ export default function Home() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2ND SCROLL: SLEEK NOIR BLACK LUXURY THEME                                 */}
-      {/* Shop By Category and Official Brand Partners in sleek black               */}
+      {/* 2. CATEGORIES GRID: SLEEK NOIR BLACK THEME                                */}
       {/* ========================================================================= */}
-      <div className="theme-noir-black-wrapper" style={{ backgroundColor: '#000000' }}>
-        {/* Visual 12-Tile Category Grid in Noir Black */}
+      <div style={{ backgroundColor: '#000000' }}>
         <ShopByCategory theme="black" />
+      </div>
 
-        {/* Official Authorized Brand Partners in Noir Black */}
-        <BrandPartnersShowcase theme="black" />
+      {/* ========================================================================= */}
+      {/* 3. OFFICIAL BRAND PARTNERS: COLORFUL RETRO WAVY BACKGROUND                */}
+      {/* ========================================================================= */}
+      <div className="wavy-alternating-band">
+        <BrandPartnersShowcase theme="wavy" />
       </div>
 
       {/* Exclusive 10% Pro Discount Newsletter Modal */}
