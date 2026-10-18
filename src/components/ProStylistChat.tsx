@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, X, Send, RotateCcw, ShoppingBag } from "lucide-react";
+import { Sparkles, MessageCircleMore, X, Send, RotateCcw, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Product } from "@/types/product";
 
@@ -248,7 +248,7 @@ Type any question below or pick a topic to get started!`,
 
   return (
     <>
-      {/* 1. Floating Chat Trigger Button (Bottom Right) */}
+      {/* 1. Floating Chat Trigger Button (Bottom Right) - Round with 3 Dots */}
       {!isChatOpen && (
         <button
           onClick={() => openChat()}
@@ -258,43 +258,51 @@ Type any question below or pick a topic to get started!`,
             bottom: "28px",
             right: "28px",
             zIndex: 95,
-            backgroundColor: "#111111",
+            width: "60px",
+            height: "60px",
+            borderRadius: "50%",
+            backgroundColor: "#000000",
             color: "#ffffff",
-            borderRadius: "9999px",
-            padding: "12px 22px",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-            border: "1.5px solid rgba(245, 158, 11, 0.5)",
+            justifyContent: "center",
+            boxShadow: "0 12px 32px rgba(0, 0, 0, 0.45)",
+            border: "2px solid rgba(255, 255, 255, 0.18)",
             cursor: "pointer",
             transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+            padding: 0,
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.backgroundColor = "#000000";
-            e.currentTarget.style.borderColor = "#f59e0b";
+            e.currentTarget.style.transform = "scale(1.08)";
+            e.currentTarget.style.backgroundColor = "#111111";
+            e.currentTarget.style.borderColor = "#ffffff";
+            e.currentTarget.style.boxShadow = "0 16px 36px rgba(0, 0, 0, 0.6)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.backgroundColor = "#111111";
-            e.currentTarget.style.borderColor = "rgba(245, 158, 11, 0.5)";
+            e.currentTarget.style.backgroundColor = "#000000";
+            e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.18)";
+            e.currentTarget.style.boxShadow = "0 12px 32px rgba(0, 0, 0, 0.45)";
           }}
           aria-label="Open Pro Stylist AI Chat"
+          title="Ask Pro Stylist AI"
         >
+          {/* Active online dot */}
           <div
             style={{
-              width: "10px",
-              height: "10px",
+              position: "absolute",
+              top: "2px",
+              right: "2px",
+              width: "14px",
+              height: "14px",
               borderRadius: "50%",
               backgroundColor: "#10b981",
+              border: "2.5px solid #000000",
               boxShadow: "0 0 8px #10b981",
             }}
           />
-          <Sparkles size={18} color="#f59e0b" />
-          <span style={{ fontSize: "13.5px", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Ask Pro Stylist AI
-          </span>
+          {/* Circular Chat Bubble with 3 Dots */}
+          <MessageCircleMore size={30} color="#ffffff" strokeWidth={2.2} />
         </button>
       )}
 
@@ -340,13 +348,13 @@ Type any question below or pick a topic to get started!`,
                   height: "40px",
                   borderRadius: "50%",
                   backgroundColor: "#222222",
-                  border: "1.5px solid #f59e0b",
+                  border: "1.5px solid rgba(255, 255, 255, 0.2)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Sparkles size={20} color="#f59e0b" />
+                <MessageCircleMore size={22} color="#ffffff" strokeWidth={2.2} />
               </div>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>

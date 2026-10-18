@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutGrid, Sparkles, Tag, ShoppingBag } from "lucide-react";
+import { Home, LayoutGrid, MessageCircleMore, Tag, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export const MobileBottomNav: React.FC = () => {
@@ -96,20 +96,20 @@ export const MobileBottomNav: React.FC = () => {
         <div
           style={{
             marginTop: "-14px",
-            width: "42px",
-            height: "42px",
+            width: "44px",
+            height: "44px",
             borderRadius: "50%",
-            backgroundColor: "#111111",
+            backgroundColor: "#000000",
             color: "#ffffff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 4px 12px rgba(245, 158, 11, 0.4)",
-            border: "2px solid #f59e0b",
+            boxShadow: "0 6px 16px rgba(0, 0, 0, 0.4)",
+            border: "2px solid rgba(255, 255, 255, 0.2)",
             transition: "transform 0.15s ease",
           }}
         >
-          <Sparkles size={19} color="#f59e0b" />
+          <MessageCircleMore size={22} color="#ffffff" strokeWidth={2.2} />
         </div>
         <span
           style={{
