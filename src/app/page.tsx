@@ -1,6 +1,5 @@
 import React from 'react';
 import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
-import { ProTradePerksBar } from '@/components/ProTradePerksBar';
 import { SparkleLineup } from '@/components/SparkleLineup';
 import { BestDressedSalon } from '@/components/BestDressedSalon';
 import { ProManifestoBanner } from '@/components/ProManifestoBanner';
@@ -15,10 +14,7 @@ export default function Home() {
       {/* 1. Brand Hero Section: "CHOOSE YOUR FAVORITE STYLE!" with direct shop CTAs */}
       <CuratedBundlesHero />
 
-      {/* 3. Dark Wholesale Trade Perks Bar */}
-      <ProTradePerksBar />
-
-      {/* 4. Tabbed Pro Beauty Lineup: Products That Sparkle */}
+      {/* 2. Tabbed Pro Beauty Lineup: Products That Sparkle */}
       <SparkleLineup />
 
       {/* 5. Split Editorial Section: Best Dressed Salon */}
