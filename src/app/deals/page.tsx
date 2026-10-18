@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ProductCard } from "@/components/ProductCard";
 import { Product } from "@/types/product";
-import { Flame } from "lucide-react";
+import { Flame, Clock, Sparkles, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function DealsPage() {
   const [dealProducts, setDealProducts] = useState<Product[]>([]);
@@ -28,105 +28,302 @@ export default function DealsPage() {
   }, [activeDealTab]);
 
   return (
-    <div style={{ backgroundColor: "#ffffff", paddingBottom: "5rem" }}>
-      {/* Banner */}
+    <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingBottom: "5rem" }}>
+      {/* 1. Deals Hero Banner */}
       <div
         style={{
-          background: "linear-gradient(135deg, #111827 0%, #000000 100%)",
-          color: "#ffffff",
-          padding: "3.5rem 0",
-          textAlign: "center",
+          backgroundColor: "#ffffff",
+          borderBottom: "1px solid #f0f2f5",
+          padding: "2.5rem 0",
         }}
       >
         <div className="container-custom">
           <div
             style={{
-              display: "inline-flex",
+              display: "flex",
               alignItems: "center",
-              gap: "0.4rem",
-              backgroundColor: "#d9384e",
-              padding: "0.3rem 0.8rem",
-              borderRadius: "9999px",
-              fontSize: "0.8rem",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              marginBottom: "1rem",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "1.5rem",
             }}
           >
-            <Flame size={16} /> Exclusive Pro Savings
+            <div>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  backgroundColor: "#fef2f2",
+                  color: "#dc2626",
+                  padding: "4px 10px",
+                  borderRadius: "9999px",
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.04em",
+                  marginBottom: "8px",
+                }}
+              >
+                <Flame size={14} color="#dc2626" /> Weekly Trade Price Drops
+              </div>
+              <h1
+                style={{
+                  fontSize: "28px",
+                  fontWeight: 800,
+                  color: "#0f172a",
+                  letterSpacing: "-0.02em",
+                  margin: "0 0 6px 0",
+                }}
+              >
+                Wholesale Deals & Flash Promotions
+              </h1>
+              <p style={{ fontSize: "14px", color: "#64748b", margin: 0, maxWidth: "600px" }}>
+                Exclusive trade discounts up to 50% on top professional salon formulations: Babila, L&apos;Oréal, Schwarzkopf, Matrix, Wella, and Vega.
+              </p>
+            </div>
+
+            {/* Countdown / Assurance Widget */}
+            <div
+              style={{
+                backgroundColor: "#f8f9fa",
+                borderRadius: "16px",
+                border: "1px solid #f0f2f5",
+                padding: "12px 18px",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+              }}
+            >
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  backgroundColor: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                }}
+              >
+                <Clock size={18} color="#0f172a" />
+              </div>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase" }}>
+                  Monday Trade Drop
+                </div>
+                <div style={{ fontSize: "13px", fontWeight: 800, color: "#0f172a" }}>
+                  Batch Refreshes Every Monday
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 style={{ fontSize: "2.8rem", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: "0.75rem" }}>
-            Salon Deals & Promotions
-          </h1>
-          <p style={{ fontSize: "1.05rem", color: "#cccccc", maxWidth: "650px", margin: "0 auto" }}>
-            Save up to 50% on top professional salon brands: Babila, L&apos;Oréal, Schwarzkopf, Matrix, Wella, and Vega.
-          </p>
         </div>
       </div>
 
-      <div className="container-custom" style={{ paddingTop: "3rem" }}>
-        {/* Deal Highlights 3-Card Row */}
+      <div className="container-custom" style={{ paddingTop: "2rem" }}>
+        {/* 2. Top 3 Feature Deal Cards */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "1.5rem",
-            marginBottom: "3.5rem",
+            gap: "1.25rem",
+            marginBottom: "2.5rem",
           }}
         >
-          <div style={{ backgroundColor: "#fef2f2", padding: "2rem", borderRadius: "12px", border: "1px solid #fecaca" }}>
-            <div style={{ color: "#dc2626", fontWeight: 800, fontSize: "0.85rem", textTransform: "uppercase", marginBottom: "0.3rem" }}>
-              FLASH CLEARANCE
+          {/* Card 1 */}
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              border: "1px solid #f0f2f5",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  backgroundColor: "#fef2f2",
+                  color: "#dc2626",
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  padding: "3px 8px",
+                  borderRadius: "9999px",
+                  display: "inline-block",
+                  marginBottom: "10px",
+                }}
+              >
+                Flash Clearance
+              </span>
+              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>
+                Up to 50% Off SKUs
+              </h3>
+              <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.5 }}>
+                High-discount salon essentials, bulk developer cans, and facial kits.
+              </p>
             </div>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: "0.5rem" }}>Up to 50% Off</h3>
-            <p style={{ fontSize: "0.88rem", color: "#666666", marginBottom: "1.25rem" }}>
-              High-discount salon essentials, stylers, and facial kits.
-            </p>
-            <Link href="/shop?minDiscount=40" className="btn-pill-black" style={{ fontSize: "0.8rem" }}>
-              Shop Clearance
+            <Link
+              href="/shop?minDiscount=40"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                backgroundColor: "#0f172a",
+                color: "#ffffff",
+                padding: "8px 16px",
+                borderRadius: "9999px",
+                fontSize: "12px",
+                fontWeight: 700,
+                textDecoration: "none",
+                alignSelf: "flex-start",
+              }}
+            >
+              Shop Clearance <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div style={{ backgroundColor: "#f0fdf4", padding: "2rem", borderRadius: "12px", border: "1px solid #bbf7d0" }}>
-            <div style={{ color: "#16a34a", fontWeight: 800, fontSize: "0.85rem", textTransform: "uppercase", marginBottom: "0.3rem" }}>
-              PRO APPLIANCES SALE
+          {/* Card 2 */}
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              border: "1px solid #f0f2f5",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  backgroundColor: "#ecfdf5",
+                  color: "#059669",
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  padding: "3px 8px",
+                  borderRadius: "9999px",
+                  display: "inline-block",
+                  marginBottom: "10px",
+                }}
+              >
+                Pro Appliances Sale
+              </span>
+              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>
+                Stylers, Dryers & Heaters
+              </h3>
+              <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.5 }}>
+                Heavy-duty commercial salon tools with warranty and instant trade discounts.
+              </p>
             </div>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: "0.5rem" }}>Straighteners & Heaters</h3>
-            <p style={{ fontSize: "0.88rem", color: "#666666", marginBottom: "1.25rem" }}>
-              Heavy-duty salon tools with instant wholesale trade discounts.
-            </p>
-            <Link href="/shop?category=Tools" className="btn-pill-black" style={{ fontSize: "0.8rem" }}>
-              Shop Tools
+            <Link
+              href="/shop?category=Tools"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                backgroundColor: "#0f172a",
+                color: "#ffffff",
+                padding: "8px 16px",
+                borderRadius: "9999px",
+                fontSize: "12px",
+                fontWeight: 700,
+                textDecoration: "none",
+                alignSelf: "flex-start",
+              }}
+            >
+              Shop Pro Tools <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div style={{ backgroundColor: "#faf5ff", padding: "2rem", borderRadius: "12px", border: "1px solid #e9d5ff" }}>
-            <div style={{ color: "#9333ea", fontWeight: 800, fontSize: "0.85rem", textTransform: "uppercase", marginBottom: "0.3rem" }}>
-              COLOR & TREATMENTS
+          {/* Card 3 */}
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              border: "1px solid #f0f2f5",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <span
+                style={{
+                  backgroundColor: "#f5f3ff",
+                  color: "#7c3aed",
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  textTransform: "uppercase",
+                  padding: "3px 8px",
+                  borderRadius: "9999px",
+                  display: "inline-block",
+                  marginBottom: "10px",
+                }}
+              >
+                Extra Trade Savings
+              </span>
+              <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#0f172a", margin: "0 0 6px 0" }}>
+                10% Extra with PRO10
+              </h3>
+              <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px 0", lineHeight: 1.5 }}>
+                Apply code <strong style={{ color: "#0f172a" }}>PRO10</strong> at checkout for additional discounts on color batches.
+              </p>
             </div>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: "0.5rem" }}>Buy In Bulk & Save</h3>
-            <p style={{ fontSize: "0.88rem", color: "#666666", marginBottom: "1.25rem" }}>
-              Extra 10% off with coupon code <strong>PRO10</strong> at checkout.
-            </p>
-            <Link href="/shop?category=Hair" className="btn-pill-black" style={{ fontSize: "0.8rem" }}>
-              Shop Hair Color
+            <Link
+              href="/shop?category=Hair"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                backgroundColor: "#0f172a",
+                color: "#ffffff",
+                padding: "8px 16px",
+                borderRadius: "9999px",
+                fontSize: "12px",
+                fontWeight: 700,
+                textDecoration: "none",
+                alignSelf: "flex-start",
+              }}
+            >
+              Shop Hair Colors <ArrowRight size={13} />
             </Link>
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", marginBottom: "1.75rem" }}>
-          <h2 style={{ fontSize: "1.8rem", fontWeight: 800, textTransform: "uppercase", margin: 0 }}>
-            Top Discounted Pro Products
-          </h2>
+        {/* 3. Deal Category Tabs */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <Sparkles size={16} color="#0f172a" />
+            <h2 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+              Top Discounted Formulations
+            </h2>
+          </div>
 
-          {/* Deal Category Tabs */}
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
             {[
               { id: "all", label: "All Pro Deals" },
-              { id: "Hair", label: "Hair & Color" },
-              { id: "Tools", label: "Tools & Stylers" },
-              { id: "Beauty", label: "Skincare" },
+              { id: "Hair", label: "Hair & Color (20%+)" },
+              { id: "Tools", label: "Tools & Stylers (20%+)" },
+              { id: "Beauty", label: "Skincare (20%+)" },
               { id: "clearance", label: "🔥 Clearance (40%+ Off)" },
             ].map((tab) => {
               const isActive = activeDealTab === tab.id;
@@ -135,15 +332,18 @@ export default function DealsPage() {
                   key={tab.id}
                   onClick={() => setActiveDealTab(tab.id as any)}
                   style={{
-                    padding: "0.45rem 1rem",
+                    padding: "7px 14px",
                     borderRadius: "9999px",
-                    fontSize: "0.82rem",
+                    fontSize: "12px",
                     fontWeight: 700,
                     cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    backgroundColor: isActive ? "#000000" : "#f5f5f5",
-                    color: isActive ? "#ffffff" : "#444444",
-                    border: isActive ? "1.5px solid #000000" : "1.5px solid #e5e5e5",
+                    transition: "all 0.15s ease",
+                    backgroundColor: isActive ? "#0f172a" : "#ffffff",
+                    color: isActive ? "#ffffff" : "#475569",
+                    border: isActive ? "1px solid #0f172a" : "1px solid #e2e8f0",
+                    boxShadow: isActive
+                      ? "0 2px 8px rgba(15, 23, 42, 0.15)"
+                      : "0 1px 3px rgba(0,0,0,0.02)",
                   }}
                 >
                   {tab.label}
@@ -153,19 +353,52 @@ export default function DealsPage() {
           </div>
         </div>
 
+        {/* 4. Products Grid */}
         {loading ? (
-          <div style={{ textAlign: "center", padding: "4rem" }}>Loading pro deals...</div>
-        ) : (
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+              gap: "1.25rem",
+            }}
+          >
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  height: "340px",
+                  backgroundColor: "#ffffff",
+                  borderRadius: "18px",
+                  border: "1px solid #f0f2f5",
+                }}
+              />
+            ))}
+          </div>
+        ) : dealProducts.length > 0 ? (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))",
+              gap: "1.25rem",
             }}
           >
             {dealProducts.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
+          </div>
+        ) : (
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              border: "1px solid #f0f2f5",
+              padding: "4rem 2rem",
+              textAlign: "center",
+            }}
+          >
+            <p style={{ color: "#64748b", fontSize: "14px" }}>
+              No deals found in this category right now. Check back next Monday!
+            </p>
           </div>
         )}
       </div>
