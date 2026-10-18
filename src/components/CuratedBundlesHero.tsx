@@ -382,7 +382,7 @@ export function CuratedBundlesHero({
                 textShadow: '0 3px 12px rgba(0,0,0,0.25)',
               }}
             >
-              No matter your taste, our ProBox, ProBag or SalonWEAR box gets you a variety of salon essentials.
+              No matter your taste, our ProBox, ProBag or Salon Essentials Crate gets you a variety of salon essentials.
             </p>
 
             {/* Iconic Wide Pill Button (Exact shape & style from screenshot) */}
