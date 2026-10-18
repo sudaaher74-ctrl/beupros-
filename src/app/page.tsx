@@ -1,5 +1,4 @@
 import React from 'react';
-import { TradeNoticeBanner } from '@/components/TradeNoticeBanner';
 import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
 import { ProTradePerksBar } from '@/components/ProTradePerksBar';
 import { SparkleLineup } from '@/components/SparkleLineup';
@@ -13,10 +12,7 @@ import { TradeNewsletterModal } from '@/components/TradeNewsletterModal';
 export default function Home() {
   return (
     <>
-      {/* 1. Trade Notice Top Banner */}
-      <TradeNoticeBanner />
-
-      {/* 2. Brand Hero Section: "CHOOSE YOUR FAVORITE STYLE!" with direct shop CTAs */}
+      {/* 1. Brand Hero Section: "CHOOSE YOUR FAVORITE STYLE!" with direct shop CTAs */}
       <CuratedBundlesHero />
 
       {/* 3. Dark Wholesale Trade Perks Bar */}
