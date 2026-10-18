@@ -3,7 +3,6 @@ import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
 import { ProManifestoBanner } from '@/components/ProManifestoBanner';
 import { ShopByCategory } from '@/components/ShopByCategory';
 import { BrandPartnersShowcase } from '@/components/BrandPartnersShowcase';
-import { TradeNewsletterModal } from '@/components/TradeNewsletterModal';
 
 export default function Home() {
   return (
@@ -29,9 +28,6 @@ export default function Home() {
       <div className="wavy-alternating-band">
         <BrandPartnersShowcase theme="wavy" />
       </div>
-
-      {/* Exclusive 10% Pro Discount Newsletter Modal */}
-      <TradeNewsletterModal />
     </>
   );
 }
