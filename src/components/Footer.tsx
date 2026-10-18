@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
               Our Beauty Community
             </h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.65rem", fontSize: "0.85rem", color: "#a3a3a3" }}>
-              <li><Link href="/shop" style={{ color: "inherit" }}>About Us</Link></li>
+              <li><Link href="/about-us" style={{ color: "inherit" }}>About Us</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>Careers</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>ProRewards Loyalty Program</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>Sell on Marketplace</Link></li>
@@ -37,8 +37,8 @@ export const Footer: React.FC = () => {
               Let Us Help You
             </h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.65rem", fontSize: "0.85rem", color: "#a3a3a3" }}>
-              <li><Link href="/shop" style={{ color: "inherit" }}>FAQs</Link></li>
-              <li><Link href="/shop" style={{ color: "inherit" }}>Contact Us</Link></li>
+              <li><Link href="/contact-us" style={{ color: "inherit" }}>FAQs</Link></li>
+              <li><Link href="/contact-us" style={{ color: "inherit" }}>Contact Us</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>Help Center</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>Shipping & Delivery</Link></li>
               <li><Link href="/shop" style={{ color: "inherit" }}>Returns & Warranties</Link></li>

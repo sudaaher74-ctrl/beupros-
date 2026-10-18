@@ -2,15 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Menu, X, Sparkles, ChevronDown, User, ShieldCheck, Clock } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 
 export const Header: React.FC = () => {
+  const pathname = usePathname();
   const { totalItems, openCart, openSearch, openChat } = useCart();
   const { user, isApproved, isPending } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isShopHovered, setIsShopHovered] = useState(false);
+  const [isCategoriesHovered, setIsCategoriesHovered] = useState(false);
 
   return (
     <header style={{ position: "sticky", top: 0, zIndex: 90, backgroundColor: "#ffffff" }}>
@@ -316,7 +318,7 @@ export const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Secondary Category Menu Bar (Exact SalonCentric tabs) */}
+      {/* Secondary Category Menu Bar (Only 5 Client Items: HOME, SHOP, ABOUT US, CATEGORIES, CONTACT US) */}
       <nav
         style={{
           borderBottom: "1px solid #e5e5e5",
@@ -330,35 +332,89 @@ export const Header: React.FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "2.5rem",
+            gap: "2.75rem",
             padding: "0.75rem 0",
             overflowX: "auto",
           }}
         >
-          {/* SHOP with Megamenu */}
+          {/* 1. HOME */}
+          <Link
+            href="/"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: pathname === "/" ? 800 : 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: pathname === "/" ? "#000000" : "#444444",
+              borderBottom: pathname === "/" ? "2px solid #000000" : "2px solid transparent",
+              padding: "0.3rem 0",
+              transition: "all 0.15s ease",
+            }}
+          >
+            HOME
+          </Link>
+
+          {/* 2. SHOP */}
+          <Link
+            href="/shop"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: pathname === "/shop" || pathname.startsWith("/product/") ? 800 : 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: pathname === "/shop" || pathname.startsWith("/product/") ? "#000000" : "#444444",
+              borderBottom: pathname === "/shop" || pathname.startsWith("/product/") ? "2px solid #000000" : "2px solid transparent",
+              padding: "0.3rem 0",
+              transition: "all 0.15s ease",
+            }}
+          >
+            SHOP
+          </Link>
+
+          {/* 3. ABOUT US */}
+          <Link
+            href="/about-us"
+            style={{
+              fontSize: "0.9rem",
+              fontWeight: pathname.startsWith("/about") ? 800 : 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: pathname.startsWith("/about") ? "#000000" : "#444444",
+              borderBottom: pathname.startsWith("/about") ? "2px solid #000000" : "2px solid transparent",
+              padding: "0.3rem 0",
+              transition: "all 0.15s ease",
+            }}
+          >
+            ABOUT US
+          </Link>
+
+          {/* 4. CATEGORIES (with Megamenu) */}
           <div
             style={{ position: "relative" }}
-            onMouseEnter={() => setIsShopHovered(true)}
-            onMouseLeave={() => setIsShopHovered(false)}
+            onMouseEnter={() => setIsCategoriesHovered(true)}
+            onMouseLeave={() => setIsCategoriesHovered(false)}
           >
             <Link
-              href="/shop"
+              href="/catalogs"
               style={{
                 fontSize: "0.9rem",
-                fontWeight: 700,
+                fontWeight: pathname.startsWith("/catalogs") ? 800 : 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 display: "flex",
                 alignItems: "center",
                 gap: "0.25rem",
                 padding: "0.3rem 0",
+                color: pathname.startsWith("/catalogs") ? "#000000" : "#444444",
+                borderBottom: pathname.startsWith("/catalogs") ? "2px solid #000000" : "2px solid transparent",
+                transition: "all 0.15s ease",
               }}
             >
-              SHOP <ChevronDown size={14} />
+              CATEGORIES <ChevronDown size={14} />
             </Link>
 
-            {/* Mega Dropdown */}
-            {isShopHovered && (
+            {/* Mega Dropdown for Categories */}
+            {isCategoriesHovered && (
               <div
                 style={{
                   position: "absolute",
@@ -379,7 +435,7 @@ export const Header: React.FC = () => {
               >
                 <div>
                   <h4 style={{ fontSize: "0.85rem", fontWeight: 800, textTransform: "uppercase", marginBottom: "0.75rem", borderBottom: "1px solid #eeeeee", paddingBottom: "0.4rem" }}>
-                    Hair
+                    Hair Care & Color
                   </h4>
                   <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem", fontSize: "0.85rem", color: "#444444" }}>
                     <li><Link href="/shop?category=Hair">Shampoos & Conditioners</Link></li>
@@ -407,7 +463,7 @@ export const Header: React.FC = () => {
                     <li><Link href="/shop?category=Tools">Straighteners & Dryers</Link></li>
                     <li><Link href="/shop?category=Tools">Heaters & Warmers</Link></li>
                     <li><Link href="/shop?category=Nails">Nail Extensions & Gels</Link></li>
-                    <li><Link href="/shop?category=Accessories">Salon Towels & Brushes</Link></li>
+                    <li><Link href="/shop?category=Commercial Cans">Commercial Bulk Cans</Link></li>
                   </ul>
                 </div>
                 <div style={{ backgroundColor: "#f9f9f9", padding: "1rem", borderRadius: "6px" }}>
@@ -433,11 +489,11 @@ export const Header: React.FC = () => {
                   </div>
                   <div style={{ marginTop: "1rem" }}>
                     <Link
-                      href="/shop"
+                      href="/catalogs"
                       className="btn-pill-black"
-                      style={{ width: "100%", fontSize: "0.75rem", padding: "0.4rem 0.8rem" }}
+                      style={{ width: "100%", fontSize: "0.75rem", padding: "0.4rem 0.8rem", textAlign: "center" }}
                     >
-                      View All 4,200+
+                      Browse All Categories
                     </Link>
                   </div>
                 </div>
@@ -445,93 +501,21 @@ export const Header: React.FC = () => {
             )}
           </div>
 
+          {/* 5. CONTACT US */}
           <Link
-            href="/brands"
+            href="/contact-us"
             style={{
               fontSize: "0.9rem",
-              fontWeight: 700,
+              fontWeight: pathname.startsWith("/contact") ? 800 : 700,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
+              color: pathname.startsWith("/contact") ? "#000000" : "#444444",
+              borderBottom: pathname.startsWith("/contact") ? "2px solid #000000" : "2px solid transparent",
+              padding: "0.3rem 0",
+              transition: "all 0.15s ease",
             }}
           >
-            BRANDS
-          </Link>
-
-          <Link
-            href="/deals"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              color: "#c91f37",
-            }}
-          >
-            DEALS
-          </Link>
-
-          <Link
-            href="/education"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-            }}
-          >
-            LEARN
-          </Link>
-
-          <Link
-            href="/catalogs"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-            }}
-          >
-            CATALOGS
-          </Link>
-
-          <Link
-            href="/stores"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-            }}
-          >
-            STORES
-          </Link>
-
-          <Link
-            href="/shop"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 700,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-            }}
-          >
-            DISCOVER
-          </Link>
-
-          <Link
-            href="/shop?category=Hair"
-            style={{
-              fontSize: "0.9rem",
-              fontWeight: 800,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.3rem",
-              color: "#000000",
-            }}
-          >
-            HOLIDAY SHOP <Sparkles size={16} color="#d9384e" />
+            CONTACT US
           </Link>
         </div>
       </nav>
@@ -652,17 +636,11 @@ export const Header: React.FC = () => {
             <span style={{ fontSize: "10px", backgroundColor: "#f59e0b", color: "#000", padding: "2px 6px", borderRadius: "4px" }}>PORTAL</span>
           </Link>
           <hr style={{ border: "none", borderTop: "1px solid #eeeeee", margin: "0.2rem 0" }} />
-          <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>SHOP ALL PRODUCTS (4,200+)</Link>
-          <Link href="/brands" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>BRANDS DIRECTORY</Link>
-          <Link href="/deals" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, color: "#c91f37", textTransform: "uppercase" }}>DEALS & PROMOTIONS</Link>
-          <Link href="/education" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>PRO EDUCATION & THE PLAYBOOK</Link>
-          <Link href="/catalogs" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>DIGITAL PRO CATALOGS</Link>
-          <Link href="/stores" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, textTransform: "uppercase" }}>STORES & PRO HUBS</Link>
-          <hr style={{ border: "none", borderTop: "1px solid #eeeeee", margin: "0.2rem 0" }} />
-          <Link href="/shop?category=Hair" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Hair Care & Color</Link>
-          <Link href="/shop?category=Beauty" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Beauty & Skincare</Link>
-          <Link href="/shop?category=Tools" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Tools & Appliances</Link>
-          <Link href="/shop?category=Nails" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 600 }}>Nails & Accessories</Link>
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, fontSize: "0.95rem", textTransform: "uppercase", color: pathname === "/" ? "#e5b95f" : "inherit" }}>HOME</Link>
+          <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, fontSize: "0.95rem", textTransform: "uppercase", color: pathname === "/shop" ? "#e5b95f" : "inherit" }}>SHOP</Link>
+          <Link href="/about-us" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, fontSize: "0.95rem", textTransform: "uppercase", color: pathname.startsWith("/about") ? "#e5b95f" : "inherit" }}>ABOUT US</Link>
+          <Link href="/catalogs" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, fontSize: "0.95rem", textTransform: "uppercase", color: pathname.startsWith("/catalogs") ? "#e5b95f" : "inherit" }}>CATEGORIES</Link>
+          <Link href="/contact-us" onClick={() => setIsMobileMenuOpen(false)} style={{ fontWeight: 700, fontSize: "0.95rem", textTransform: "uppercase", color: pathname.startsWith("/contact") ? "#e5b95f" : "inherit" }}>CONTACT US</Link>
         </div>
       )}
     </header>
