@@ -1,9 +1,8 @@
 import React from 'react';
 import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
 import { ShopByCategory } from '@/components/ShopByCategory';
-import { ProManifestoBanner } from '@/components/ProManifestoBanner';
-import { SalonIsFashion } from '@/components/SalonIsFashion';
-import { ProMasterclasses } from '@/components/ProMasterclasses';
+import { BrandPartnersShowcase } from '@/components/BrandPartnersShowcase';
+import { SalonCommunityGrid } from '@/components/SalonCommunityGrid';
 import { TradeNewsletterModal } from '@/components/TradeNewsletterModal';
 
 export default function Home() {
@@ -15,16 +14,13 @@ export default function Home() {
       {/* 2. Visual 12-Tile Category Grid: Shop By Category (SalonCentric style) */}
       <ShopByCategory />
 
-      {/* 3. Professional Philosophy Quote Manifesto */}
-      <ProManifestoBanner />
+      {/* 3. Official Authorized Brand Partners Showcase */}
+      <BrandPartnersShowcase />
 
-      {/* 4. Stylist Apparel & Workwear: Salon Is Fashion */}
-      <SalonIsFashion />
+      {/* 4. Instagram / Stylist Community Social Grid */}
+      <SalonCommunityGrid />
 
-      {/* 5. Pro Masterclasses & Certification Schedule */}
-      <ProMasterclasses />
-
-      {/* 6. Exclusive 10% Pro Discount Newsletter Modal */}
+      {/* 5. Exclusive 10% Pro Discount Newsletter Modal */}
       <TradeNewsletterModal />
     </>
   );
