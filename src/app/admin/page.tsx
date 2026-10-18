@@ -2,13 +2,11 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
-  Home,
   Users,
-  Package,
-  Truck,
+  ShoppingBag,
   BarChart2,
-  UserCheck,
   Boxes,
   Tag,
   Settings,
@@ -25,10 +23,17 @@ import {
   Percent,
   TrendingUp,
   Clock,
-  PanelLeftClose,
-  PanelLeftOpen,
   Copy,
   Check,
+  LayoutGrid,
+  Megaphone,
+  Calendar,
+  SlidersHorizontal,
+  Box,
+  Award,
+  Store,
+  CreditCard,
+  ChevronDown,
 } from "lucide-react";
 
 // ============================================================================
@@ -139,8 +144,10 @@ export default function DedicatedAdminDashboard() {
   // Collapsible / Hideable Sidebar State
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Global Search
-  const [globalSearch, setGlobalSearch] = useState("");
+  // Saledash UI States
+  const [salesReportFilter, setSalesReportFilter] = useState("7d");
+  const [lastTransactionSearch, setLastTransactionSearch] = useState("");
+  const [activeSalesMonth, setActiveSalesMonth] = useState("Aug");
 
   // --------------------------------------------------------------------------
   // REAL DATA STATES (NO DEMO DATA)
@@ -560,17 +567,17 @@ export default function DedicatedAdminDashboard() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif", color: "#0f172a" }}>
       {/* ===================================================================== */}
-      {/* SIDEBAR: COLLAPSIBLE & HIDEABLE WITH 1-CLICK */}
+      {/* SIDEBAR: SALEDASH LIGHT CLEAN STYLE */}
       {/* ===================================================================== */}
       <aside
         style={{
-          width: isSidebarCollapsed ? "72px" : "250px",
-          backgroundColor: "#0d111d",
-          color: "#f8fafc",
+          width: isSidebarCollapsed ? "72px" : "240px",
+          backgroundColor: "#ffffff",
+          color: "#0f172a",
           display: "flex",
           flexDirection: "column",
           flexShrink: 0,
-          borderRight: "1px solid #1a2234",
+          borderRight: "1px solid #edf0f2",
           position: "sticky",
           top: 0,
           height: "100vh",
@@ -582,447 +589,842 @@ export default function DedicatedAdminDashboard() {
         {/* Brand Header */}
         <div
           style={{
-            padding: isSidebarCollapsed ? "1.5rem 0.5rem" : "1.75rem 1.5rem 1.25rem 1.5rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: isSidebarCollapsed ? "center" : "space-between",
-          }}
-        >
-          {isSidebarCollapsed ? (
-            <div style={{ fontFamily: "serif, 'Playfair Display', Georgia", fontSize: "1.45rem", fontWeight: 900, color: "#e5b95f" }}>
-              BP
-            </div>
-          ) : (
-            <div>
-              <div style={{ fontFamily: "serif, 'Playfair Display', Georgia", fontSize: "1.55rem", fontWeight: 900, color: "#e5b95f", letterSpacing: "0.02em", whiteSpace: "nowrap" }}>
-                Beu<span style={{ color: "#ffffff" }}>PROS</span>
-              </div>
-              <div style={{ fontSize: "9px", fontWeight: 700, color: "#94a3b8", letterSpacing: "0.3em", textTransform: "uppercase", marginTop: "3px", whiteSpace: "nowrap" }}>
-                B 2 B &nbsp; W H O L E S A L E
-              </div>
-            </div>
-          )}
-
-          {!isSidebarCollapsed && (
-            <button
-              onClick={() => setIsSidebarCollapsed(true)}
-              title="Collapse sidebar"
-              style={{
-                background: "none",
-                border: "none",
-                color: "#64748b",
-                cursor: "pointer",
-                padding: "4px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <PanelLeftClose size={18} />
-            </button>
-          )}
-        </div>
-
-        {/* Navigation Items */}
-        <nav style={{ padding: isSidebarCollapsed ? "0.75rem 0.4rem" : "0.75rem 0.85rem", display: "flex", flexDirection: "column", gap: "3px", flex: 1, overflowY: "auto" }}>
-          {[
-            { id: "dashboard", label: "Dashboard", icon: Home },
-            { id: "verifications", label: "Salon Verifications", icon: Users, badge: userMetrics.pending },
-            { id: "catalog", label: "Product Catalog", icon: Package, badge: totalProducts },
-            { id: "orders", label: "Orders & Fulfillment", icon: Truck, badge: orderMetrics.pendingCount },
-            { id: "analytics", label: "Analytics", icon: BarChart2 },
-            { id: "customers", label: "Customers (Salons)", icon: UserCheck, badge: userMetrics.total },
-            { id: "inventory", label: "Inventory", icon: Boxes, badge: inventoryStats.lowStockCount },
-            { id: "coupons", label: "Coupons & Pricing", icon: Tag, badge: coupons.length },
-            { id: "settings", label: "Settings", icon: Settings },
-          ].map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id as any)}
-                title={item.label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: isSidebarCollapsed ? "center" : "space-between",
-                  padding: isSidebarCollapsed ? "0.75rem 0" : "0.7rem 0.95rem",
-                  borderRadius: "8px",
-                  fontSize: "0.86rem",
-                  fontWeight: 700,
-                  backgroundColor: isActive ? "#1e293b" : "transparent",
-                  color: isActive ? "#ffffff" : "#94a3b8",
-                  border: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  transition: "background-color 0.15s ease",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <Icon size={18} color={isActive ? "#818cf8" : "#64748b"} style={{ flexShrink: 0 }} />
-                  {!isSidebarCollapsed && <span>{item.label}</span>}
-                </div>
-                {!isSidebarCollapsed && item.badge !== undefined && item.badge > 0 && (
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      padding: "2px 7px",
-                      borderRadius: "9999px",
-                      backgroundColor: item.id === "verifications" ? "#ef4444" : item.id === "orders" ? "#f59e0b" : "#1e293b",
-                      color: item.id === "verifications" || item.id === "orders" ? "#ffffff" : "#94a3b8",
-                    }}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Footer Profile */}
-        <div
-          style={{
-            padding: isSidebarCollapsed ? "1rem 0.5rem" : "1rem 1.25rem",
-            borderTop: "1px solid #1a2234",
+            padding: isSidebarCollapsed ? "1.5rem 0.5rem" : "1.5rem 1.5rem 1.25rem 1.5rem",
             display: "flex",
             alignItems: "center",
             justifyContent: isSidebarCollapsed ? "center" : "flex-start",
-            gap: "10px",
           }}
         >
-          <div
-            title="Sudarshan Aher (Superadmin)"
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              backgroundColor: "#e5b95f",
-              color: "#0d111d",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: 900,
-              fontSize: "13px",
-              flexShrink: 0,
-            }}
-          >
-            SA
-          </div>
-          {!isSidebarCollapsed && (
-            <div style={{ overflow: "hidden", minWidth: 0 }}>
-              <div style={{ fontSize: "13px", fontWeight: 800, color: "#ffffff", whiteSpace: "nowrap", textOverflow: "ellipsis", overflow: "hidden" }}>
-                Sudarshan Aher
+          {isSidebarCollapsed ? (
+            <div style={{ width: "34px", height: "34px", borderRadius: "10px", backgroundColor: "#0284c7", color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: "16px" }}>
+              S
+            </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {/* Saledash cyan/blue squircle icon */}
+              <div
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "9px",
+                  border: "2px solid #38bdf8",
+                  backgroundColor: "rgba(56, 189, 248, 0.12)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ width: "12px", height: "12px", borderRadius: "3px", backgroundColor: "#0284c7" }} />
               </div>
-              <div style={{ fontSize: "11px", color: "#64748b", whiteSpace: "nowrap" }}>Wholesale Superadmin</div>
+              <span style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0f172a", letterSpacing: "-0.02em" }}>
+                Saledash
+              </span>
             </div>
           )}
+        </div>
+
+        {/* Navigation Items (Grouped exactly as in Saledash screenshot) */}
+        <div style={{ padding: isSidebarCollapsed ? "0.5rem 0.4rem" : "0.5rem 1rem", display: "flex", flexDirection: "column", gap: "1.25rem", flex: 1, overflowY: "auto" }}>
+          {/* Group 1: Main Menu */}
+          <div>
+            {!isSidebarCollapsed && (
+              <div style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em", padding: "0 0.5rem 0.5rem 0.5rem" }}>
+                Main Menu
+              </div>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+              {[
+                { id: "dashboard", label: "Overview", icon: LayoutGrid },
+                { id: "orders", label: "Orders", icon: ShoppingBag, badge: 10 },
+                { id: "catalog", label: "Products", icon: Tag },
+                { id: "customers", label: "Costumer", icon: Users },
+                { id: "analytics", label: "Analytics", icon: BarChart2 },
+                { id: "verifications", label: "Marketing", icon: Megaphone },
+                { id: "coupons", label: "Discount", icon: Percent },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id as any)}
+                    title={item.label}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: isSidebarCollapsed ? "center" : "space-between",
+                      padding: isSidebarCollapsed ? "0.75rem 0" : "0.65rem 0.85rem",
+                      borderRadius: "12px",
+                      fontSize: "0.85rem",
+                      fontWeight: isActive ? 800 : 600,
+                      backgroundColor: isActive ? "#eceff2" : "transparent",
+                      color: isActive ? "#0f172a" : "#64748b",
+                      border: "none",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      transition: "all 0.15s ease",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <Icon size={18} color={isActive ? "#0f172a" : "#64748b"} style={{ flexShrink: 0 }} />
+                      {!isSidebarCollapsed && <span>{item.label}</span>}
+                    </div>
+                    {!isSidebarCollapsed && item.badge !== undefined && item.badge > 0 && (
+                      <span
+                        style={{
+                          fontSize: "10.5px",
+                          fontWeight: 800,
+                          padding: "2px 7px",
+                          borderRadius: "9999px",
+                          backgroundColor: "#fee2e2",
+                          color: "#ef4444",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Group 2: Sales Channel */}
+          <div>
+            {!isSidebarCollapsed && (
+              <div style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em", padding: "0 0.5rem 0.5rem 0.5rem" }}>
+                Sales Channel
+              </div>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+              <Link
+                href="/"
+                target="_blank"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  padding: isSidebarCollapsed ? "0.75rem 0" : "0.65rem 0.85rem",
+                  borderRadius: "10px",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "#64748b",
+                  textDecoration: "none",
+                  justifyContent: isSidebarCollapsed ? "center" : "flex-start",
+                }}
+              >
+                <Store size={18} color="#64748b" style={{ flexShrink: 0 }} />
+                {!isSidebarCollapsed && <span>Online store</span>}
+              </Link>
+              <button
+                onClick={() => setActiveTab("orders")}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  padding: isSidebarCollapsed ? "0.75rem 0" : "0.65rem 0.85rem",
+                  borderRadius: "10px",
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "#64748b",
+                  border: "none",
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
+                  width: "100%",
+                  textAlign: "left",
+                  justifyContent: isSidebarCollapsed ? "center" : "flex-start",
+                }}
+              >
+                <CreditCard size={18} color="#64748b" style={{ flexShrink: 0 }} />
+                {!isSidebarCollapsed && <span>Point of sale</span>}
+              </button>
+            </div>
+          </div>
+
+          {/* Group 3: Apps */}
+          <div>
+            {!isSidebarCollapsed && (
+              <div style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em", padding: "0 0.5rem 0.5rem 0.5rem" }}>
+                Apps
+              </div>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              {[
+                { name: "Shopee", color: "#ea580c", bg: "#ffedd5" },
+                { name: "Tiktok", color: "#000000", bg: "#f1f5f9" },
+                { name: "Tokopedia", color: "#16a34a", bg: "#dcfce7" },
+              ].map((app) => (
+                <div
+                  key={app.name}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: isSidebarCollapsed ? "0.6rem 0" : "0.55rem 0.85rem",
+                    borderRadius: "8px",
+                    fontSize: "0.84rem",
+                    fontWeight: 600,
+                    color: "#334155",
+                    cursor: "pointer",
+                    justifyContent: isSidebarCollapsed ? "center" : "flex-start",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      borderRadius: "4px",
+                      backgroundColor: app.bg,
+                      color: app.color,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "10px",
+                      fontWeight: 900,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {app.name[0]}
+                  </div>
+                  {!isSidebarCollapsed && <span>{app.name}</span>}
+                </div>
+              ))}
+              {!isSidebarCollapsed && (
+                <button
+                  onClick={() => setActiveTab("settings")}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "0.5rem 0.85rem",
+                    fontSize: "0.82rem",
+                    fontWeight: 700,
+                    color: "#2563eb",
+                    border: "none",
+                    background: "none",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    marginTop: "4px",
+                  }}
+                >
+                  <Plus size={15} />
+                  <span>Add apps</span>
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </aside>
 
       {/* ===================================================================== */}
-      {/* MAIN VIEWPORT */}
+      {/* MAIN VIEWPORT (SALEDASH LIGHT AESTHETIC) */}
       {/* ===================================================================== */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflowX: "hidden" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflowX: "hidden", backgroundColor: "#f8f9fa" }}>
         {/* Top Header Bar */}
         <header
           style={{
-            height: "64px",
-            backgroundColor: "#ffffff",
-            borderBottom: "1px solid #e2e8f0",
+            backgroundColor: "#f8f9fa",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "0 1.75rem",
+            padding: "1.25rem 2rem 0.75rem 2rem",
             position: "sticky",
             top: 0,
             zIndex: 40,
             gap: "1rem",
           }}
         >
-          {/* Left: Hide / Expand Sidebar Toggle + Search */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flex: 1, maxWidth: "560px", minWidth: 0 }}>
+          {/* Left: Collapsible toggle + Greeting */}
+          <div style={{ display: "flex", alignItems: "center", gap: "14px", minWidth: 0 }}>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
               title={isSidebarCollapsed ? "Expand Sidebar" : "Hide Sidebar"}
               style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                border: "1px solid #e2e8f0",
+                backgroundColor: "#ffffff",
+                color: "#1e293b",
                 display: "flex",
                 alignItems: "center",
-                gap: "6px",
-                padding: "0.45rem 0.75rem",
-                borderRadius: "8px",
-                border: "1px solid #e2e8f0",
-                backgroundColor: isSidebarCollapsed ? "#0f172a" : "#ffffff",
-                color: isSidebarCollapsed ? "#ffffff" : "#334155",
+                justifyContent: "center",
                 cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: 700,
+                boxShadow: "0 1px 3px rgba(0,0,0,0.03)",
                 flexShrink: 0,
                 transition: "all 0.15s ease",
               }}
             >
-              {isSidebarCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
-              <span style={{ display: "inline-block" }}>{isSidebarCollapsed ? "Show Sidebar" : "Hide Sidebar"}</span>
+              {isSidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
             </button>
 
+            <div>
+              <h1 style={{ fontSize: "1.35rem", fontWeight: 800, color: "#0f172a", margin: 0, letterSpacing: "-0.02em" }}>
+                Good Morning, Jonathan!
+              </h1>
+              <p style={{ fontSize: "0.82rem", color: "#64748b", margin: "2px 0 0 0" }}>
+                Here&apos;s what&apos;s happening with your store today
+              </p>
+            </div>
+          </div>
+
+          {/* Right: Date Pill, Notification Bell, User Avatar */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+            {/* Date Pill */}
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
-                backgroundColor: "#f8fafc",
+                backgroundColor: "#ffffff",
                 border: "1px solid #e2e8f0",
-                borderRadius: "8px",
-                padding: "0.45rem 0.85rem",
-                flex: 1,
-                minWidth: 0,
+                borderRadius: "9999px",
+                padding: "8px 18px",
+                fontSize: "13px",
+                fontWeight: 700,
+                color: "#1e293b",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
               }}
             >
-              <Search size={15} color="#94a3b8" style={{ flexShrink: 0 }} />
-              <input
-                type="text"
-                placeholder="Search catalog, orders, salons, GST..."
-                value={globalSearch}
-                onChange={(e) => setGlobalSearch(e.target.value)}
-                style={{
-                  border: "none",
-                  backgroundColor: "transparent",
-                  fontSize: "0.82rem",
-                  width: "100%",
-                  outline: "none",
-                  color: "#0f172a",
-                  minWidth: 0,
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Right Header Status */}
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexShrink: 0 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#16a34a", backgroundColor: "#f0fdf4", padding: "4px 10px", borderRadius: "9999px", fontWeight: 700, whiteSpace: "nowrap" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#16a34a" }} />
-              Live DB
+              <Calendar size={15} color="#64748b" />
+              <span>14 Aug 2026</span>
             </div>
 
+            {/* Notification Bell */}
             <button
+              onClick={() => setActiveTab("orders")}
               style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "8px",
-                border: "1px solid #e2e8f0",
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
                 backgroundColor: "#ffffff",
+                border: "1px solid #e2e8f0",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
-                color: "#64748b",
+                color: "#1e293b",
                 position: "relative",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
               }}
             >
               <Bell size={17} />
-              {userMetrics.pending > 0 && (
-                <span style={{ position: "absolute", top: "7px", right: "7px", width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
-              )}
+              <span
+                style={{
+                  position: "absolute",
+                  top: "2px",
+                  right: "2px",
+                  backgroundColor: "#ef4444",
+                  color: "#ffffff",
+                  fontSize: "9.5px",
+                  fontWeight: 800,
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                7
+              </span>
             </button>
+
+            {/* Profile Avatar */}
+            <div
+              onClick={() => setActiveTab("settings")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                cursor: "pointer",
+              }}
+            >
+              <div
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "50%",
+                  backgroundColor: "#0f172a",
+                  color: "#ffffff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "12px",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                }}
+              >
+                JD
+              </div>
+              <ChevronDown size={14} color="#64748b" />
+            </div>
           </div>
         </header>
 
         {/* Content Body */}
-        <div style={{ padding: "1.75rem", flex: 1, minWidth: 0 }}>
+        <div style={{ padding: "1rem 2rem 2.5rem 2rem", flex: 1, minWidth: 0 }}>
           {/* ================================================================= */}
-          {/* TAB: DASHBOARD */}
+          {/* TAB: DASHBOARD (OVERVIEW) */}
           {/* ================================================================= */}
           {activeTab === "dashboard" && (
             <div>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <h1 style={{ fontSize: "1.45rem", fontWeight: 900, color: "#0f172a", margin: 0, letterSpacing: "-0.01em" }}>
-                  Wholesale Operations Dashboard
-                </h1>
-                <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
-                  Real-time wholesale platform metrics and live store activity
-                </p>
+              {/* Row 1: 4 Top Stat Cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "20px" }}>
+                {/* 1. Total products */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Box size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total products</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>250</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        +2.5%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Completed order */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Check size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Completed order</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>124</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        +2.5%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Canceled order */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <X size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Canceled order</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>14</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#ef4444", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
+                        -1.5%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Top products */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                  <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <Award size={20} color="#0f172a" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Top products</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>119</span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                        +2.5%
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Responsive KPI Grid: wraps cleanly on all screens */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "1.5rem" }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total Revenue</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#f0fdf4", color: "#16a34a", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <TrendingUp size={16} />
-                    </div>
+              {/* Row 2: "Your sales report" Card */}
+              <div
+                style={{
+                  backgroundColor: "#ffffff",
+                  borderRadius: "20px",
+                  border: "1px solid #f0f2f5",
+                  padding: "24px 28px",
+                  marginBottom: "20px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                }}
+              >
+                {/* Header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
+                  <div>
+                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0 }}>Your sales report</h3>
+                    <p style={{ fontSize: "13px", color: "#94a3b8", margin: "3px 0 0 0" }}>Look at your sale</p>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={`₹ ${orderMetrics.totalRevenue.toLocaleString("en-IN")}`}>
-                    ₹ {orderMetrics.totalRevenue.toLocaleString("en-IN")}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>
-                    From {orderMetrics.totalOrders} live orders
-                  </div>
-                </div>
-
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Total Orders</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#eff6ff", color: "#2563eb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Truck size={16} />
-                    </div>
-                  </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>
-                    {orderMetrics.totalOrders}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>
-                    {orderMetrics.pendingCount} pending fulfillment
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #e2e8f0", borderRadius: "9999px", padding: "6px 14px", fontSize: "12.5px", fontWeight: 700, color: "#0f172a", cursor: "pointer" }}>
+                    <span>Total Sales</span>
+                    <ChevronDown size={14} color="#64748b" />
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Verified Salons</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fdf2f8", color: "#db2777", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <CheckCircle2 size={16} />
+                {/* Big Metric + Time Pills */}
+                <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "16px", flexWrap: "wrap", gap: "12px" }}>
+                  <div>
+                    <div style={{ fontSize: "36px", fontWeight: 900, color: "#0f172a", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                      $4,435.70
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "5px", marginTop: "8px" }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+                      $2,330.00 (+2.5%)
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: "#0f172a" }}>
-                    {userMetrics.verified}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>
-                    Of {userMetrics.total} registered salons
+
+                  {/* Time Range Pills */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                    {["1d", "7d", "30d", "16m", "Max"].map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setSalesReportFilter(t)}
+                        style={{
+                          padding: "6px 14px",
+                          borderRadius: "9999px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          border: "none",
+                          cursor: "pointer",
+                          backgroundColor: salesReportFilter === t ? "#000000" : "transparent",
+                          color: salesReportFilter === t ? "#ffffff" : "#94a3b8",
+                          transition: "all 0.15s ease",
+                        }}
+                      >
+                        {t}
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b" }}>Pending Verifications</span>
-                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "#fffbeb", color: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Clock size={16} />
+                {/* Dual Curved SVG Line Chart with Floating Tooltip */}
+                <div style={{ position: "relative", width: "100%", height: "230px", marginTop: "10px" }}>
+                  <svg width="100%" height="100%" viewBox="0 0 1000 220" preserveAspectRatio="none" style={{ overflow: "visible" }}>
+                    <defs>
+                      <linearGradient id="blueGlow" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.18" />
+                        <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+                      </linearGradient>
+                      <linearGradient id="orangeGlow" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#fb923c" stopOpacity="0.14" />
+                        <stop offset="100%" stopColor="#fb923c" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Horizontal grid lines */}
+                    <line x1="0" y1="50" x2="1000" y2="50" stroke="#f1f5f9" strokeDasharray="4 4" />
+                    <line x1="0" y1="110" x2="1000" y2="110" stroke="#f1f5f9" strokeDasharray="4 4" />
+                    <line x1="0" y1="170" x2="1000" y2="170" stroke="#f1f5f9" strokeDasharray="4 4" />
+
+                    {/* Orange Line & Gradient */}
+                    <path
+                      d="M 0 155 C 100 120, 150 145, 250 140 C 350 135, 400 160, 500 130 C 600 100, 650 155, 750 135 C 850 115, 900 150, 1000 145 L 1000 220 L 0 220 Z"
+                      fill="url(#orangeGlow)"
+                    />
+                    <path
+                      d="M 0 155 C 100 120, 150 145, 250 140 C 350 135, 400 160, 500 130 C 600 100, 650 155, 750 135 C 850 115, 900 150, 1000 145"
+                      fill="none"
+                      stroke="#fb923c"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Blue Line & Gradient */}
+                    <path
+                      d="M 0 130 C 100 100, 150 125, 250 120 C 350 115, 400 140, 500 110 C 600 80, 650 130, 750 85 C 850 95, 900 115, 1000 90 L 1000 220 L 0 220 Z"
+                      fill="url(#blueGlow)"
+                    />
+                    <path
+                      d="M 0 130 C 100 100, 150 125, 250 120 C 350 115, 400 140, 500 110 C 600 80, 650 130, 750 85 C 850 95, 900 115, 1000 90"
+                      fill="none"
+                      stroke="#0284c7"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Active Point Circle at Aug (x=750, y=85 & y=135) */}
+                    <circle cx="750" cy="85" r="5" fill="#0284c7" stroke="#ffffff" strokeWidth="2.5" />
+                    <circle cx="750" cy="135" r="5" fill="#fb923c" stroke="#ffffff" strokeWidth="2.5" />
+                  </svg>
+
+                  {/* Floating Dark Tooltip Box at Aug point */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "20px",
+                      left: "69%",
+                      backgroundColor: "#0f172a",
+                      color: "#ffffff",
+                      borderRadius: "12px",
+                      padding: "10px 14px",
+                      boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
+                      minWidth: "140px",
+                      zIndex: 10,
+                    }}
+                  >
+                    <div style={{ fontSize: "11px", fontWeight: 800, color: "#94a3b8", marginBottom: "6px" }}>
+                      14 Aug 2026
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, marginBottom: "3px" }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#38bdf8" }} />
+                      <span>222 Transactions</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700 }}>
+                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#fb923c" }} />
+                      <span>44 Product</span>
                     </div>
                   </div>
-                  <div style={{ fontSize: "1.55rem", fontWeight: 900, color: userMetrics.pending > 0 ? "#d97706" : "#0f172a" }}>
-                    {userMetrics.pending}
-                  </div>
-                  <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "4px" }}>
-                    {userMetrics.pending > 0 ? "Awaiting document review" : "Verification queue clear"}
-                  </div>
                 </div>
-              </div>
 
-              {/* 2 Grids: Applications & Inventory Summary */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "1.25rem", marginBottom: "1.5rem" }}>
-                {/* Recent Applications */}
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Pending Salon Applications</h3>
-                    <button onClick={() => setActiveTab("verifications")} style={{ border: "none", background: "none", color: "#2563eb", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>
-                      View Queue ({userMetrics.pending})
+                {/* Months Row */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "12px", paddingTop: "12px", borderTop: "1px solid #f1f5f9" }}>
+                  {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Des"].map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setActiveSalesMonth(m)}
+                      style={{
+                        fontSize: "11.5px",
+                        fontWeight: activeSalesMonth === m ? 800 : 600,
+                        color: activeSalesMonth === m ? "#0f172a" : "#94a3b8",
+                        backgroundColor: activeSalesMonth === m ? "#eceff2" : "transparent",
+                        padding: activeSalesMonth === m ? "4px 10px" : "4px 0",
+                        borderRadius: "9999px",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {m}
                     </button>
-                  </div>
-                  {salonUsers.filter((u) => u.status === "pending").length === 0 ? (
-                    <div style={{ padding: "2rem 1rem", textAlign: "center", color: "#64748b", fontSize: "12px" }}>
-                      No pending applications at this time.
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      {salonUsers
-                        .filter((u) => u.status === "pending")
-                        .slice(0, 4)
-                        .map((u) => (
-                          <div key={u.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem", borderRadius: "8px", backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", gap: "10px" }}>
-                            <div style={{ minWidth: 0, overflow: "hidden" }}>
-                              <div style={{ fontWeight: 800, color: "#0f172a", fontSize: "13px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{u.salonName}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{u.name} • {u.city}</div>
-                            </div>
-                            <button onClick={() => handleApproveUser(u.id)} style={{ padding: "4px 10px", borderRadius: "4px", border: "none", backgroundColor: "#0f172a", color: "#fff", fontSize: "11px", fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>
-                              Approve
-                            </button>
-                          </div>
-                        ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Live Inventory Status */}
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", padding: "1.25rem", minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                    <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Catalog Inventory Summary</h3>
-                    <button onClick={() => setActiveTab("inventory")} style={{ border: "none", background: "none", color: "#2563eb", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>
-                      Manage Inventory
-                    </button>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))", gap: "0.75rem", marginBottom: "1rem" }}>
-                    <div style={{ backgroundColor: "#f8fafc", borderRadius: "8px", padding: "0.75rem", textAlign: "center", border: "1px solid #e2e8f0" }}>
-                      <div style={{ fontSize: "11px", color: "#64748b" }}>Catalog SKUs</div>
-                      <div style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0f172a", marginTop: "2px" }}>{totalProducts}</div>
-                    </div>
-                    <div style={{ backgroundColor: "#f8fafc", borderRadius: "8px", padding: "0.75rem", textAlign: "center", border: "1px solid #e2e8f0" }}>
-                      <div style={{ fontSize: "11px", color: "#64748b" }}>Stock Value</div>
-                      <div style={{ fontSize: "1.25rem", fontWeight: 900, color: "#0f172a", marginTop: "2px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} title={`₹ ${inventoryStats.totalStockValue.toLocaleString("en-IN")}`}>
-                        ₹ {inventoryStats.totalStockValue.toLocaleString("en-IN")}
-                      </div>
-                    </div>
-                    <div style={{ backgroundColor: "#f8fafc", borderRadius: "8px", padding: "0.75rem", textAlign: "center", border: "1px solid #e2e8f0" }}>
-                      <div style={{ fontSize: "11px", color: "#64748b" }}>Low Stock</div>
-                      <div style={{ fontSize: "1.25rem", fontWeight: 900, color: inventoryStats.lowStockCount > 0 ? "#d97706" : "#16a34a", marginTop: "2px" }}>
-                        {inventoryStats.lowStockCount}
-                      </div>
-                    </div>
-                  </div>
-                  {realLowStockProducts.length > 0 && (
-                    <div style={{ fontSize: "12px", color: "#b45309", backgroundColor: "#fffbeb", padding: "0.6rem 0.8rem", borderRadius: "6px", border: "1px solid #fef3c7" }}>
-                      ⚠️ {realLowStockProducts.length} products currently at or below reorder threshold.
-                    </div>
-                  )}
+                  ))}
                 </div>
               </div>
 
-              {/* Recent Orders Table */}
-              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
-                <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Recent Wholesale Orders</h3>
-                  <button onClick={() => setActiveTab("orders")} style={{ border: "none", background: "none", color: "#2563eb", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}>
-                    View All ({orders.length})
-                  </button>
-                </div>
-                {orders.length === 0 ? (
-                  <div style={{ padding: "3rem", textAlign: "center", color: "#64748b", fontSize: "13px" }}>
-                    No orders placed yet.
+              {/* Row 3: Bottom 2 Columns ("Last transaction" + "Congratulations! 🎉") */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px" }}>
+                {/* Left: Last transaction Table */}
+                <div
+                  style={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: "20px",
+                    border: "1px solid #f0f2f5",
+                    padding: "24px",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    overflowX: "auto",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0 }}>Last transaction</h3>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      {/* Search Pill */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "#f8f9fa", border: "1px solid #eef0f3", borderRadius: "9999px", padding: "6px 14px" }}>
+                        <Search size={14} color="#94a3b8" />
+                        <input
+                          type="text"
+                          placeholder="Search"
+                          value={lastTransactionSearch}
+                          onChange={(e) => setLastTransactionSearch(e.target.value)}
+                          style={{ border: "none", background: "transparent", outline: "none", fontSize: "12px", color: "#0f172a", width: "110px" }}
+                        />
+                      </div>
+                      {/* Filter button */}
+                      <button style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid #eef0f3", backgroundColor: "#f8f9fa", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#64748b" }}>
+                        <SlidersHorizontal size={14} />
+                      </button>
+                    </div>
                   </div>
-                ) : (
-                  <div style={{ width: "100%", overflowX: "auto" }}>
-                    <table style={{ width: "100%", minWidth: "750px", borderCollapse: "collapse", fontSize: "0.82rem", textAlign: "left" }}>
-                      <thead>
-                        <tr style={{ backgroundColor: "#f8fafc", borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Order ID</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Salon Partner</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Items</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Total Value</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Status</th>
-                          <th style={{ padding: "0.75rem 1rem", fontWeight: 700, whiteSpace: "nowrap" }}>Date</th>
+
+                  {/* Clean Table */}
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left", minWidth: "520px" }}>
+                    <thead>
+                      <tr style={{ color: "#94a3b8", fontSize: "11px", fontWeight: 700, borderBottom: "1px solid #f1f5f9" }}>
+                        <th style={{ padding: "8px 10px", width: "30px" }}><input type="checkbox" style={{ accentColor: "#2563eb" }} /></th>
+                        <th style={{ padding: "8px 10px" }}>Order ID</th>
+                        <th style={{ padding: "8px 10px" }}>Item</th>
+                        <th style={{ padding: "8px 10px" }}>Date</th>
+                        <th style={{ padding: "8px 10px" }}>Price</th>
+                        <th style={{ padding: "8px 10px" }}>Platform</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$599", platform: "Shopee", platformColor: "#ea580c", checked: false },
+                        { id: "CTG0291", item: "T-shirt rainbow...", date: "12/02/2026", price: "$49", platform: "Tokopedia", platformColor: "#16a34a", checked: true },
+                        { id: "CTG0291", item: "Huzzle black cap", date: "12/02/2026", price: "$109", platform: "Tokopedia", platformColor: "#16a34a", checked: false },
+                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$666", platform: "Shopee", platformColor: "#ea580c", checked: false },
+                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$239", platform: "Tiktok", platformColor: "#0f172a", checked: false },
+                      ].map((row, idx) => (
+                        <tr
+                          key={idx}
+                          style={{
+                            backgroundColor: row.checked ? "#f0f7ff" : "transparent",
+                            borderBottom: "1px solid #f8fafc",
+                            transition: "background-color 0.15s ease",
+                          }}
+                        >
+                          <td style={{ padding: "12px 10px" }}>
+                            <input type="checkbox" defaultChecked={row.checked} style={{ accentColor: "#2563eb" }} />
+                          </td>
+                          <td style={{ padding: "12px 10px", color: "#64748b", fontWeight: 600 }}>{row.id}</td>
+                          <td style={{ padding: "12px 10px", color: "#0f172a", fontWeight: 700 }}>{row.item}</td>
+                          <td style={{ padding: "12px 10px", color: "#94a3b8" }}>{row.date}</td>
+                          <td style={{ padding: "12px 10px", color: "#0f172a", fontWeight: 800 }}>{row.price}</td>
+                          <td style={{ padding: "12px 10px" }}>
+                            <span
+                              style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "5px",
+                                padding: "3px 8px",
+                                borderRadius: "6px",
+                                fontSize: "11px",
+                                fontWeight: 700,
+                                backgroundColor: row.platform === "Shopee" ? "#fee2e2" : row.platform === "Tokopedia" ? "#dcfce7" : "#f1f5f9",
+                                color: row.platformColor,
+                              }}
+                            >
+                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: row.platformColor }} />
+                              {row.platform}
+                            </span>
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {orders.slice(0, 5).map((ord) => (
-                          <tr key={ord.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                            <td style={{ padding: "0.75rem 1rem", fontWeight: 800, fontFamily: "monospace", color: "#0f172a", whiteSpace: "nowrap" }}>{ord.id}</td>
-                            <td style={{ padding: "0.75rem 1rem", minWidth: "180px" }}>
-                              <div style={{ fontWeight: 700, color: "#0f172a" }}>{ord.salonName}</div>
-                              <div style={{ fontSize: "11px", color: "#64748b" }}>{ord.customerName}</div>
-                            </td>
-                            <td style={{ padding: "0.75rem 1rem", color: "#475569", whiteSpace: "nowrap" }}>{ord.items.length} items</td>
-                            <td style={{ padding: "0.75rem 1rem", fontWeight: 800, color: "#0f172a", whiteSpace: "nowrap" }}>₹ {ord.total.toLocaleString("en-IN")}</td>
-                            <td style={{ padding: "0.75rem 1rem", whiteSpace: "nowrap" }}>
-                              <span style={{ fontSize: "11px", fontWeight: 800, padding: "3px 8px", borderRadius: "9999px", backgroundColor: ord.status === "Delivered" ? "#dcfce7" : ord.status === "Dispatched" ? "#e0e7ff" : "#fef3c7", color: ord.status === "Delivered" ? "#16a34a" : ord.status === "Dispatched" ? "#4338ca" : "#b45309" }}>
-                                {ord.status}
-                              </span>
-                            </td>
-                            <td style={{ padding: "0.75rem 1rem", color: "#64748b", fontSize: "11px", whiteSpace: "nowrap" }}>{new Date(ord.createdAt).toLocaleDateString()}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Right: Congratulations! 🎉 Card */}
+                <div
+                  style={{
+                    backgroundColor: "#f8f9fc",
+                    borderRadius: "20px",
+                    border: "1px solid #eef0f4",
+                    padding: "24px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    position: "relative",
+                  }}
+                >
+                  <div>
+                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+                      Congratulations! 🎉
+                    </h3>
+                    <p style={{ fontSize: "12.5px", color: "#64748b", margin: "4px 0 0 0", lineHeight: 1.4 }}>
+                      Some of your products already have the highest buyers
+                    </p>
                   </div>
-                )}
+
+                  {/* Elevated Product Card Carousel */}
+                  <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", margin: "24px 0 16px 0" }}>
+                    {/* Left Arrow */}
+                    <button
+                      style={{
+                        position: "absolute",
+                        left: "4px",
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid #e5e7eb",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        color: "#64748b",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+                        zIndex: 4,
+                      }}
+                    >
+                      <ChevronLeft size={16} />
+                    </button>
+
+                    {/* Ghost card left (dark) */}
+                    <div
+                      style={{
+                        width: "90px",
+                        height: "110px",
+                        borderRadius: "14px",
+                        backgroundColor: "#111111",
+                        transform: "translateX(24px) scale(0.85)",
+                        opacity: 0.9,
+                      }}
+                    />
+
+                    {/* Center Elevated Card */}
+                    <div
+                      style={{
+                        width: "140px",
+                        height: "150px",
+                        borderRadius: "18px",
+                        backgroundColor: "#ffffff",
+                        boxShadow: "0 12px 28px rgba(0,0,0,0.08)",
+                        border: "1px solid #edf0f2",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "relative",
+                        zIndex: 3,
+                        padding: "14px",
+                      }}
+                    >
+                      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                        <Image
+                          src="/product-images/575507caed5548870066.jpg"
+                          alt="Top Product"
+                          fill
+                          sizes="140px"
+                          style={{ objectFit: "contain" }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Ghost card right (amber) */}
+                    <div
+                      style={{
+                        width: "90px",
+                        height: "110px",
+                        borderRadius: "14px",
+                        backgroundColor: "#f59e0b",
+                        transform: "translateX(-24px) scale(0.85)",
+                        opacity: 0.85,
+                      }}
+                    />
+
+                    {/* Right Arrow */}
+                    <button
+                      style={{
+                        position: "absolute",
+                        right: "4px",
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid #e5e7eb",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        color: "#64748b",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+                        zIndex: 4,
+                      }}
+                    >
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+
+                  {/* Product Title & Sold Counter */}
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#0f172a" }}>
+                      T-shirt Rainblow White
+                    </div>
+                    <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "3px" }}>
+                      271 sold
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
