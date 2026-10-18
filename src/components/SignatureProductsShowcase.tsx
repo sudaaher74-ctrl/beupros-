@@ -1,18 +1,20 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, Eye, Star } from 'lucide-react';
+import { ShoppingBag, Eye, Check, Star } from 'lucide-react';
 import { Product } from '@/types/product';
 
-const SIGNATURE_PRODUCTS = [
+const SIGNATURE_PRODUCTS: (Product & { subtitle: string; tag: string })[] = [
   {
     id: '830',
-    name: 'Loreal - Absolut Repair Oil - 90 ML',
+    name: 'Loreal Absolut Repair Oil',
+    subtitle: 'Restorative Golden Quinoa Serum',
+    tag: 'DEEP NOURISHMENT',
     brand: 'Loreal',
-    category: 'Hair Care',
+    category: 'Hair',
     salePrice: 1074,
     mrp: 1400,
     discount: '23% off',
@@ -25,9 +27,11 @@ const SIGNATURE_PRODUCTS = [
   },
   {
     id: '1809',
-    name: 'Wella - SP Luxe Reconstructive Elixir Oil - 100 ML',
+    name: 'Wella SP Luxe Elixir Oil',
+    subtitle: 'Reconstructive Keratin Shield',
+    tag: 'KERATIN INFUSION',
     brand: 'Wella',
-    category: 'Hair Care',
+    category: 'Hair',
     salePrice: 1945,
     mrp: 2300,
     discount: '15% off',
@@ -40,9 +44,11 @@ const SIGNATURE_PRODUCTS = [
   },
   {
     id: '1022',
-    name: 'Matrix Mega Smooth Professional Conditioner 200 Ml',
+    name: 'Matrix Mega Smooth 200ML',
+    subtitle: 'Anti-Frizz Humidity Shield',
+    tag: 'MAX SLEEK GLOSS',
     brand: 'Matrix',
-    category: 'Hair Care',
+    category: 'Hair',
     salePrice: 483,
     mrp: 650,
     discount: '26% off',
@@ -55,9 +61,11 @@ const SIGNATURE_PRODUCTS = [
   },
   {
     id: '1377',
-    name: 'Schwarzkopf - Osis+ 3 Flatliner Heat Protection - 200 ML',
+    name: 'Schwarzkopf Osis+ Flatliner',
+    subtitle: '230°C Thermal Heat Defense',
+    tag: 'HEAT PROTECTION',
     brand: 'Schwarzkopf',
-    category: 'Styling',
+    category: 'Hair',
     salePrice: 936,
     mrp: 1200,
     discount: '22% off',
@@ -70,199 +78,257 @@ const SIGNATURE_PRODUCTS = [
   },
 ];
 
-export function SignatureProductsShowcase() {
-  const { addToCart, openQuickView, showToast } = useCart();
+export function SignatureProductsShowcase({ transparentBg = true }: { transparentBg?: boolean } = {}) {
+  const { addToCart, openQuickView } = useCart();
+  const [addedMap, setAddedMap] = useState<Record<string, boolean>>({});
+
+  const handleAdd = (prod: Product, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(prod, 1);
+    setAddedMap((prev) => ({ ...prev, [prod.id]: true }));
+    setTimeout(() => {
+      setAddedMap((prev) => ({ ...prev, [prod.id]: false }));
+    }, 1400);
+  };
 
   return (
     <section
       style={{
-        backgroundColor: '#ffffff',
-        padding: '80px 24px',
-        borderBottom: '1px solid #eeeeee',
+        backgroundColor: transparentBg ? 'transparent' : '#f8f9fa',
+        padding: '20px 24px 70px',
+        position: 'relative',
+        zIndex: 2,
       }}
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <span
-            style={{
-              fontSize: '12px',
-              fontWeight: 800,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#b45309',
-              display: 'inline-block',
-              marginBottom: '8px',
-            }}
-          >
-            STATION BESTSELLERS
-          </span>
-          <h2
-            style={{
-              fontSize: 'clamp(30px, 3.5vw, 44px)',
-              fontWeight: 900,
-              textTransform: 'uppercase',
-              letterSpacing: '-0.02em',
-              color: '#111111',
-              margin: '0 0 12px',
-              fontFamily: 'var(--font-main)',
-            }}
-          >
-            SIGNATURE SALON ESSENTIALS
-          </h2>
-          <p
-            style={{
-              fontSize: '16px',
-              color: '#666666',
-              maxWidth: '640px',
-              margin: '0 auto',
-            }}
-          >
-            The top 4 formulas ordered weekly by master salons, backed by guaranteed authenticity and wholesale volume pricing.
-          </p>
-        </div>
-
-        {/* 4 Cards Grid */}
+        {/* 4 Cards Grid - Styled like Screenshot 1 tall showcase */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '28px',
+            gap: '20px',
           }}
         >
-          {SIGNATURE_PRODUCTS.map((prod) => (
-            <div
-              key={prod.id}
-              style={{
-                backgroundColor: '#ffffff',
-                border: '1px solid #e5e5e5',
-                borderRadius: '16px',
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'all 0.25s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', color: '#888888', letterSpacing: '0.1em' }}>
-                  {prod.brand}
-                </span>
-                <span style={{ backgroundColor: '#fee2e2', color: '#dc2626', fontSize: '11px', fontWeight: 800, padding: '2px 8px', borderRadius: '4px' }}>
-                  {prod.discount}
-                </span>
-              </div>
-
-              {/* Product Image */}
+          {SIGNATURE_PRODUCTS.map((prod) => {
+            const isJustAdded = !!addedMap[prod.id];
+            return (
               <div
+                key={prod.id}
                 style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',
-                  width: '100%',
-                  height: '240px',
-                  marginBottom: '16px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => openQuickView(prod as unknown as Product)}
-              >
-                <Image
-                  src={prod.image}
-                  alt={prod.name}
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                />
-              </div>
-
-              {/* Rating */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '8px' }}>
-                <Star size={14} fill="#f59e0b" color="#f59e0b" />
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#333333' }}>{prod.rating}</span>
-                <span style={{ fontSize: '12px', color: '#888888' }}>({prod.reviewsCount})</span>
-              </div>
-
-              {/* Product Name */}
-              <h3
-                style={{
-                  fontSize: '15px',
-                  fontWeight: 800,
-                  lineHeight: 1.35,
-                  color: '#111111',
-                  marginBottom: '12px',
-                  minHeight: '42px',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical',
                   overflow: 'hidden',
                 }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.22)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.15)';
+                }}
               >
-                <Link href={`/product/${prod.id}`}>{prod.name}</Link>
-              </h3>
+                <div>
+                  {/* Tag & Discount */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: '10px',
+                        fontWeight: 800,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: '#64748b',
+                      }}
+                    >
+                      {prod.tag}
+                    </span>
+                    <span
+                      style={{
+                        backgroundColor: '#0f172a',
+                        color: '#ffffff',
+                        fontSize: '10.5px',
+                        fontWeight: 800,
+                        padding: '3px 8px',
+                        borderRadius: '9999px',
+                      }}
+                    >
+                      {prod.discount}
+                    </span>
+                  </div>
 
-              {/* Price */}
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '18px', marginTop: 'auto' }}>
-                <span style={{ fontSize: '20px', fontWeight: 900, color: '#111111' }}>₹{prod.salePrice.toLocaleString()}</span>
-                <span style={{ fontSize: '14px', color: '#999999', textDecoration: 'line-through' }}>₹{prod.mrp.toLocaleString()}</span>
-              </div>
+                  {/* Tall Product Image Box */}
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: '260px',
+                      backgroundColor: '#f8f9fa',
+                      borderRadius: '16px',
+                      border: '1px solid #f0f2f5',
+                      overflow: 'hidden',
+                      marginBottom: '14px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    onClick={() => openQuickView(prod)}
+                  >
+                    <Image
+                      src={prod.image}
+                      alt={prod.name}
+                      fill
+                      style={{ objectFit: 'contain', padding: '1.25rem' }}
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                    />
 
-              {/* Action Buttons */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '8px' }}>
+                    {/* Quick view button overlay */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openQuickView(prod);
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        border: '1px solid #eef0f3',
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        color: '#0f172a',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      }}
+                      title="Quick View"
+                    >
+                      <Eye size={14} />
+                    </button>
+                  </div>
+
+                  {/* Brand & Name */}
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      color: '#64748b',
+                      letterSpacing: '0.06em',
+                      marginBottom: '2px',
+                    }}
+                  >
+                    {prod.brand}
+                  </div>
+                  <Link
+                    href={`/product/${prod.id}`}
+                    style={{
+                      fontSize: '15px',
+                      fontWeight: 800,
+                      color: '#0f172a',
+                      lineHeight: 1.3,
+                      textDecoration: 'none',
+                      display: 'block',
+                      marginBottom: '4px',
+                    }}
+                  >
+                    {prod.name}
+                  </Link>
+                  <div style={{ fontSize: '11.5px', color: '#64748b', marginBottom: '8px' }}>
+                    {prod.subtitle}
+                  </div>
+
+                  {/* Rating */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', gap: '2px' }}>
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={11} fill="#f59e0b" color="#f59e0b" />
+                      ))}
+                    </div>
+                    <span style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', marginLeft: '4px' }}>
+                      ({prod.reviewsCount})
+                    </span>
+                  </div>
+
+                  {/* Price */}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '14px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#0f172a' }}>
+                      ₹{prod.salePrice.toLocaleString('en-IN')}
+                    </span>
+                    <span style={{ fontSize: '12.5px', textDecoration: 'line-through', color: '#94a3b8' }}>
+                      ₹{prod.mrp.toLocaleString('en-IN')}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '10.5px',
+                        fontWeight: 700,
+                        backgroundColor: '#ecfdf5',
+                        color: '#059669',
+                        padding: '1px 6px',
+                        borderRadius: '9999px',
+                        marginLeft: 'auto',
+                      }}
+                    >
+                      Save ₹{prod.mrp - prod.salePrice}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Add to Order Button */}
                 <button
-                  type="button"
-                  onClick={() => {
-                    addToCart(prod as unknown as Product);
-                    showToast(`Added ${prod.name} to bag!`);
-                  }}
+                  onClick={(e) => handleAdd(prod, e)}
                   style={{
-                    backgroundColor: '#111111',
-                    color: '#ffffff',
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '9999px',
                     border: 'none',
-                    borderRadius: '8px',
-                    padding: '12px 14px',
-                    fontSize: '12px',
-                    fontWeight: 800,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
+                    backgroundColor: isJustAdded ? '#10b981' : '#0f172a',
+                    color: '#ffffff',
+                    fontSize: '12.5px',
+                    fontWeight: 700,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '6px',
-                    transition: 'background-color 0.2s',
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b45309')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#111111')}
-                >
-                  <ShoppingBag size={14} />
-                  <span>ADD TO BAG</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => openQuickView(prod as unknown as Product)}
-                  title="Quick View"
-                  style={{
-                    backgroundColor: '#f5f5f5',
-                    border: '1px solid #e0e0e0',
-                    borderRadius: '8px',
-                    padding: '12px',
-                    color: '#444444',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    transition: 'all 0.2s ease',
+                    boxShadow: isJustAdded
+                      ? '0 4px 12px rgba(16, 185, 129, 0.25)'
+                      : '0 2px 8px rgba(15, 23, 42, 0.12)',
                   }}
                 >
-                  <Eye size={15} />
+                  {isJustAdded ? (
+                    <>
+                      <Check size={14} /> Added to Order!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag size={14} /> Add to Bag
+                    </>
+                  )}
                 </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

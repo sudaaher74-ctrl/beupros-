@@ -411,3 +411,22 @@ img {
   }
 }
 
+/* ==========================================================
+   IMMERSIVE STUCK PARALLAX WAVY WRAPPER
+   ========================================================== */
+.stuck-wavy-hero-wrapper {
+  position: relative;
+  background-image: url('/images/retro-wavy-hero-bg.svg');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+  .stuck-wavy-hero-wrapper {
+    background-attachment: scroll;
+    background-size: 100% auto;
+  }
+}
+

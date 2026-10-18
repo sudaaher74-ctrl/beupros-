@@ -4,9 +4,9 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function CuratedBundlesHero() {
+export function CuratedBundlesHero({ transparentBg = false }: { transparentBg?: boolean } = {}) {
   return (
-    <div style={{ backgroundColor: '#f04e23' }}>
+    <div style={{ backgroundColor: transparentBg ? 'transparent' : '#f04e23' }}>
       {/* Hero Banner with Iconic Retro Wavy Contour Background */}
       <section
         style={{
@@ -17,7 +17,7 @@ export function CuratedBundlesHero() {
           display: 'flex',
           alignItems: 'center',
           color: '#ffffff',
-          backgroundImage: 'url(/images/retro-wavy-hero-bg.svg)',
+          backgroundImage: transparentBg ? 'none' : 'url(/images/retro-wavy-hero-bg.svg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
