@@ -87,12 +87,18 @@ const SOCIAL_POSTS: SocialPost[] = [
   },
 ];
 
-export function SalonCommunityGrid() {
+export function SalonCommunityGrid({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 'light' } = {}) {
+  const isWavy = theme === 'wavy';
+  const isBlack = theme === 'black';
+
   return (
     <section
       style={{
-        backgroundColor: '#ffffff',
-        padding: '5rem 1.5rem',
+        backgroundColor: isWavy ? 'transparent' : isBlack ? '#000000' : '#ffffff',
+        padding: '5.5rem 1.5rem',
+        position: 'relative',
+        zIndex: 2,
+        transition: 'background-color 0.3s ease',
       }}
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
@@ -116,27 +122,37 @@ export function SalonCommunityGrid() {
                 gap: '8px',
                 padding: '6px 14px',
                 borderRadius: '9999px',
-                backgroundColor: '#fdf2f8',
-                border: '1px solid #fce7f3',
+                backgroundColor: isWavy
+                  ? 'rgba(255, 255, 255, 0.22)'
+                  : isBlack
+                  ? '#18181b'
+                  : '#fdf2f8',
+                border: isWavy
+                  ? '1px solid rgba(255, 255, 255, 0.35)'
+                  : isBlack
+                  ? '1px solid rgba(225, 29, 72, 0.3)'
+                  : '1px solid #fce7f3',
                 fontSize: '11.5px',
                 fontWeight: 800,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: '#db2777',
+                color: isWavy ? '#ffffff' : '#db2777',
                 marginBottom: '0.85rem',
+                backdropFilter: isWavy ? 'blur(10px)' : 'none',
               }}
             >
-              <InstagramIcon size={14} color="#db2777" />
+              <InstagramIcon size={14} color={isWavy ? '#ffffff' : '#db2777'} />
               <span>@BeuprosWholesale Community</span>
             </div>
 
             <h2
               style={{
-                fontSize: 'clamp(28px, 3.2vw, 44px)',
+                fontSize: 'clamp(30px, 3.4vw, 48px)',
                 fontWeight: 900,
-                color: '#111111',
+                color: isWavy || isBlack ? '#ffffff' : '#111111',
                 letterSpacing: '-0.02em',
                 margin: '0 0 0.5rem 0',
+                textShadow: isWavy ? '0 4px 20px rgba(0, 0, 0, 0.45)' : 'none',
                 fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
               }}
             >
@@ -146,12 +162,13 @@ export function SalonCommunityGrid() {
             <p
               style={{
                 fontSize: 'clamp(14px, 1.2vw, 16px)',
-                color: '#666666',
+                color: isWavy ? 'rgba(255, 255, 255, 0.92)' : isBlack ? '#a1a1aa' : '#666666',
                 margin: 0,
                 maxWidth: '620px',
+                textShadow: isWavy ? '0 2px 10px rgba(0, 0, 0, 0.3)' : 'none',
               }}
             >
-              Tag <strong>#BeuprosArtist</strong> to be featured. See how 10,000+ top salons, master colorists, and beauty entrepreneurs use our supplies every single day.
+              Tag <strong style={{ color: isWavy || isBlack ? '#ffffff' : '#111111' }}>#BeuprosArtist</strong> to be featured. See how 10,000+ top salons, master colorists, and beauty entrepreneurs use our supplies every single day.
             </p>
           </div>
 
@@ -164,8 +181,12 @@ export function SalonCommunityGrid() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: '#111111',
-              color: '#ffffff',
+              backgroundColor: isWavy
+                ? '#ffffff'
+                : isBlack
+                ? '#27272a'
+                : '#111111',
+              color: isWavy ? '#0f172a' : '#ffffff',
               padding: '13px 26px',
               borderRadius: '9999px',
               fontSize: '13px',
@@ -174,14 +195,21 @@ export function SalonCommunityGrid() {
               textTransform: 'uppercase',
               textDecoration: 'none',
               transition: 'all 0.2s ease',
-              boxShadow: '0 4px 14px rgba(0,0,0,0.12)',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
+              border: isBlack ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#db2777';
+              e.currentTarget.style.color = '#ffffff';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#111111';
+              e.currentTarget.style.backgroundColor = isWavy
+                ? '#ffffff'
+                : isBlack
+                ? '#27272a'
+                : '#111111';
+              e.currentTarget.style.color = isWavy ? '#0f172a' : '#ffffff';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >

@@ -412,21 +412,59 @@ img {
 }
 
 /* ==========================================================
-   IMMERSIVE STUCK PARALLAX WAVY WRAPPER
+   IMMERSIVE STUCK PARALLAX WAVY WRAPPER & THEMES
    ========================================================== */
-.stuck-wavy-hero-wrapper {
+.stuck-wavy-hero-wrapper,
+.stuck-wavy-full-wrapper {
   position: relative;
   background-image: url('/images/retro-wavy-hero-bg.svg');
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;
   background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 @media (max-width: 768px) {
-  .stuck-wavy-hero-wrapper {
+  .stuck-wavy-hero-wrapper,
+  .stuck-wavy-full-wrapper {
     background-attachment: scroll;
     background-size: 100% auto;
   }
 }
+
+.theme-noir-black-wrapper {
+  position: relative;
+  background-color: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.theme-alternating-wrapper {
+  position: relative;
+  background-color: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.wavy-alternating-band {
+  background-image: url('/images/retro-wavy-hero-bg.svg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .wavy-alternating-band {
+    background-attachment: scroll;
+  }
+}
+
+.black-alternating-band {
+  background-color: #09090b;
+  position: relative;
+}
+
 

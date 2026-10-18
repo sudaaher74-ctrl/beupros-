@@ -99,14 +99,28 @@ const FEATURED_BRANDS: BrandCard[] = [
   },
 ];
 
-export function BrandPartnersShowcase() {
+export function BrandPartnersShowcase({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 'light' } = {}) {
+  const isWavy = theme === 'wavy';
+  const isBlack = theme === 'black';
+
   return (
     <section
       style={{
-        backgroundColor: '#fafafa',
-        padding: '5rem 1.5rem',
-        borderTop: '1px solid #eeeeee',
-        borderBottom: '1px solid #eeeeee',
+        backgroundColor: isWavy ? 'transparent' : isBlack ? '#0a0a0a' : '#fafafa',
+        padding: '5.5rem 1.5rem',
+        borderTop: isWavy
+          ? '1px solid rgba(255, 255, 255, 0.15)'
+          : isBlack
+          ? '1px solid rgba(255, 255, 255, 0.08)'
+          : '1px solid #eeeeee',
+        borderBottom: isWavy
+          ? '1px solid rgba(255, 255, 255, 0.15)'
+          : isBlack
+          ? '1px solid rgba(255, 255, 255, 0.08)'
+          : '1px solid #eeeeee',
+        position: 'relative',
+        zIndex: 2,
+        transition: 'background-color 0.3s ease',
       }}
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
@@ -117,30 +131,40 @@ export function BrandPartnersShowcase() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e5e5',
+              backgroundColor: isWavy
+                ? 'rgba(255, 255, 255, 0.22)'
+                : isBlack
+                ? '#18181b'
+                : '#ffffff',
+              border: isWavy
+                ? '1px solid rgba(255, 255, 255, 0.35)'
+                : isBlack
+                ? '1px solid rgba(245, 158, 11, 0.3)'
+                : '1px solid #e5e5e5',
               padding: '6px 14px',
               borderRadius: '9999px',
               fontSize: '11.5px',
               fontWeight: 800,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              color: '#111111',
+              color: isWavy ? '#ffffff' : isBlack ? '#f59e0b' : '#111111',
               marginBottom: '1rem',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+              backdropFilter: isWavy ? 'blur(10px)' : 'none',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             }}
           >
-            <ShieldCheck size={14} color="#10b981" />
+            <ShieldCheck size={14} color={isBlack ? '#f59e0b' : '#10b981'} />
             <span>100% Authorized Wholesale Partners</span>
           </div>
 
           <h2
             style={{
-              fontSize: 'clamp(28px, 3.2vw, 44px)',
+              fontSize: 'clamp(30px, 3.4vw, 48px)',
               fontWeight: 900,
-              color: '#111111',
+              color: isWavy || isBlack ? '#ffffff' : '#111111',
               letterSpacing: '-0.02em',
               margin: '0 0 0.75rem 0',
+              textShadow: isWavy ? '0 4px 20px rgba(0, 0, 0, 0.45)' : 'none',
               fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
             }}
           >
@@ -150,9 +174,10 @@ export function BrandPartnersShowcase() {
           <p
             style={{
               fontSize: 'clamp(14px, 1.2vw, 16px)',
-              color: '#666666',
+              color: isWavy ? 'rgba(255, 255, 255, 0.92)' : isBlack ? '#a1a1aa' : '#666666',
               lineHeight: 1.6,
               margin: 0,
+              textShadow: isWavy ? '0 2px 10px rgba(0, 0, 0, 0.3)' : 'none',
             }}
           >
             Direct manufacturer relationships guaranteeing fresh batch authenticity, complete warranty coverage, and premier salon wholesale pricing.
@@ -167,17 +192,25 @@ export function BrandPartnersShowcase() {
               href={`/shop?brand=${encodeURIComponent(brand.query)}`}
               className="brand-partner-card"
               style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: isBlack ? '#121215' : '#ffffff',
                 borderRadius: '16px',
-                border: '1px solid #e8e8e8',
+                border: isBlack
+                  ? '1px solid rgba(255, 255, 255, 0.1)'
+                  : isWavy
+                  ? '1px solid rgba(255, 255, 255, 0.4)'
+                  : '1px solid #e8e8e8',
                 padding: '24px 20px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 textDecoration: 'none',
-                color: '#111111',
+                color: isBlack ? '#ffffff' : '#111111',
                 transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)',
+                boxShadow: isWavy
+                  ? '0 12px 28px rgba(0, 0, 0, 0.18)'
+                  : isBlack
+                  ? '0 8px 24px rgba(0, 0, 0, 0.4)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.02)',
                 position: 'relative',
               }}
             >
@@ -190,8 +223,8 @@ export function BrandPartnersShowcase() {
                     fontWeight: 800,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
-                    color: '#666666',
-                    backgroundColor: '#f5f5f5',
+                    color: isBlack ? '#f59e0b' : '#666666',
+                    backgroundColor: isBlack ? 'rgba(245, 158, 11, 0.15)' : '#f5f5f5',
                     padding: '3px 8px',
                     borderRadius: '4px',
                     marginBottom: '14px',
@@ -207,7 +240,7 @@ export function BrandPartnersShowcase() {
                     fontWeight: 900,
                     letterSpacing: '-0.02em',
                     margin: '0 0 6px 0',
-                    color: '#111111',
+                    color: isBlack ? '#ffffff' : '#111111',
                     lineHeight: 1.25,
                   }}
                 >
@@ -218,7 +251,7 @@ export function BrandPartnersShowcase() {
                 <p
                   style={{
                     fontSize: '12px',
-                    color: '#888888',
+                    color: isBlack ? '#a1a1aa' : '#888888',
                     margin: 0,
                     fontWeight: 500,
                   }}
@@ -235,14 +268,16 @@ export function BrandPartnersShowcase() {
                   justifyContent: 'space-between',
                   marginTop: '20px',
                   paddingTop: '14px',
-                  borderTop: '1px solid #f2f2f2',
+                  borderTop: isBlack
+                    ? '1px solid rgba(255, 255, 255, 0.08)'
+                    : '1px solid #f2f2f2',
                 }}
               >
                 <span
                   style={{
                     fontSize: '11.5px',
                     fontWeight: 800,
-                    color: '#000000',
+                    color: isBlack ? '#f59e0b' : '#000000',
                   }}
                 >
                   {brand.count}+ Products
@@ -254,11 +289,11 @@ export function BrandPartnersShowcase() {
                     width: '26px',
                     height: '26px',
                     borderRadius: '50%',
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: isBlack ? '#27272a' : '#f5f5f5',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#111111',
+                    color: isBlack ? '#ffffff' : '#111111',
                     transition: 'all 0.2s ease',
                   }}
                 >

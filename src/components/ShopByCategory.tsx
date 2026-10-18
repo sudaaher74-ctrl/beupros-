@@ -86,12 +86,18 @@ const CATEGORIES: CategoryTile[] = [
   },
 ];
 
-export function ShopByCategory() {
+export function ShopByCategory({ theme = 'wavy' }: { theme?: 'wavy' | 'black' | 'light' } = {}) {
+  const isWavy = theme === 'wavy';
+  const isBlack = theme === 'black';
+
   return (
     <section
       style={{
-        backgroundColor: '#ffffff',
-        padding: '3.5rem 1rem 4rem 1rem',
+        backgroundColor: isWavy ? 'transparent' : isBlack ? '#000000' : '#ffffff',
+        padding: '4.5rem 1rem 5rem 1rem',
+        position: 'relative',
+        zIndex: 2,
+        transition: 'background-color 0.3s ease',
       }}
     >
       <div
@@ -100,15 +106,16 @@ export function ShopByCategory() {
           margin: '0 auto',
         }}
       >
-        {/* Section Heading (Matching SalonCentric Reference) */}
+        {/* Section Heading */}
         <h2
           style={{
-            fontSize: 'clamp(28px, 3.2vw, 44px)',
+            fontSize: 'clamp(30px, 3.4vw, 48px)',
             fontWeight: 900,
             textAlign: 'center',
-            color: '#111111',
+            color: isWavy || isBlack ? '#ffffff' : '#111111',
             letterSpacing: '-0.02em',
             margin: '0 0 2.5rem 0',
+            textShadow: isWavy ? '0 4px 20px rgba(0, 0, 0, 0.45)' : 'none',
             fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           }}
         >
@@ -126,7 +133,7 @@ export function ShopByCategory() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 textDecoration: 'none',
-                color: '#111111',
+                color: isWavy || isBlack ? '#ffffff' : '#111111',
               }}
             >
               {/* Squircle Image Card */}
@@ -138,8 +145,17 @@ export function ShopByCategory() {
                   borderRadius: '24px',
                   overflow: 'hidden',
                   position: 'relative',
-                  backgroundColor: '#f3f4f6',
-                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.05)',
+                  backgroundColor: isBlack ? '#18181b' : '#f3f4f6',
+                  border: isWavy
+                    ? '2.5px solid rgba(255, 255, 255, 0.5)'
+                    : isBlack
+                    ? '1.5px solid rgba(255, 255, 255, 0.12)'
+                    : '1px solid rgba(0,0,0,0.06)',
+                  boxShadow: isWavy
+                    ? '0 10px 25px rgba(0, 0, 0, 0.25)'
+                    : isBlack
+                    ? '0 8px 24px rgba(0, 0, 0, 0.5)'
+                    : '0 4px 14px rgba(0, 0, 0, 0.05)',
                   transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                   cursor: 'pointer',
                 }}
@@ -161,12 +177,13 @@ export function ShopByCategory() {
               <span
                 style={{
                   marginTop: '12px',
-                  fontSize: 'clamp(11px, 0.95vw, 13.5px)',
+                  fontSize: 'clamp(11.5px, 0.95vw, 13.5px)',
                   fontWeight: 800,
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
                   textAlign: 'center',
-                  color: '#111111',
+                  color: isWavy || isBlack ? '#ffffff' : '#111111',
+                  textShadow: isWavy ? '0 2px 10px rgba(0, 0, 0, 0.45)' : 'none',
                   lineHeight: 1.25,
                 }}
               >

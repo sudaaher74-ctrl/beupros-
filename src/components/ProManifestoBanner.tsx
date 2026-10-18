@@ -2,17 +2,28 @@
 
 import React from 'react';
 
-export function ProManifestoBanner({ transparentBg = true }: { transparentBg?: boolean } = {}) {
+export function ProManifestoBanner({
+  transparentBg = true,
+  theme = 'wavy',
+}: {
+  transparentBg?: boolean;
+  theme?: 'wavy' | 'black';
+} = {}) {
+  const isBlack = theme === 'black';
+
   return (
     <section
       style={{
-        backgroundColor: transparentBg ? 'transparent' : '#0c0a09',
+        backgroundColor: transparentBg ? 'transparent' : isBlack ? '#050505' : '#0c0a09',
         color: '#ffffff',
         padding: '70px 24px 60px',
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
         zIndex: 2,
+        borderTop: isBlack ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
+        borderBottom: isBlack ? '1px solid rgba(255, 255, 255, 0.08)' : 'none',
+        transition: 'background-color 0.3s ease',
       }}
     >
       <div

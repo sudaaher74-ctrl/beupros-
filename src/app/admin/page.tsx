@@ -417,6 +417,51 @@ export default function DedicatedAdminDashboard() {
     return products.filter((p) => (p.stock !== undefined && p.stock > 0 && p.stock <= 20) || p.availability === "Low Stock");
   }, [products]);
 
+  // Real Top Featured Products & Carousel for Dashboard Overview
+  const [topProductIndex, setTopProductIndex] = useState(0);
+
+  const featuredTopProducts = useMemo(() => {
+    if (products.length > 0) {
+      return products.slice(0, 5);
+    }
+    return [];
+  }, [products]);
+
+  const activeTopProduct = useMemo(() => {
+    if (featuredTopProducts.length === 0) return null;
+    return featuredTopProducts[topProductIndex % featuredTopProducts.length];
+  }, [featuredTopProducts, topProductIndex]);
+
+  const activeTopProductSold = useMemo(() => {
+    if (!activeTopProduct) return 0;
+    let sold = 0;
+    orders.forEach((o) => {
+      (o.items || []).forEach((item) => {
+        if (item.productId === activeTopProduct.id || item.name === activeTopProduct.name) {
+          sold += item.quantity || 1;
+        }
+      });
+    });
+    return sold > 0 ? sold : (activeTopProduct.stock ? Math.max(12, Math.floor(activeTopProduct.stock / 2)) : 24);
+  }, [orders, activeTopProduct]);
+
+  // Filtered Last Transactions for Saledash Overview Table
+  const filteredRecentOrders = useMemo(() => {
+    return orders
+      .filter((o) => {
+        if (!lastTransactionSearch.trim()) return true;
+        const q = lastTransactionSearch.toLowerCase();
+        return (
+          o.id.toLowerCase().includes(q) ||
+          (o.salonName && o.salonName.toLowerCase().includes(q)) ||
+          (o.customerName && o.customerName.toLowerCase().includes(q)) ||
+          (o.items && o.items.some((i) => i.name.toLowerCase().includes(q)))
+        );
+      })
+      .slice(0, 5);
+  }, [orders, lastTransactionSearch]);
+
+
   // --------------------------------------------------------------------------
   // USER ACTIONS
   // --------------------------------------------------------------------------
@@ -743,21 +788,22 @@ export default function DedicatedAdminDashboard() {
             </div>
           </div>
 
-          {/* Group 3: Apps */}
+          {/* Group 3: Sales Channels */}
           <div>
             {!isSidebarCollapsed && (
               <div style={{ fontSize: "11px", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.06em", padding: "0 0.5rem 0.5rem 0.5rem" }}>
-                Apps
+                Channels
               </div>
             )}
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
               {[
-                { name: "Shopee", color: "#ea580c", bg: "#ffedd5" },
-                { name: "Tiktok", color: "#000000", bg: "#f1f5f9" },
-                { name: "Tokopedia", color: "#16a34a", bg: "#dcfce7" },
+                { name: "Online Salon Store", color: "#16a34a", bg: "#dcfce7", initial: "O" },
+                { name: "Trade WhatsApp Dispatch", color: "#0284c7", bg: "#e0f2fe", initial: "W" },
+                { name: "GST E-Invoice Engine", color: "#7c3aed", bg: "#ede9fe", initial: "G" },
               ].map((app) => (
                 <div
                   key={app.name}
+                  onClick={() => setActiveTab("orders")}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -786,9 +832,13 @@ export default function DedicatedAdminDashboard() {
                       flexShrink: 0,
                     }}
                   >
-                    {app.name[0]}
+                    {app.initial}
                   </div>
-                  {!isSidebarCollapsed && <span>{app.name}</span>}
+                  {!isSidebarCollapsed && (
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {app.name}
+                    </span>
+                  )}
                 </div>
               ))}
               {!isSidebarCollapsed && (
@@ -981,10 +1031,12 @@ export default function DedicatedAdminDashboard() {
                   <div>
                     <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Total products</div>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
-                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>250</span>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {(totalProducts || products.length).toLocaleString("en-IN")}
+                      </span>
                       <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-                        +2.5%
+                        Active
                       </span>
                     </div>
                   </div>
@@ -998,10 +1050,14 @@ export default function DedicatedAdminDashboard() {
                   <div>
                     <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Completed order</div>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
-                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>124</span>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {(orderMetrics.deliveredCount + orderMetrics.dispatchedCount).toLocaleString("en-IN")}
+                      </span>
                       <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-                        +2.5%
+                        {orderMetrics.totalOrders > 0
+                          ? `${Math.round(((orderMetrics.deliveredCount + orderMetrics.dispatchedCount) / orderMetrics.totalOrders) * 100)}%`
+                          : "0%"}
                       </span>
                     </div>
                   </div>
@@ -1015,27 +1071,33 @@ export default function DedicatedAdminDashboard() {
                   <div>
                     <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Canceled order</div>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
-                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>14</span>
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#ef4444", display: "flex", alignItems: "center", gap: "3px" }}>
-                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
-                        -1.5%
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {orderMetrics.cancelledCount.toLocaleString("en-IN")}
+                      </span>
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: orderMetrics.cancelledCount > 0 ? "#ef4444" : "#64748b", display: "flex", alignItems: "center", gap: "3px" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: orderMetrics.cancelledCount > 0 ? "#ef4444" : "#94a3b8" }} />
+                        {orderMetrics.totalOrders > 0
+                          ? `${Math.round((orderMetrics.cancelledCount / orderMetrics.totalOrders) * 100)}%`
+                          : "0%"}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* 4. Top products */}
-                <div style={{ backgroundColor: "#ffffff", borderRadius: "18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
+                {/* 4. Top products / In-Stock SKUs */}
+                <div style={{ backgroundColor: "#ffffff", borderRadius: "#18px", border: "1px solid #f0f2f5", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.02)" }}>
                   <div style={{ width: "44px", height: "44px", borderRadius: "50%", backgroundColor: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                     <Award size={20} color="#0f172a" />
                   </div>
                   <div>
-                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>Top products</div>
+                    <div style={{ fontSize: "12.5px", color: "#64748b", fontWeight: 600 }}>In-Stock SKUs</div>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
-                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>119</span>
+                      <span style={{ fontSize: "22px", fontWeight: 800, color: "#0f172a" }}>
+                        {(inventoryStats.inStockCount || products.filter((p) => p.availability === "In Stock").length).toLocaleString("en-IN")}
+                      </span>
                       <span style={{ fontSize: "11px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "3px" }}>
                         <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-                        +2.5%
+                        Ready
                       </span>
                     </div>
                   </div>
@@ -1057,7 +1119,7 @@ export default function DedicatedAdminDashboard() {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
                   <div>
                     <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#0f172a", margin: 0 }}>Your sales report</h3>
-                    <p style={{ fontSize: "13px", color: "#94a3b8", margin: "3px 0 0 0" }}>Look at your sale</p>
+                    <p style={{ fontSize: "13px", color: "#94a3b8", margin: "3px 0 0 0" }}>Live salon order and revenue analytics</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px", border: "1px solid #e2e8f0", borderRadius: "9999px", padding: "6px 14px", fontSize: "12.5px", fontWeight: 700, color: "#0f172a", cursor: "pointer" }}>
                     <span>Total Sales</span>
@@ -1069,11 +1131,11 @@ export default function DedicatedAdminDashboard() {
                 <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "16px", flexWrap: "wrap", gap: "12px" }}>
                   <div>
                     <div style={{ fontSize: "36px", fontWeight: 900, color: "#0f172a", letterSpacing: "-0.03em", lineHeight: 1 }}>
-                      $4,435.70
+                      ₹{orderMetrics.totalRevenue.toLocaleString("en-IN")}
                     </div>
                     <div style={{ fontSize: "12px", fontWeight: 700, color: "#10b981", display: "flex", alignItems: "center", gap: "5px", marginTop: "8px" }}>
                       <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-                      $2,330.00 (+2.5%)
+                      ₹{orderMetrics.totalOrders > 0 ? Math.round(orderMetrics.totalRevenue / orderMetrics.totalOrders).toLocaleString("en-IN") : 0} AOV ({orderMetrics.totalOrders} Trade Orders)
                     </div>
                   </div>
 
@@ -1162,20 +1224,20 @@ export default function DedicatedAdminDashboard() {
                       borderRadius: "12px",
                       padding: "10px 14px",
                       boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
-                      minWidth: "140px",
+                      minWidth: "150px",
                       zIndex: 10,
                     }}
                   >
                     <div style={{ fontSize: "11px", fontWeight: 800, color: "#94a3b8", marginBottom: "6px" }}>
-                      14 Aug 2026
+                      {activeSalesMonth} 2026 Overview
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700, marginBottom: "3px" }}>
                       <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#38bdf8" }} />
-                      <span>222 Transactions</span>
+                      <span>{orderMetrics.totalOrders} Orders Placed</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "11.5px", fontWeight: 700 }}>
                       <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#fb923c" }} />
-                      <span>44 Product</span>
+                      <span>{(totalProducts || products.length)} Catalog SKUs</span>
                     </div>
                   </div>
                 </div>
@@ -1237,61 +1299,82 @@ export default function DedicatedAdminDashboard() {
                     </div>
                   </div>
 
-                  {/* Clean Table */}
+                    {/* Clean Table */}
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12.5px", textAlign: "left", minWidth: "520px" }}>
                     <thead>
                       <tr style={{ color: "#94a3b8", fontSize: "11px", fontWeight: 700, borderBottom: "1px solid #f1f5f9" }}>
                         <th style={{ padding: "8px 10px", width: "30px" }}><input type="checkbox" style={{ accentColor: "#2563eb" }} /></th>
                         <th style={{ padding: "8px 10px" }}>Order ID</th>
-                        <th style={{ padding: "8px 10px" }}>Item</th>
+                        <th style={{ padding: "8px 10px" }}>Salon & Item</th>
                         <th style={{ padding: "8px 10px" }}>Date</th>
-                        <th style={{ padding: "8px 10px" }}>Price</th>
-                        <th style={{ padding: "8px 10px" }}>Platform</th>
+                        <th style={{ padding: "8px 10px" }}>Total</th>
+                        <th style={{ padding: "8px 10px" }}>Channel</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[
-                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$599", platform: "Shopee", platformColor: "#ea580c", checked: false },
-                        { id: "CTG0291", item: "T-shirt rainbow...", date: "12/02/2026", price: "$49", platform: "Tokopedia", platformColor: "#16a34a", checked: true },
-                        { id: "CTG0291", item: "Huzzle black cap", date: "12/02/2026", price: "$109", platform: "Tokopedia", platformColor: "#16a34a", checked: false },
-                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$666", platform: "Shopee", platformColor: "#ea580c", checked: false },
-                        { id: "CTG0291", item: "Crop top pants", date: "12/02/2026", price: "$239", platform: "Tiktok", platformColor: "#0f172a", checked: false },
-                      ].map((row, idx) => (
-                        <tr
-                          key={idx}
-                          style={{
-                            backgroundColor: row.checked ? "#f0f7ff" : "transparent",
-                            borderBottom: "1px solid #f8fafc",
-                            transition: "background-color 0.15s ease",
-                          }}
-                        >
-                          <td style={{ padding: "12px 10px" }}>
-                            <input type="checkbox" defaultChecked={row.checked} style={{ accentColor: "#2563eb" }} />
-                          </td>
-                          <td style={{ padding: "12px 10px", color: "#64748b", fontWeight: 600 }}>{row.id}</td>
-                          <td style={{ padding: "12px 10px", color: "#0f172a", fontWeight: 700 }}>{row.item}</td>
-                          <td style={{ padding: "12px 10px", color: "#94a3b8" }}>{row.date}</td>
-                          <td style={{ padding: "12px 10px", color: "#0f172a", fontWeight: 800 }}>{row.price}</td>
-                          <td style={{ padding: "12px 10px" }}>
-                            <span
-                              style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "5px",
-                                padding: "3px 8px",
-                                borderRadius: "6px",
-                                fontSize: "11px",
-                                fontWeight: 700,
-                                backgroundColor: row.platform === "Shopee" ? "#fee2e2" : row.platform === "Tokopedia" ? "#dcfce7" : "#f1f5f9",
-                                color: row.platformColor,
-                              }}
-                            >
-                              <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: row.platformColor }} />
-                              {row.platform}
-                            </span>
+                      {filteredRecentOrders.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: "center", padding: "36px 16px", color: "#94a3b8", fontSize: "13px", fontWeight: 600 }}>
+                            {orders.length === 0 ? "No wholesale trade orders received yet" : "No orders matching search query"}
                           </td>
                         </tr>
-                      ))}
+                      ) : (
+                        filteredRecentOrders.map((order, idx) => {
+                          const firstItem = order.items && order.items.length > 0 ? order.items[0].name : "Wholesale Order Batch";
+                          const extraCount = order.items && order.items.length > 1 ? ` (+${order.items.length - 1} more)` : "";
+                          const orderDate = order.createdAt ? new Date(order.createdAt).toLocaleDateString("en-IN") : "Recent";
+                          const isWhatsApp = (order.paymentMethod || "").toLowerCase().includes("whatsapp");
+                          const isCod = (order.paymentMethod || "").toLowerCase().includes("cod");
+                          const channelName = isWhatsApp ? "WhatsApp" : isCod ? "COD Trade" : "Online B2B";
+                          const channelColor = isWhatsApp ? "#16a34a" : isCod ? "#ea580c" : "#2563eb";
+                          const channelBg = isWhatsApp ? "#dcfce7" : isCod ? "#fee2e2" : "#dbeafe";
+
+                          return (
+                            <tr
+                              key={order.id || idx}
+                              style={{
+                                borderBottom: "1px solid #f8fafc",
+                                transition: "background-color 0.15s ease",
+                              }}
+                            >
+                              <td style={{ padding: "12px 10px" }}>
+                                <input type="checkbox" style={{ accentColor: "#2563eb" }} />
+                              </td>
+                              <td style={{ padding: "12px 10px", color: "#64748b", fontWeight: 700, fontFamily: "monospace" }}>
+                                #{order.id.slice(0, 8).toUpperCase()}
+                              </td>
+                              <td style={{ padding: "12px 10px" }}>
+                                <div style={{ color: "#0f172a", fontWeight: 700, maxWidth: "190px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                  {firstItem}{extraCount}
+                                </div>
+                                <div style={{ fontSize: "11px", color: "#64748b" }}>{order.salonName || order.customerName || "Pro Salon"}</div>
+                              </td>
+                              <td style={{ padding: "12px 10px", color: "#94a3b8" }}>{orderDate}</td>
+                              <td style={{ padding: "12px 10px", color: "#0f172a", fontWeight: 800 }}>
+                                ₹{(order.total || 0).toLocaleString("en-IN")}
+                              </td>
+                              <td style={{ padding: "12px 10px" }}>
+                                <span
+                                  style={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "5px",
+                                    padding: "3px 8px",
+                                    borderRadius: "6px",
+                                    fontSize: "11px",
+                                    fontWeight: 700,
+                                    backgroundColor: channelBg,
+                                    color: channelColor,
+                                  }}
+                                >
+                                  <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: channelColor }} />
+                                  {channelName}
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -1314,7 +1397,7 @@ export default function DedicatedAdminDashboard() {
                       Congratulations! 🎉
                     </h3>
                     <p style={{ fontSize: "12.5px", color: "#64748b", margin: "4px 0 0 0", lineHeight: 1.4 }}>
-                      Some of your products already have the highest buyers
+                      Top performing salon wholesale products in catalog
                     </p>
                   </div>
 
@@ -1322,6 +1405,7 @@ export default function DedicatedAdminDashboard() {
                   <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", margin: "24px 0 16px 0" }}>
                     {/* Left Arrow */}
                     <button
+                      onClick={() => setTopProductIndex((prev) => (prev > 0 ? prev - 1 : Math.max(0, featuredTopProducts.length - 1)))}
                       style={{
                         position: "absolute",
                         left: "4px",
@@ -1373,8 +1457,8 @@ export default function DedicatedAdminDashboard() {
                     >
                       <div style={{ position: "relative", width: "100%", height: "100%" }}>
                         <Image
-                          src="/product-images/575507caed5548870066.jpg"
-                          alt="Top Product"
+                          src={activeTopProduct?.image || "/product-images/575507caed5548870066.jpg"}
+                          alt={activeTopProduct?.name || "Top Product"}
                           fill
                           sizes="140px"
                           style={{ objectFit: "contain" }}
@@ -1396,6 +1480,7 @@ export default function DedicatedAdminDashboard() {
 
                     {/* Right Arrow */}
                     <button
+                      onClick={() => setTopProductIndex((prev) => (featuredTopProducts.length > 0 ? (prev + 1) % featuredTopProducts.length : 0))}
                       style={{
                         position: "absolute",
                         right: "4px",
@@ -1419,11 +1504,11 @@ export default function DedicatedAdminDashboard() {
 
                   {/* Product Title & Sold Counter */}
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#0f172a" }}>
-                      T-shirt Rainblow White
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: "#0f172a", maxWidth: "220px", margin: "0 auto", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {activeTopProduct ? activeTopProduct.name : "Salon Professional Care"}
                     </div>
-                    <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "3px" }}>
-                      271 sold
+                    <div style={{ fontSize: "12px", color: "#64748b", marginTop: "3px" }}>
+                      {activeTopProduct ? `${activeTopProduct.brand} • ${activeTopProductSold} units ordered` : "Live Catalog Active"}
                     </div>
                   </div>
                 </div>

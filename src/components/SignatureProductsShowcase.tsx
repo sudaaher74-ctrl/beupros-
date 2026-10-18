@@ -78,9 +78,17 @@ const SIGNATURE_PRODUCTS: (Product & { subtitle: string; tag: string })[] = [
   },
 ];
 
-export function SignatureProductsShowcase({ transparentBg = true }: { transparentBg?: boolean } = {}) {
+export function SignatureProductsShowcase({
+  transparentBg = true,
+  theme = 'wavy',
+}: {
+  transparentBg?: boolean;
+  theme?: 'wavy' | 'black';
+} = {}) {
   const { addToCart, openQuickView } = useCart();
   const [addedMap, setAddedMap] = useState<Record<string, boolean>>({});
+
+  const isBlack = theme === 'black';
 
   const handleAdd = (prod: Product, e: React.MouseEvent) => {
     e.preventDefault();
@@ -95,14 +103,15 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
   return (
     <section
       style={{
-        backgroundColor: transparentBg ? 'transparent' : '#f8f9fa',
+        backgroundColor: transparentBg ? 'transparent' : isBlack ? '#000000' : '#f8f9fa',
         padding: '20px 24px 70px',
         position: 'relative',
         zIndex: 2,
+        transition: 'background-color 0.3s ease',
       }}
     >
       <div style={{ maxWidth: '1360px', margin: '0 auto' }}>
-        {/* 4 Cards Grid - Styled like Screenshot 1 tall showcase */}
+        {/* 4 Cards Grid */}
         <div
           style={{
             display: 'grid',
@@ -116,25 +125,33 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
               <div
                 key={prod.id}
                 style={{
-                  backgroundColor: '#ffffff',
+                  backgroundColor: isBlack ? '#121215' : '#ffffff',
                   borderRadius: '20px',
-                  border: '1px solid rgba(255, 255, 255, 0.4)',
+                  border: isBlack
+                    ? '1px solid rgba(255, 255, 255, 0.1)'
+                    : '1px solid rgba(255, 255, 255, 0.5)',
                   padding: '20px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+                  boxShadow: isBlack
+                    ? '0 12px 30px rgba(0, 0, 0, 0.45)'
+                    : '0 12px 30px rgba(0, 0, 0, 0.18)',
                   transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',
                   overflow: 'hidden',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-6px)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.22)';
+                  e.currentTarget.style.boxShadow = isBlack
+                    ? '0 20px 40px rgba(245, 158, 11, 0.15)'
+                    : '0 20px 40px rgba(0, 0, 0, 0.25)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.boxShadow = isBlack
+                    ? '0 12px 30px rgba(0, 0, 0, 0.45)'
+                    : '0 12px 30px rgba(0, 0, 0, 0.18)';
                 }}
               >
                 <div>
@@ -178,9 +195,9 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                       position: 'relative',
                       width: '100%',
                       height: '260px',
-                      backgroundColor: '#f8f9fa',
+                      backgroundColor: isBlack ? '#18181b' : '#f8f9fa',
                       borderRadius: '16px',
-                      border: '1px solid #f0f2f5',
+                      border: isBlack ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid #f0f2f5',
                       overflow: 'hidden',
                       marginBottom: '14px',
                       cursor: 'pointer',
@@ -208,8 +225,8 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                         position: 'absolute',
                         top: '10px',
                         right: '10px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        border: '1px solid #eef0f3',
+                        backgroundColor: isBlack ? '#27272a' : 'rgba(255, 255, 255, 0.95)',
+                        border: isBlack ? '1px solid #3f3f46' : '1px solid #eef0f3',
                         width: '32px',
                         height: '32px',
                         borderRadius: '50%',
@@ -217,8 +234,8 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'pointer',
-                        color: '#0f172a',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                        color: isBlack ? '#ffffff' : '#0f172a',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
                       }}
                       title="Quick View"
                     >
@@ -232,7 +249,7 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                       fontSize: '11px',
                       fontWeight: 800,
                       textTransform: 'uppercase',
-                      color: '#64748b',
+                      color: isBlack ? '#a1a1aa' : '#64748b',
                       letterSpacing: '0.06em',
                       marginBottom: '2px',
                     }}
@@ -244,7 +261,7 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                     style={{
                       fontSize: '15px',
                       fontWeight: 800,
-                      color: '#0f172a',
+                      color: isBlack ? '#ffffff' : '#0f172a',
                       lineHeight: 1.3,
                       textDecoration: 'none',
                       display: 'block',
@@ -253,7 +270,7 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                   >
                     {prod.name}
                   </Link>
-                  <div style={{ fontSize: '11.5px', color: '#64748b', marginBottom: '8px' }}>
+                  <div style={{ fontSize: '11.5px', color: isBlack ? '#71717a' : '#64748b', marginBottom: '8px' }}>
                     {prod.subtitle}
                   </div>
 
@@ -264,25 +281,25 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                         <Star key={i} size={11} fill="#f59e0b" color="#f59e0b" />
                       ))}
                     </div>
-                    <span style={{ fontSize: '11px', fontWeight: 600, color: '#64748b', marginLeft: '4px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 600, color: isBlack ? '#a1a1aa' : '#64748b', marginLeft: '4px' }}>
                       ({prod.reviewsCount})
                     </span>
                   </div>
 
                   {/* Price */}
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '14px' }}>
-                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#0f172a' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 900, color: isBlack ? '#ffffff' : '#0f172a' }}>
                       ₹{prod.salePrice.toLocaleString('en-IN')}
                     </span>
-                    <span style={{ fontSize: '12.5px', textDecoration: 'line-through', color: '#94a3b8' }}>
+                    <span style={{ fontSize: '12.5px', textDecoration: 'line-through', color: isBlack ? '#71717a' : '#94a3b8' }}>
                       ₹{prod.mrp.toLocaleString('en-IN')}
                     </span>
                     <span
                       style={{
                         fontSize: '10.5px',
                         fontWeight: 700,
-                        backgroundColor: '#ecfdf5',
-                        color: '#059669',
+                        backgroundColor: isBlack ? 'rgba(16, 185, 129, 0.15)' : '#ecfdf5',
+                        color: isBlack ? '#10b981' : '#059669',
                         padding: '1px 6px',
                         borderRadius: '9999px',
                         marginLeft: 'auto',
@@ -301,8 +318,8 @@ export function SignatureProductsShowcase({ transparentBg = true }: { transparen
                     padding: '10px 14px',
                     borderRadius: '9999px',
                     border: 'none',
-                    backgroundColor: isJustAdded ? '#10b981' : '#0f172a',
-                    color: '#ffffff',
+                    backgroundColor: isJustAdded ? '#10b981' : isBlack ? '#f59e0b' : '#0f172a',
+                    color: isJustAdded ? '#ffffff' : isBlack ? '#000000' : '#ffffff',
                     fontSize: '12.5px',
                     fontWeight: 700,
                     cursor: 'pointer',

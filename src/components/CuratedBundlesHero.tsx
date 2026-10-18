@@ -4,10 +4,18 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function CuratedBundlesHero({ transparentBg = false }: { transparentBg?: boolean } = {}) {
+export function CuratedBundlesHero({
+  transparentBg = false,
+  theme = 'wavy',
+}: {
+  transparentBg?: boolean;
+  theme?: 'wavy' | 'black';
+} = {}) {
+  const isBlack = theme === 'black';
+
   return (
-    <div style={{ backgroundColor: transparentBg ? 'transparent' : '#f04e23' }}>
-      {/* Hero Banner with Iconic Retro Wavy Contour Background */}
+    <div style={{ backgroundColor: transparentBg ? 'transparent' : isBlack ? '#000000' : '#f04e23' }}>
+      {/* Hero Banner */}
       <section
         style={{
           position: 'relative',
@@ -17,7 +25,11 @@ export function CuratedBundlesHero({ transparentBg = false }: { transparentBg?: 
           display: 'flex',
           alignItems: 'center',
           color: '#ffffff',
-          backgroundImage: transparentBg ? 'none' : 'url(/images/retro-wavy-hero-bg.svg)',
+          backgroundImage: transparentBg
+            ? 'none'
+            : isBlack
+            ? 'radial-gradient(ellipse at 75% 35%, rgba(245, 158, 11, 0.15) 0%, rgba(15, 15, 20, 0.96) 55%, #000000 100%)'
+            : 'url(/images/retro-wavy-hero-bg.svg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
