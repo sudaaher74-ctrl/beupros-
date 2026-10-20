@@ -445,6 +445,7 @@ img {
   .about-hero-section,
   .catalogs-hero-section,
   .contact-hero-section,
+  .blogs-hero-section,
   .shop-wavy-hero {
     background-attachment: scroll !important;
     background-size: cover !important;

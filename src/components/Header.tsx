@@ -179,9 +179,33 @@ export const Header: React.FC = () => {
             ABOUT US
           </Link>
 
+          {/* 4. BLOGS */}
+          <Link
+            href="/blogs"
+            style={{
+              fontSize: "0.88rem",
+              fontWeight: pathname.startsWith("/blog") ? 800 : 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              color: pathname.startsWith("/blog") ? "#ffffff" : "rgba(255, 255, 255, 0.75)",
+              borderBottom: pathname.startsWith("/blog") ? "2px solid #ffffff" : "2px solid transparent",
+              padding: "0.35rem 0",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#ffffff";
+            }}
+            onMouseLeave={(e) => {
+              if (!pathname.startsWith("/blog")) {
+                e.currentTarget.style.color = "rgba(255, 255, 255, 0.75)";
+              }
+            }}
+          >
+            BLOGS
+          </Link>
 
-
-          {/* 4. CONTACT US */}
+          {/* 5. CONTACT US */}
           <Link
             href="/contact-us"
             style={{
@@ -332,6 +356,21 @@ export const Header: React.FC = () => {
             }}
           >
             ABOUT US
+          </Link>
+
+          <Link
+            href="/blogs"
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              fontWeight: 800,
+              fontSize: "1rem",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              color: pathname.startsWith("/blog") ? "#ffffff" : "#a1a1aa",
+            }}
+          >
+            BLOGS
           </Link>
 
           <Link
