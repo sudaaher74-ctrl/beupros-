@@ -22,60 +22,240 @@ export default function ContactUsPage() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#111111", minHeight: "100vh" }}>
-      {/* Header Banner */}
+      {/* Coral Sunset Wavy Hero Section */}
       <section
+        className="contact-hero-section"
         style={{
-          backgroundColor: "#000000",
-          color: "#ffffff",
-          padding: "4rem 1.5rem",
-          textAlign: "center",
           position: "relative",
+          backgroundImage: "url(/images/wavy-bg-contact-coral.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          color: "#ffffff",
+          padding: "70px 24px 80px",
           overflow: "hidden",
         }}
       >
         <div
+          className="contact-hero-container"
           style={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(circle at center, rgba(229,185,95,0.12) 0%, rgba(0,0,0,0.85) 70%)",
-            pointerEvents: "none",
+            maxWidth: "1360px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1.1fr 0.9fr",
+            gap: "48px",
+            alignItems: "center",
+            position: "relative",
+            zIndex: 2,
           }}
-        />
-        <div style={{ maxWidth: "700px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              backgroundColor: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(229,185,95,0.4)",
-              padding: "4px 14px",
-              borderRadius: "9999px",
-              fontSize: "12px",
-              fontWeight: 700,
-              color: "#e5b95f",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "1rem",
-            }}
-          >
-            <MessageSquare size={13} /> Dedicated Pro Trade Support
+        >
+          {/* Left Column: Heading & Vision */}
+          <div>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "rgba(255, 255, 255, 0.18)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                padding: "6px 16px",
+                borderRadius: "9999px",
+                fontSize: "11.5px",
+                fontWeight: 800,
+                color: "#fed7aa",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                marginBottom: "1.25rem",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+              }}
+            >
+              <MessageSquare size={13} color="#fca5a5" />
+              <span>Dedicated Salon Trade Desk</span>
+            </div>
+
+            <h1
+              className="contact-hero-title"
+              style={{
+                fontSize: "clamp(32px, 4.2vw, 56px)",
+                fontWeight: 900,
+                lineHeight: 1.08,
+                letterSpacing: "-0.025em",
+                textTransform: "uppercase",
+                margin: "0 0 1.25rem 0",
+                color: "#ffffff",
+                textShadow: "0 4px 24px rgba(0, 0, 0, 0.45)",
+                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              }}
+            >
+              WE&apos;RE HERE TO SUPPORT YOUR SALON BUSINESS
+            </h1>
+
+            <p
+              style={{
+                fontSize: "clamp(15px, 1.2vw, 17px)",
+                lineHeight: 1.6,
+                color: "rgba(255, 255, 255, 0.92)",
+                maxWidth: "600px",
+                margin: "0",
+                textShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              Have questions about salon trade verification, bulk corporate orders, brand distribution, or express logistics? Reach out to our dedicated pro team.
+            </p>
           </div>
-          <h1
+
+          {/* Right Column: Direct Trade Desk Floating Cards */}
+          <div
+            className="contact-hero-cards"
             style={{
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 900,
-              lineHeight: 1.15,
-              margin: "0 0 1rem 0",
-              letterSpacing: "-0.02em",
+              display: "flex",
+              flexDirection: "column",
+              gap: "14px",
             }}
           >
-            We&apos;re Here to Support Your Salon Business
-          </h1>
-          <p style={{ color: "#d1d5db", fontSize: "1.05rem", lineHeight: 1.6, margin: 0 }}>
-            Have questions about salon trade verification, bulk corporate orders, brand distribution, or logistics? Reach out to our team.
-          </p>
+            <div
+              style={{
+                backgroundColor: "rgba(59, 7, 30, 0.78)",
+                border: "1.5px solid rgba(255, 255, 255, 0.25)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "18px 22px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "46px",
+                  height: "46px",
+                  borderRadius: "12px",
+                  backgroundColor: "rgba(244, 63, 94, 0.25)",
+                  border: "1px solid rgba(244, 63, 94, 0.5)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fca5a5",
+                  flexShrink: 0,
+                }}
+              >
+                <Phone size={22} />
+              </div>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fed7aa" }}>
+                  Direct Phone Support
+                </div>
+                <div style={{ fontSize: "18px", fontWeight: 900, color: "#ffffff", marginTop: "2px", letterSpacing: "-0.01em" }}>
+                  +91 98200 11223
+                </div>
+                <div style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.75)", marginTop: "2px" }}>
+                  Monday – Saturday: 9:00 AM – 8:00 PM IST
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: "rgba(59, 7, 30, 0.78)",
+                border: "1.5px solid rgba(255, 255, 255, 0.25)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "18px 22px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "46px",
+                  height: "46px",
+                  borderRadius: "12px",
+                  backgroundColor: "rgba(251, 146, 60, 0.25)",
+                  border: "1px solid rgba(251, 146, 60, 0.5)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fdba74",
+                  flexShrink: 0,
+                }}
+              >
+                <Mail size={22} />
+              </div>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fed7aa" }}>
+                  Corporate &amp; Trade Email
+                </div>
+                <div style={{ fontSize: "17px", fontWeight: 900, color: "#ffffff", marginTop: "2px", letterSpacing: "-0.01em" }}>
+                  trade@beupros.com
+                </div>
+                <div style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.75)", marginTop: "2px" }}>
+                  Guaranteed response within 2 business hours
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: "rgba(59, 7, 30, 0.78)",
+                border: "1.5px solid rgba(255, 255, 255, 0.25)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "18px 22px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.35)",
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+              }}
+            >
+              <div
+                style={{
+                  width: "46px",
+                  height: "46px",
+                  borderRadius: "12px",
+                  backgroundColor: "rgba(34, 197, 94, 0.25)",
+                  border: "1px solid rgba(34, 197, 94, 0.5)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#86efac",
+                  flexShrink: 0,
+                }}
+              >
+                <Clock size={22} />
+              </div>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#fed7aa" }}>
+                  Priority Salon Logistics
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: 900, color: "#ffffff", marginTop: "2px", letterSpacing: "-0.01em" }}>
+                  24–48 Hour Dispatch Guarantee
+                </div>
+                <div style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.75)", marginTop: "2px" }}>
+                  Direct doorstep fulfillment across India
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <style jsx>{`
+          @media (max-width: 960px) {
+            .contact-hero-section {
+              padding: 42px 18px 48px !important;
+            }
+            .contact-hero-container {
+              grid-template-columns: 1fr !important;
+              gap: 32px !important;
+            }
+            .contact-hero-title {
+              font-size: 28px !important;
+            }
+          }
+        `}</style>
       </section>
 
       {/* Main Content Grid: Info on left, Form on right */}

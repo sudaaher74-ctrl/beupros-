@@ -102,53 +102,277 @@ export default function CatalogsPage() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", paddingBottom: "6rem" }}>
-      {/* Banner */}
-      <div
+      {/* Sapphire Wavy Hero Section */}
+      <section
+        className="catalogs-hero-section"
         style={{
-          backgroundColor: "#0c0a09",
+          position: "relative",
+          backgroundImage: "url(/images/wavy-bg-catalogs-sapphire.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
           color: "#ffffff",
-          padding: "4rem 0 3.5rem 0",
-          textAlign: "center",
-          borderBottom: "1px solid #1c1917",
+          padding: "70px 24px 80px",
+          overflow: "hidden",
         }}
       >
-        <div className="container-custom">
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              padding: "0.35rem 0.9rem",
-              borderRadius: "9999px",
-              fontSize: "0.8rem",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.12em",
-              color: "#f59e0b",
-              marginBottom: "1rem",
-            }}
-          >
-            <BookOpen size={15} /> Beupros Pro Library
+        <div
+          className="catalogs-hero-container"
+          style={{
+            maxWidth: "1360px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1.1fr 0.9fr",
+            gap: "40px",
+            alignItems: "center",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          {/* Left Column: Heading & Description */}
+          <div>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "rgba(255, 255, 255, 0.16)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                padding: "6px 16px",
+                borderRadius: "9999px",
+                fontSize: "11.5px",
+                fontWeight: 800,
+                color: "#7dd3fc",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                marginBottom: "1.25rem",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+              }}
+            >
+              <BookOpen size={14} color="#38bdf8" />
+              <span>Beupros Digital Pro Library</span>
+            </div>
+
+            <h1
+              className="catalogs-hero-title"
+              style={{
+                fontSize: "clamp(32px, 4.2vw, 56px)",
+                fontWeight: 900,
+                lineHeight: 1.08,
+                letterSpacing: "-0.025em",
+                textTransform: "uppercase",
+                margin: "0 0 1.25rem 0",
+                color: "#ffffff",
+                textShadow: "0 4px 24px rgba(0, 0, 0, 0.45)",
+                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              }}
+            >
+              DIGITAL PRO CATALOGS &amp; LOOKBOOKS
+            </h1>
+
+            <p
+              style={{
+                fontSize: "clamp(15px, 1.2vw, 17px)",
+                lineHeight: 1.6,
+                color: "rgba(255, 255, 255, 0.92)",
+                maxWidth: "600px",
+                margin: "0 0 2rem 0",
+                textShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              Explore high-resolution brand lookbooks, technical formulation guides, and wholesale equipment catalogs with instant pro ordering.
+            </p>
+
+            {/* Quick feature tags */}
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
+              <span
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(8px)",
+                  padding: "6px 14px",
+                  borderRadius: "9999px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                }}
+              >
+                ✓ Official Formulation Recipes
+              </span>
+              <span
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(8px)",
+                  padding: "6px 14px",
+                  borderRadius: "9999px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                }}
+              >
+                ✓ High-Res Shade Charts
+              </span>
+              <span
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(8px)",
+                  padding: "6px 14px",
+                  borderRadius: "9999px",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: "#ffffff",
+                }}
+              >
+                ✓ Instant PDF Download
+              </span>
+            </div>
           </div>
-          <h1
+
+          {/* Right Column: 3D Floating Catalog Showcase Cards */}
+          <div
+            className="catalogs-hero-stack"
             style={{
-              fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-              fontWeight: 900,
-              textTransform: "uppercase",
-              letterSpacing: "-0.02em",
-              marginBottom: "0.75rem",
-              color: "#ffffff",
+              position: "relative",
+              height: "360px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            Digital Pro Catalogs & Lookbooks
-          </h1>
-          <p style={{ fontSize: "1.05rem", color: "#a8a29e", maxWidth: "680px", margin: "0 auto" }}>
-            Explore high-resolution brand lookbooks, technical formulation guides, and wholesale equipment catalogs with instant pro ordering.
-          </p>
+            {/* Catalog 1: Back layer */}
+            <div
+              style={{
+                position: "absolute",
+                width: "240px",
+                height: "310px",
+                backgroundColor: "#172554",
+                borderRadius: "14px",
+                border: "2px solid rgba(255, 255, 255, 0.25)",
+                boxShadow: "-16px 20px 40px rgba(0, 0, 0, 0.4)",
+                padding: "20px",
+                color: "#ffffff",
+                transform: "rotate(-8deg) translateX(-40px)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                zIndex: 1,
+              }}
+            >
+              <div>
+                <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.15em", color: "#38bdf8" }}>
+                  TRADE GUIDE
+                </div>
+                <div style={{ fontSize: "17px", fontWeight: 900, marginTop: "6px", lineHeight: 1.2 }}>
+                  Tooling &amp; Architecture
+                </div>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "8px", fontSize: "10px", opacity: 0.8 }}>
+                36 Pages • Specs &amp; Motors
+              </div>
+            </div>
+
+            {/* Catalog 2: Middle layer */}
+            <div
+              style={{
+                position: "absolute",
+                width: "240px",
+                height: "310px",
+                backgroundColor: "#0369a1",
+                borderRadius: "14px",
+                border: "2px solid rgba(255, 255, 255, 0.3)",
+                boxShadow: "0 20px 45px rgba(0, 0, 0, 0.45)",
+                padding: "20px",
+                color: "#ffffff",
+                transform: "rotate(4deg) translateX(30px) translateY(-10px)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                zIndex: 2,
+              }}
+            >
+              <div>
+                <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.15em", color: "#fcd34d" }}>
+                  BACKBAR MANUAL
+                </div>
+                <div style={{ fontSize: "17px", fontWeight: 900, marginTop: "6px", lineHeight: 1.2 }}>
+                  High-Yield Consumables
+                </div>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "8px", fontSize: "10px", opacity: 0.8 }}>
+                28 Pages • Cost-Per-Pump
+              </div>
+            </div>
+
+            {/* Catalog 3: Front hero lookbook */}
+            <div
+              style={{
+                position: "absolute",
+                width: "250px",
+                height: "320px",
+                backgroundColor: "#1e1b4b",
+                borderRadius: "14px",
+                border: "2px solid rgba(255, 255, 255, 0.45)",
+                boxShadow: "0 25px 50px rgba(0, 0, 0, 0.55)",
+                padding: "22px",
+                color: "#ffffff",
+                transform: "rotate(-2deg)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                zIndex: 3,
+              }}
+            >
+              <div>
+                <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.15em", color: "#f43f5e" }}>
+                  FALL / WINTER 2026
+                </div>
+                <div style={{ fontSize: "19px", fontWeight: 900, marginTop: "6px", lineHeight: 1.15 }}>
+                  Master Color &amp; Bleach
+                </div>
+                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.75)", marginTop: "4px" }}>
+                  L&apos;Oréal • Schwarzkopf • Wella
+                </div>
+              </div>
+              <div
+                style={{
+                  borderTop: "1px solid rgba(255,255,255,0.2)",
+                  paddingTop: "10px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ fontSize: "11px", fontWeight: 800, color: "#38bdf8" }}>48 Pages</span>
+                <span style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: 700 }}>
+                  Shade Book
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <style jsx>{`
+          @media (max-width: 960px) {
+            .catalogs-hero-section {
+              padding: 42px 18px 48px !important;
+            }
+            .catalogs-hero-container {
+              grid-template-columns: 1fr !important;
+              gap: 32px !important;
+            }
+            .catalogs-hero-title {
+              font-size: 28px !important;
+            }
+            .catalogs-hero-stack {
+              height: 280px !important;
+              transform: scale(0.85);
+            }
+          }
+        `}</style>
+      </section>
 
       <div className="container-custom" style={{ paddingTop: "2.5rem" }}>
         {/* Category Tabs */}

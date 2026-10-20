@@ -155,12 +155,18 @@ function ShopContent() {
 
   return (
     <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingBottom: "4rem" }}>
-      {/* 1. Header Banner & Breadcrumb */}
+      {/* 1. Royal Violet Wavy Header Banner & Breadcrumb */}
       <div
+        className="shop-wavy-hero"
         style={{
-          backgroundColor: "#ffffff",
-          borderBottom: "1px solid #f0f2f5",
-          padding: "1.75rem 0 1.25rem 0",
+          position: "relative",
+          backgroundImage: "url(/images/wavy-bg-shop-violet.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          color: "#ffffff",
+          padding: "2.25rem 0 1.75rem 0",
+          boxShadow: "0 10px 25px rgba(59, 7, 100, 0.15)",
         }}
       >
         <div className="container-custom">
@@ -171,28 +177,28 @@ function ShopContent() {
               alignItems: "center",
               gap: "6px",
               fontSize: "12px",
-              color: "#64748b",
-              fontWeight: 500,
+              color: "rgba(255, 255, 255, 0.75)",
+              fontWeight: 600,
               marginBottom: "8px",
             }}
           >
-            <Link href="/" style={{ color: "#64748b", textDecoration: "none" }}>
+            <Link href="/" style={{ color: "rgba(255, 255, 255, 0.75)", textDecoration: "none" }}>
               Home
             </Link>
             <span>/</span>
-            <Link href="/shop" style={{ color: "#64748b", textDecoration: "none" }}>
+            <Link href="/shop" style={{ color: "rgba(255, 255, 255, 0.75)", textDecoration: "none" }}>
               Catalog
             </Link>
             {category !== "all" && (
               <>
                 <span>/</span>
-                <span style={{ color: "#0f172a", fontWeight: 700 }}>{category}</span>
+                <span style={{ color: "#ffffff", fontWeight: 800 }}>{category}</span>
               </>
             )}
             {brand !== "all" && (
               <>
                 <span>/</span>
-                <span style={{ color: "#0f172a", fontWeight: 700 }}>{brand}</span>
+                <span style={{ color: "#ffffff", fontWeight: 800 }}>{brand}</span>
               </>
             )}
           </div>
@@ -204,7 +210,7 @@ function ShopContent() {
               alignItems: "center",
               justifyContent: "space-between",
               flexWrap: "wrap",
-              gap: "12px",
+              gap: "14px",
             }}
           >
             <div>
@@ -216,21 +222,28 @@ function ShopContent() {
                   fontSize: "11px",
                   fontWeight: 800,
                   textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  color: "#64748b",
-                  marginBottom: "4px",
+                  letterSpacing: "0.1em",
+                  color: "#fcd34d",
+                  backgroundColor: "rgba(255, 255, 255, 0.16)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(8px)",
+                  padding: "4px 12px",
+                  borderRadius: "9999px",
+                  marginBottom: "8px",
                 }}
               >
-                <Sparkles size={13} color="#0f172a" />
-                Salon Trade Secret Formulations
+                <Sparkles size={13} color="#fcd34d" />
+                <span>Direct Authorized Salon Warehouse</span>
               </div>
               <h1
                 style={{
-                  fontSize: "26px",
-                  fontWeight: 800,
-                  color: "#0f172a",
-                  letterSpacing: "-0.02em",
+                  fontSize: "clamp(26px, 3.4vw, 42px)",
+                  fontWeight: 900,
+                  color: "#ffffff",
+                  letterSpacing: "-0.025em",
                   margin: 0,
+                  textShadow: "0 4px 20px rgba(0, 0, 0, 0.45)",
+                  fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 }}
               >
                 {category !== "all"
@@ -247,17 +260,19 @@ function ShopContent() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                backgroundColor: "#f1f5f9",
-                border: "1px solid #e2e8f0",
-                padding: "6px 14px",
+                backgroundColor: "rgba(255, 255, 255, 0.18)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                backdropFilter: "blur(12px)",
+                padding: "8px 16px",
                 borderRadius: "9999px",
                 fontSize: "12px",
                 fontWeight: 700,
-                color: "#0f172a",
+                color: "#ffffff",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
               }}
             >
-              <CheckCircle2 size={15} color="#10b981" />
-              Verified Pro Wholesale Pricing • GST Input Credit Enabled
+              <CheckCircle2 size={16} color="#34d399" />
+              <span>Verified Pro Wholesale Pricing • GST Input Credit Enabled</span>
             </div>
           </div>
 
@@ -270,8 +285,8 @@ function ShopContent() {
               gap: "8px",
               overflowX: "auto",
               paddingTop: "16px",
-              marginTop: "8px",
-              borderTop: "1px solid #f8f9fa",
+              marginTop: "12px",
+              borderTop: "1px solid rgba(255, 255, 255, 0.18)",
             }}
           >
             {categoriesList.map((cat) => {
@@ -282,31 +297,37 @@ function ShopContent() {
                   key={cat.value}
                   onClick={() => updateParam("category", cat.value)}
                   style={{
-                    padding: "7px 16px",
+                    padding: "8px 18px",
                     borderRadius: "9999px",
-                    fontSize: "12.5px",
-                    fontWeight: 700,
+                    fontSize: "12px",
+                    fontWeight: isSelected ? 900 : 700,
                     whiteSpace: "nowrap",
                     cursor: "pointer",
-                    border: isSelected ? "1px solid #0f172a" : "1px solid #e2e8f0",
-                    backgroundColor: isSelected ? "#0f172a" : "#ffffff",
-                    color: isSelected ? "#ffffff" : "#475569",
-                    transition: "all 0.15s ease",
+                    border: isSelected
+                      ? "1.5px solid #ffffff"
+                      : "1px solid rgba(255, 255, 255, 0.28)",
+                    backgroundColor: isSelected ? "#ffffff" : "rgba(255, 255, 255, 0.15)",
+                    color: isSelected ? "#3b0764" : "#ffffff",
+                    backdropFilter: "blur(8px)",
+                    transition: "all 0.2s ease",
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "6px",
                     boxShadow: isSelected
-                      ? "0 2px 8px rgba(15, 23, 42, 0.12)"
-                      : "0 1px 3px rgba(0,0,0,0.02)",
+                      ? "0 4px 16px rgba(0, 0, 0, 0.25)"
+                      : "none",
                   }}
                 >
                   {cat.name}
                   {cat.count && (
                     <span
                       style={{
-                        fontSize: "10.5px",
-                        fontWeight: 600,
-                        opacity: isSelected ? 0.8 : 0.6,
+                        fontSize: "10px",
+                        fontWeight: 800,
+                        backgroundColor: isSelected ? "rgba(59, 7, 100, 0.12)" : "rgba(255, 255, 255, 0.2)",
+                        color: isSelected ? "#3b0764" : "#ffffff",
+                        padding: "2px 6px",
+                        borderRadius: "9999px",
                       }}
                     >
                       {cat.count}

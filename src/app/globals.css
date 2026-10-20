@@ -425,9 +425,27 @@ img {
   min-height: 100vh;
 }
 
+@media (max-width: 960px) {
+  .about-hero-section {
+    padding: 42px 18px 48px !important;
+  }
+  .about-hero-container {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .about-hero-title {
+    font-size: 28px !important;
+  }
+}
+
 @media (max-width: 768px) {
   .stuck-wavy-hero-wrapper,
-  .stuck-wavy-full-wrapper {
+  .stuck-wavy-full-wrapper,
+  .wavy-alternating-band,
+  .about-hero-section,
+  .catalogs-hero-section,
+  .contact-hero-section,
+  .shop-wavy-hero {
     background-attachment: scroll !important;
     background-size: cover !important;
     background-position: center top !important;
@@ -455,14 +473,6 @@ img {
   background-attachment: fixed;
   background-repeat: no-repeat;
   position: relative;
-}
-
-@media (max-width: 768px) {
-  .wavy-alternating-band {
-    background-attachment: scroll !important;
-    background-size: cover !important;
-    background-position: center top !important;
-  }
 }
 
 .black-alternating-band {

@@ -10,94 +10,260 @@ export const metadata = {
 export default function AboutUsPage() {
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#111111", minHeight: "100vh" }}>
-      {/* Hero Section */}
+      {/* Hero Section with Emerald Wavy Aesthetic */}
       <section
+        className="about-hero-section"
         style={{
-          backgroundColor: "#000000",
-          color: "#ffffff",
-          padding: "5rem 1.5rem",
-          textAlign: "center",
           position: "relative",
+          backgroundImage: "url(/images/wavy-bg-about-emerald.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+          color: "#ffffff",
+          padding: "75px 24px 85px",
           overflow: "hidden",
         }}
       >
         <div
+          className="about-hero-container"
           style={{
-            position: "absolute",
-            inset: 0,
-            background: "radial-gradient(circle at center, rgba(229,185,95,0.15) 0%, rgba(0,0,0,0.85) 75%)",
-            pointerEvents: "none",
+            maxWidth: "1360px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1.1fr 0.9fr",
+            gap: "48px",
+            alignItems: "center",
+            position: "relative",
+            zIndex: 2,
           }}
-        />
-        <div style={{ maxWidth: "800px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
-              backgroundColor: "rgba(255,255,255,0.1)",
-              border: "1px solid rgba(229,185,95,0.4)",
-              padding: "4px 14px",
-              borderRadius: "9999px",
-              fontSize: "12px",
-              fontWeight: 700,
-              color: "#e5b95f",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "1.25rem",
-            }}
-          >
-            <Sparkles size={14} /> India&apos;s B2B Salon Supply Network
-          </div>
-          <h1
-            style={{
-              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-              fontWeight: 900,
-              lineHeight: 1.15,
-              letterSpacing: "-0.02em",
-              margin: "0 0 1.25rem 0",
-            }}
-          >
-            Empowering Salons with Genuine Wholesale Excellence
-          </h1>
-          <p
-            style={{
-              fontSize: "1.1rem",
-              lineHeight: 1.6,
-              color: "#d1d5db",
-              maxWidth: "650px",
-              margin: "0 auto 2rem auto",
-            }}
-          >
-            BeuPROS is the dedicated trade platform designed exclusively for licensed hair salons, beauty parlors, aesthetic clinics, and professional cosmetologists across India.
-          </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link
-              href="/shop"
-              className="btn-pill-white"
+        >
+          {/* Left Column: Vision & Action */}
+          <div>
+            <div
               style={{
-                backgroundColor: "#e5b95f",
-                color: "#000000",
-                borderColor: "#e5b95f",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                backgroundColor: "rgba(255, 255, 255, 0.18)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                padding: "6px 16px",
+                borderRadius: "9999px",
+                fontSize: "11.5px",
                 fontWeight: 800,
-                padding: "0.8rem 1.8rem",
+                color: "#fcd34d",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                marginBottom: "1.25rem",
+                backdropFilter: "blur(12px)",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
               }}
             >
-              Explore Wholesale Catalog
-            </Link>
-            <Link
-              href="/register"
-              className="btn-pill-black"
+              <Sparkles size={14} color="#fcd34d" />
+              <span>India&apos;s B2B Salon Supply Network</span>
+            </div>
+
+            <h1
+              className="about-hero-title"
               style={{
-                backgroundColor: "transparent",
+                fontSize: "clamp(32px, 4.2vw, 56px)",
+                fontWeight: 900,
+                lineHeight: 1.08,
+                letterSpacing: "-0.025em",
+                margin: "0 0 1.25rem 0",
                 color: "#ffffff",
-                border: "1px solid rgba(255,255,255,0.3)",
-                fontWeight: 700,
-                padding: "0.8rem 1.8rem",
+                textShadow: "0 4px 24px rgba(0, 0, 0, 0.45)",
+                fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
               }}
             >
-              Register Your Salon
-            </Link>
+              EMPOWERING SALONS WITH GENUINE WHOLESALE EXCELLENCE
+            </h1>
+
+            <p
+              style={{
+                fontSize: "clamp(15px, 1.2vw, 17px)",
+                lineHeight: 1.6,
+                color: "rgba(255, 255, 255, 0.92)",
+                maxWidth: "600px",
+                margin: "0 0 2rem 0",
+                textShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              BeuPROS is the dedicated trade platform designed exclusively for licensed hair salons, beauty parlors, aesthetic clinics, and professional cosmetologists across India.
+            </p>
+
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+              <Link
+                href="/shop"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#ffffff",
+                  color: "#064e3b",
+                  border: "2px solid #ffffff",
+                  borderRadius: "9999px",
+                  padding: "14px 34px",
+                  fontSize: "13px",
+                  fontWeight: 900,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.25)",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <span>Explore Wholesale Catalog</span>
+              </Link>
+              <Link
+                href="/register"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  color: "#ffffff",
+                  border: "2px solid rgba(255, 255, 255, 0.4)",
+                  borderRadius: "9999px",
+                  padding: "14px 32px",
+                  fontSize: "13px",
+                  fontWeight: 800,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  backdropFilter: "blur(10px)",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <span>Register Your Salon</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column: Floating Architectural Trust Cards */}
+          <div
+            className="about-hero-cards"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                border: "1.5px solid rgba(255, 255, 255, 0.22)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "20px 24px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: "18px",
+              }}
+            >
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
+                  backgroundColor: "rgba(52, 211, 153, 0.2)",
+                  border: "1px solid rgba(52, 211, 153, 0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#34d399",
+                  flexShrink: 0,
+                }}
+              >
+                <ShieldCheck size={26} />
+              </div>
+              <div>
+                <div style={{ fontSize: "16px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.01em" }}>
+                  100% Authorized Genuine
+                </div>
+                <div style={{ fontSize: "12.5px", color: "rgba(255, 255, 255, 0.82)", marginTop: "2px", lineHeight: 1.4 }}>
+                  Direct factory contracts with L&apos;Oréal, Schwarzkopf, Ikonic &amp; 30+ official partners.
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                border: "1.5px solid rgba(255, 255, 255, 0.22)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "20px 24px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: "18px",
+              }}
+            >
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
+                  backgroundColor: "rgba(252, 211, 77, 0.2)",
+                  border: "1px solid rgba(252, 211, 77, 0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fcd34d",
+                  flexShrink: 0,
+                }}
+              >
+                <Award size={26} />
+              </div>
+              <div>
+                <div style={{ fontSize: "16px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.01em" }}>
+                  B2B GST Input Tax Credit
+                </div>
+                <div style={{ fontSize: "12.5px", color: "rgba(255, 255, 255, 0.82)", marginTop: "2px", lineHeight: 1.4 }}>
+                  Save 18% to 28% with compliant B2B invoicing on all salon station inventory.
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                border: "1.5px solid rgba(255, 255, 255, 0.22)",
+                backdropFilter: "blur(16px)",
+                borderRadius: "18px",
+                padding: "20px 24px",
+                boxShadow: "0 14px 35px rgba(0, 0, 0, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: "18px",
+              }}
+            >
+              <div
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
+                  backgroundColor: "rgba(56, 189, 248, 0.2)",
+                  border: "1px solid rgba(56, 189, 248, 0.4)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#38bdf8",
+                  flexShrink: 0,
+                }}
+              >
+                <Truck size={26} />
+              </div>
+              <div>
+                <div style={{ fontSize: "16px", fontWeight: 900, color: "#ffffff", letterSpacing: "-0.01em" }}>
+                  PAN-India Doorstep Dispatch
+                </div>
+                <div style={{ fontSize: "12.5px", color: "rgba(255, 255, 255, 0.82)", marginTop: "2px", lineHeight: 1.4 }}>
+                  Fast logistics powering over 12,000 salons across Tier 1, 2, and 3 cities.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
