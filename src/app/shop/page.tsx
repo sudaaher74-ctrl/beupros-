@@ -154,19 +154,26 @@ function ShopContent() {
   );
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingBottom: "4rem" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url(/images/wavy-bg-shop-violet.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        color: "#ffffff",
+        paddingBottom: "5rem",
+      }}
+    >
       {/* 1. Royal Violet Wavy Header Banner & Breadcrumb */}
       <div
         className="shop-wavy-hero"
         style={{
           position: "relative",
-          backgroundImage: "url(/images/wavy-bg-shop-violet.svg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
+          backgroundColor: "transparent",
           color: "#ffffff",
           padding: "2.25rem 0 1.75rem 0",
-          boxShadow: "0 10px 25px rgba(59, 7, 100, 0.15)",
         }}
       >
         <div className="container-custom">
@@ -344,12 +351,13 @@ function ShopContent() {
         {/* 2. Saledash Controls Row */}
         <div
           style={{
-            backgroundColor: "#ffffff",
+            backgroundColor: "rgba(255, 255, 255, 0.96)",
             borderRadius: "18px",
-            border: "1px solid #f0f2f5",
-            padding: "12px 18px",
+            border: "1.5px solid rgba(255, 255, 255, 0.4)",
+            padding: "14px 20px",
             marginBottom: "1.5rem",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+            backdropFilter: "blur(16px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -587,10 +595,12 @@ function ShopContent() {
             {/* Sidebar Card */}
             <div
               style={{
-                backgroundColor: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.96)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
                 borderRadius: "20px",
-                border: "1px solid #f0f2f5",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                border: "1.5px solid rgba(255, 255, 255, 0.5)",
+                boxShadow: "0 12px 36px rgba(0,0,0,0.22)",
                 padding: "20px",
                 display: "flex",
                 flexDirection: "column",
@@ -893,7 +903,7 @@ function ShopContent() {
                     gap: "8px",
                     marginTop: "3rem",
                     paddingTop: "1.5rem",
-                    borderTop: "1px solid #f0f2f5",
+                    borderTop: "1px solid rgba(255, 255, 255, 0.25)",
                   }}
                 >
                   <button
@@ -902,8 +912,9 @@ function ShopContent() {
                     style={{
                       padding: "8px 16px",
                       borderRadius: "9999px",
-                      border: "1px solid #e2e8f0",
-                      backgroundColor: "#ffffff",
+                      border: "1px solid rgba(255, 255, 255, 0.6)",
+                      backgroundColor: "rgba(255, 255, 255, 0.92)",
+                      backdropFilter: "blur(8px)",
                       fontSize: "12px",
                       fontWeight: 700,
                       color: "#0f172a",
@@ -912,7 +923,7 @@ function ShopContent() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: "4px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
                     }}
                   >
                     <ChevronLeft size={15} /> Prev
@@ -933,15 +944,16 @@ function ShopContent() {
                             width: "36px",
                             height: "36px",
                             borderRadius: "50%",
-                            border: isCurrent ? "none" : "1px solid #e2e8f0",
-                            backgroundColor: isCurrent ? "#0f172a" : "#ffffff",
+                            border: isCurrent ? "none" : "1px solid rgba(255, 255, 255, 0.6)",
+                            backgroundColor: isCurrent ? "#0f172a" : "rgba(255, 255, 255, 0.92)",
+                            backdropFilter: "blur(8px)",
                             color: isCurrent ? "#ffffff" : "#0f172a",
                             fontSize: "12.5px",
                             fontWeight: 700,
                             cursor: "pointer",
                             boxShadow: isCurrent
-                              ? "0 4px 10px rgba(15, 23, 42, 0.2)"
-                              : "0 1px 3px rgba(0,0,0,0.02)",
+                              ? "0 4px 12px rgba(15, 23, 42, 0.3)"
+                              : "0 2px 6px rgba(0,0,0,0.08)",
                           }}
                         >
                           {pageNum}
@@ -956,8 +968,9 @@ function ShopContent() {
                     style={{
                       padding: "8px 16px",
                       borderRadius: "9999px",
-                      border: "1px solid #e2e8f0",
-                      backgroundColor: "#ffffff",
+                      border: "1px solid rgba(255, 255, 255, 0.6)",
+                      backgroundColor: "rgba(255, 255, 255, 0.92)",
+                      backdropFilter: "blur(8px)",
                       fontSize: "12px",
                       fontWeight: 700,
                       color: "#0f172a",
@@ -966,7 +979,7 @@ function ShopContent() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: "4px",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
                     }}
                   >
                     Next <ChevronRight size={15} />
@@ -976,12 +989,14 @@ function ShopContent() {
             ) : (
               <div
                 style={{
-                  backgroundColor: "#ffffff",
+                  backgroundColor: "rgba(255, 255, 255, 0.96)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
                   borderRadius: "20px",
-                  border: "1px solid #f0f2f5",
+                  border: "1.5px solid rgba(255, 255, 255, 0.5)",
                   padding: "4rem 2rem",
                   textAlign: "center",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  boxShadow: "0 12px 36px rgba(0,0,0,0.22)",
                 }}
               >
                 <div

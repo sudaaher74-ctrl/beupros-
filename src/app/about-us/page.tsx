@@ -9,18 +9,25 @@ export const metadata = {
 
 export default function AboutUsPage() {
   return (
-    <div style={{ backgroundColor: "#ffffff", color: "#111111", minHeight: "100vh" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url(/images/wavy-bg-about-emerald.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        color: "#ffffff",
+      }}
+    >
       {/* Hero Section with Emerald Wavy Aesthetic */}
       <section
         className="about-hero-section"
         style={{
           position: "relative",
-          backgroundImage: "url(/images/wavy-bg-about-emerald.svg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
+          backgroundColor: "transparent",
           color: "#ffffff",
-          padding: "75px 24px 85px",
+          padding: "60px 24px 40px",
           overflow: "hidden",
         }}
       >
@@ -150,7 +157,7 @@ export default function AboutUsPage() {
           >
             <div
               style={{
-                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                backgroundColor: "rgba(2, 44, 34, 0.8)",
                 border: "1.5px solid rgba(255, 255, 255, 0.22)",
                 backdropFilter: "blur(16px)",
                 borderRadius: "18px",
@@ -189,7 +196,7 @@ export default function AboutUsPage() {
 
             <div
               style={{
-                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                backgroundColor: "rgba(2, 44, 34, 0.8)",
                 border: "1.5px solid rgba(255, 255, 255, 0.22)",
                 backdropFilter: "blur(16px)",
                 borderRadius: "18px",
@@ -228,7 +235,7 @@ export default function AboutUsPage() {
 
             <div
               style={{
-                backgroundColor: "rgba(2, 44, 34, 0.75)",
+                backgroundColor: "rgba(2, 44, 34, 0.8)",
                 border: "1.5px solid rgba(255, 255, 255, 0.22)",
                 backdropFilter: "blur(16px)",
                 borderRadius: "18px",
@@ -268,89 +275,102 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Core Mission & Story */}
-      <section style={{ padding: "4.5rem 1.5rem", maxWidth: "1150px", margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "3.5rem", alignItems: "center" }}>
-          <div>
+      {/* Core Mission & Story on Wavy Emerald Background */}
+      <section style={{ padding: "3rem 1.5rem 4rem", maxWidth: "1360px", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "3rem", alignItems: "center" }}>
+          {/* Left Column: Glass Mission Card */}
+          <div
+            style={{
+              backgroundColor: "rgba(2, 44, 34, 0.8)",
+              borderRadius: "24px",
+              border: "1.5px solid rgba(255, 255, 255, 0.22)",
+              backdropFilter: "blur(20px)",
+              padding: "2.75rem",
+              boxShadow: "0 18px 45px rgba(0, 0, 0, 0.35)",
+            }}
+          >
             <span
               style={{
-                color: "#e5b95f",
+                color: "#fcd34d",
                 fontWeight: 800,
                 fontSize: "0.85rem",
-                letterSpacing: "0.1em",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
               }}
             >
               Our Mission
             </span>
-            <h2 style={{ fontSize: "2.1rem", fontWeight: 900, margin: "0.5rem 0 1.25rem 0", color: "#000000" }}>
+            <h2 style={{ fontSize: "2.2rem", fontWeight: 900, margin: "0.5rem 0 1.25rem 0", color: "#ffffff", letterSpacing: "-0.02em" }}>
               Eliminating Middlemen for Indian Beauty Pros
             </h2>
-            <p style={{ color: "#4b5563", lineHeight: 1.7, fontSize: "0.95rem", marginBottom: "1rem" }}>
+            <p style={{ color: "rgba(255, 255, 255, 0.88)", lineHeight: 1.7, fontSize: "0.98rem", marginBottom: "1rem" }}>
               For decades, salon entrepreneurs and independent stylists struggled with fragmented distributor networks, volatile pricing, counterfeit consumables, and opaque trade terms.
             </p>
-            <p style={{ color: "#4b5563", lineHeight: 1.7, fontSize: "0.95rem", marginBottom: "1.5rem" }}>
+            <p style={{ color: "rgba(255, 255, 255, 0.88)", lineHeight: 1.7, fontSize: "0.98rem", marginBottom: "1.5rem" }}>
               BeuPROS unifies 4,200+ professional salon products from world-leading hair, beauty, and tool manufacturers under one single, verified wholesale portal. We ensure complete price transparency, verified trade discounts, and reliable door-step fulfillment so salon artists can focus on their craft.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", borderTop: "1px solid #e5e7eb", paddingTop: "1.5rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", borderTop: "1px solid rgba(255,255,255,0.2)", paddingTop: "1.5rem" }}>
               <div>
-                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#111111" }}>4,200+</div>
-                <div style={{ fontSize: "0.85rem", color: "#6b7280", fontWeight: 600 }}>Commercial Products</div>
+                <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#ffffff" }}>4,200+</div>
+                <div style={{ fontSize: "0.85rem", color: "#a7f3d0", fontWeight: 700 }}>Commercial Products</div>
               </div>
               <div>
-                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#111111" }}>100%</div>
-                <div style={{ fontSize: "0.85rem", color: "#6b7280", fontWeight: 600 }}>Authentic & Brand Direct</div>
+                <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#ffffff" }}>100%</div>
+                <div style={{ fontSize: "0.85rem", color: "#a7f3d0", fontWeight: 700 }}>Authentic &amp; Brand Direct</div>
               </div>
             </div>
           </div>
 
+          {/* Right Column: The BeuPROS Standard Card */}
           <div
             style={{
-              backgroundColor: "#f9fafb",
-              border: "1px solid #e5e7eb",
-              borderRadius: "16px",
-              padding: "2.5rem",
+              backgroundColor: "rgba(255, 255, 255, 0.96)",
+              border: "1.5px solid rgba(255, 255, 255, 0.5)",
+              borderRadius: "24px",
+              padding: "2.75rem",
               display: "flex",
               flexDirection: "column",
               gap: "1.5rem",
+              color: "#111111",
+              boxShadow: "0 25px 60px rgba(0, 0, 0, 0.35)",
             }}
           >
-            <h3 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#111111", margin: 0 }}>
+            <h3 style={{ fontSize: "1.35rem", fontWeight: 900, color: "#064e3b", margin: 0, letterSpacing: "-0.01em" }}>
               The BeuPROS Standard
             </h3>
             
             <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <ShieldCheck size={20} />
+              <div style={{ width: "42px", height: "42px", borderRadius: "12px", backgroundColor: "#064e3b", color: "#fcd34d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <ShieldCheck size={22} />
               </div>
               <div>
-                <strong style={{ fontSize: "0.95rem", color: "#111111", display: "block", marginBottom: "2px" }}>Verified Pro Licensing</strong>
-                <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0, lineHeight: 1.5 }}>
+                <strong style={{ fontSize: "0.98rem", color: "#111111", display: "block", marginBottom: "2px" }}>Verified Pro Licensing</strong>
+                <p style={{ fontSize: "0.85rem", color: "#4b5563", margin: 0, lineHeight: 1.5 }}>
                   Wholesale trade prices are strictly safeguarded and unlocked only for verified salons with valid GST or trade licenses.
                 </p>
               </div>
             </div>
 
             <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <Building2 size={20} />
+              <div style={{ width: "42px", height: "42px", borderRadius: "12px", backgroundColor: "#064e3b", color: "#fcd34d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Building2 size={22} />
               </div>
               <div>
-                <strong style={{ fontSize: "0.95rem", color: "#111111", display: "block", marginBottom: "2px" }}>Commercial & Bulk Packaging</strong>
-                <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0, lineHeight: 1.5 }}>
+                <strong style={{ fontSize: "0.98rem", color: "#111111", display: "block", marginBottom: "2px" }}>Commercial &amp; Bulk Packaging</strong>
+                <p style={{ fontSize: "0.85rem", color: "#4b5563", margin: 0, lineHeight: 1.5 }}>
                   Access salon-sized commercial cans (4500ml, 5000ml), backbar shampoo stations, bulk waxing wax heaters, and professional kits.
                 </p>
               </div>
             </div>
 
             <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-              <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <Truck size={20} />
+              <div style={{ width: "42px", height: "42px", borderRadius: "12px", backgroundColor: "#064e3b", color: "#fcd34d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <Truck size={22} />
               </div>
               <div>
-                <strong style={{ fontSize: "0.95rem", color: "#111111", display: "block", marginBottom: "2px" }}>Express Nationwide Delivery</strong>
-                <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0, lineHeight: 1.5 }}>
-                  Fast air & surface logistics partnering with premier carriers to keep your salon stations fully stocked before weekend peaks.
+                <strong style={{ fontSize: "0.98rem", color: "#111111", display: "block", marginBottom: "2px" }}>Express Nationwide Delivery</strong>
+                <p style={{ fontSize: "0.85rem", color: "#4b5563", margin: 0, lineHeight: 1.5 }}>
+                  Fast air &amp; surface logistics partnering with premier carriers to keep your salon stations fully stocked before weekend peaks.
                 </p>
               </div>
             </div>
@@ -358,66 +378,77 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* Trust Badges Bar */}
-      <section style={{ backgroundColor: "#f9fafb", borderTop: "1px solid #e5e7eb", borderBottom: "1px solid #e5e7eb", padding: "3rem 1.5rem" }}>
-        <div style={{ maxWidth: "1150px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "2rem", textAlign: "center" }}>
+      {/* Trust Badges Bar on Wavy Background */}
+      <section style={{ backgroundColor: "rgba(2, 44, 34, 0.75)", borderTop: "1px solid rgba(255,255,255,0.2)", borderBottom: "1px solid rgba(255,255,255,0.2)", padding: "3rem 1.5rem", backdropFilter: "blur(16px)" }}>
+        <div style={{ maxWidth: "1360px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "2rem", textAlign: "center" }}>
           <div>
-            <Award size={32} color="#000000" style={{ margin: "0 auto 0.75rem auto" }} />
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#111111" }}>Authorized Brand Partner</div>
-            <div style={{ fontSize: "0.82rem", color: "#6b7280", marginTop: "4px" }}>Direct manufacturer sourcing</div>
+            <Award size={32} color="#fcd34d" style={{ margin: "0 auto 0.75rem auto" }} />
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#ffffff" }}>Authorized Brand Partner</div>
+            <div style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.75)", marginTop: "4px" }}>Direct manufacturer sourcing</div>
           </div>
           <div>
-            <Users2 size={32} color="#000000" style={{ margin: "0 auto 0.75rem auto" }} />
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#111111" }}>Pro Community First</div>
-            <div style={{ fontSize: "0.82rem", color: "#6b7280", marginTop: "4px" }}>Built for stylists, by industry experts</div>
+            <Users2 size={32} color="#34d399" style={{ margin: "0 auto 0.75rem auto" }} />
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#ffffff" }}>Pro Community First</div>
+            <div style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.75)", marginTop: "4px" }}>Built for stylists, by industry experts</div>
           </div>
           <div>
-            <ShieldCheck size={32} color="#000000" style={{ margin: "0 auto 0.75rem auto" }} />
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#111111" }}>100% GST Invoicing</div>
-            <div style={{ fontSize: "0.82rem", color: "#6b7280", marginTop: "4px" }}>Claim full business input tax credit</div>
+            <ShieldCheck size={32} color="#fcd34d" style={{ margin: "0 auto 0.75rem auto" }} />
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#ffffff" }}>100% GST Invoicing</div>
+            <div style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.75)", marginTop: "4px" }}>Claim full business input tax credit</div>
           </div>
           <div>
-            <Truck size={32} color="#000000" style={{ margin: "0 auto 0.75rem auto" }} />
-            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#111111" }}>Zero Breakage Guarantee</div>
-            <div style={{ fontSize: "0.82rem", color: "#6b7280", marginTop: "4px" }}>Heavy-duty transit packaging</div>
+            <Truck size={32} color="#38bdf8" style={{ margin: "0 auto 0.75rem auto" }} />
+            <div style={{ fontWeight: 800, fontSize: "1rem", color: "#ffffff" }}>Zero Breakage Guarantee</div>
+            <div style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.75)", marginTop: "4px" }}>Heavy-duty transit packaging</div>
           </div>
         </div>
       </section>
 
-      {/* CTA Footer Section */}
-      <section style={{ padding: "4rem 1.5rem", textAlign: "center", backgroundColor: "#ffffff" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "1.85rem", fontWeight: 900, color: "#111111", margin: "0 0 0.75rem 0" }}>
+      {/* CTA Footer Section on Wavy Background */}
+      <section style={{ padding: "5rem 1.5rem", textAlign: "center" }}>
+        <div style={{ maxWidth: "680px", margin: "0 auto", backgroundColor: "rgba(2, 44, 34, 0.8)", padding: "3rem 2rem", borderRadius: "24px", border: "1.5px solid rgba(255, 255, 255, 0.25)", backdropFilter: "blur(20px)", boxShadow: "0 20px 50px rgba(0,0,0,0.4)" }}>
+          <h2 style={{ fontSize: "2rem", fontWeight: 900, color: "#ffffff", margin: "0 0 0.75rem 0", letterSpacing: "-0.02em" }}>
             Ready to Upgrade Your Salon Supply Chain?
           </h2>
-          <p style={{ color: "#6b7280", fontSize: "0.95rem", lineHeight: 1.6, margin: "0 0 1.75rem 0" }}>
+          <p style={{ color: "rgba(255, 255, 255, 0.85)", fontSize: "0.98rem", lineHeight: 1.6, margin: "0 0 2rem 0" }}>
             Create your salon wholesale account in under 2 minutes and start ordering at exclusive trade pricing.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
               href="/register"
-              className="btn-pill-black"
               style={{
-                backgroundColor: "#000000",
-                color: "#ffffff",
-                fontWeight: 800,
-                padding: "0.75rem 1.75rem",
+                backgroundColor: "#ffffff",
+                color: "#064e3b",
+                fontWeight: 900,
+                fontSize: "13px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "14px 34px",
+                borderRadius: "9999px",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
+                textDecoration: "none",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
               }}
             >
               <span>Register Salon Now</span>
-              <ArrowRight size={15} />
+              <ArrowRight size={16} />
             </Link>
             <Link
               href="/contact-us"
-              className="btn-pill-white"
               style={{
-                borderColor: "#d1d5db",
-                color: "#111111",
-                fontWeight: 700,
-                padding: "0.75rem 1.75rem",
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                border: "1.5px solid rgba(255, 255, 255, 0.4)",
+                color: "#ffffff",
+                fontWeight: 800,
+                fontSize: "13px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "14px 32px",
+                borderRadius: "9999px",
+                textDecoration: "none",
+                backdropFilter: "blur(10px)",
               }}
             >
               Contact Sales

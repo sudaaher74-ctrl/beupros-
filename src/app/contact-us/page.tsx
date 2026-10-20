@@ -21,18 +21,25 @@ export default function ContactUsPage() {
   };
 
   return (
-    <div style={{ backgroundColor: "#ffffff", color: "#111111", minHeight: "100vh" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url(/images/wavy-bg-contact-coral.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        color: "#ffffff",
+      }}
+    >
       {/* Coral Sunset Wavy Hero Section */}
       <section
         className="contact-hero-section"
         style={{
           position: "relative",
-          backgroundImage: "url(/images/wavy-bg-contact-coral.svg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
+          backgroundColor: "transparent",
           color: "#ffffff",
-          padding: "70px 24px 80px",
+          padding: "60px 24px 40px",
           overflow: "hidden",
         }}
       >
@@ -245,11 +252,11 @@ export default function ContactUsPage() {
         <style jsx>{`
           @media (max-width: 960px) {
             .contact-hero-section {
-              padding: 42px 18px 48px !important;
+              padding: 42px 18px 28px !important;
             }
             .contact-hero-container {
               grid-template-columns: 1fr !important;
-              gap: 32px !important;
+              gap: 28px !important;
             }
             .contact-hero-title {
               font-size: 28px !important;
@@ -258,64 +265,73 @@ export default function ContactUsPage() {
         `}</style>
       </section>
 
-      {/* Main Content Grid: Info on left, Form on right */}
-      <section style={{ maxWidth: "1150px", margin: "0 auto", padding: "4rem 1.5rem" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "3rem" }}>
-          {/* Left Column: Contact Details */}
-          <div>
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 900, color: "#111111", margin: "0 0 1rem 0" }}>
+      {/* Main Content Grid: Info on left, Form on right on Full Wavy Background */}
+      <section style={{ maxWidth: "1360px", margin: "0 auto", padding: "1.5rem 1.5rem 5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "2.5rem" }}>
+          {/* Left Column: Glassmorphic Contact Details */}
+          <div
+            style={{
+              backgroundColor: "rgba(44, 6, 23, 0.78)",
+              borderRadius: "24px",
+              border: "1.5px solid rgba(255, 255, 255, 0.22)",
+              backdropFilter: "blur(20px)",
+              padding: "2.5rem",
+              boxShadow: "0 18px 45px rgba(0, 0, 0, 0.35)",
+            }}
+          >
+            <h2 style={{ fontSize: "1.75rem", fontWeight: 900, color: "#ffffff", margin: "0 0 1rem 0", letterSpacing: "-0.02em" }}>
               Get in Touch with BeuPROS
             </h2>
-            <p style={{ color: "#4b5563", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "2rem" }}>
+            <p style={{ color: "rgba(255, 255, 255, 0.85)", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "2rem" }}>
               Our dedicated salon specialist team is available Monday through Saturday to assist with your orders, billing, and account authorizations.
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "rgba(244, 63, 94, 0.25)", border: "1px solid rgba(244, 63, 94, 0.4)", color: "#fed7aa", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Phone size={18} />
                 </div>
                 <div>
-                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 700, textTransform: "uppercase" }}>Phone Support</span>
-                  <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "#111111", marginTop: "2px" }}>+91 98200 11223</div>
-                  <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>Direct trade desk & WhatsApp assistance</div>
+                  <span style={{ fontSize: "0.8rem", color: "#fed7aa", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em" }}>Phone Support</span>
+                  <div style={{ fontWeight: 800, fontSize: "1.1rem", color: "#ffffff", marginTop: "2px" }}>+91 98200 11223</div>
+                  <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.75)" }}>Direct trade desk &amp; WhatsApp assistance</div>
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "rgba(244, 63, 94, 0.25)", border: "1px solid rgba(244, 63, 94, 0.4)", color: "#fed7aa", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Mail size={18} />
                 </div>
                 <div>
-                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 700, textTransform: "uppercase" }}>Email Inquiries</span>
-                  <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "#111111", marginTop: "2px" }}>support@beupros.com</div>
-                  <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>For orders, GST invoicing & brand partnerships</div>
+                  <span style={{ fontSize: "0.8rem", color: "#fed7aa", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em" }}>Email Inquiries</span>
+                  <div style={{ fontWeight: 800, fontSize: "1.1rem", color: "#ffffff", marginTop: "2px" }}>support@beupros.com</div>
+                  <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.75)" }}>For orders, GST invoicing &amp; brand partnerships</div>
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "rgba(244, 63, 94, 0.25)", border: "1px solid rgba(244, 63, 94, 0.4)", color: "#fed7aa", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <MapPin size={18} />
                 </div>
                 <div>
-                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 700, textTransform: "uppercase" }}>Corporate Headquarters</span>
-                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#111111", marginTop: "2px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#fed7aa", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em" }}>Corporate Headquarters</span>
+                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#ffffff", marginTop: "2px" }}>
                     Floor 4, Trade Center, Bandra Kurla Complex (BKC)
                   </div>
-                  <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>Mumbai, Maharashtra 400051, India</div>
+                  <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.75)" }}>Mumbai, Maharashtra 400051, India</div>
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "#000000", color: "#e5b95f", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <div style={{ width: "42px", height: "42px", borderRadius: "10px", backgroundColor: "rgba(244, 63, 94, 0.25)", border: "1px solid rgba(244, 63, 94, 0.4)", color: "#fed7aa", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                   <Clock size={18} />
                 </div>
                 <div>
-                  <span style={{ fontSize: "0.8rem", color: "#6b7280", fontWeight: 700, textTransform: "uppercase" }}>Operational Hours</span>
-                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#111111", marginTop: "2px" }}>
+                  <span style={{ fontSize: "0.8rem", color: "#fed7aa", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em" }}>Operational Hours</span>
+                  <div style={{ fontWeight: 800, fontSize: "0.95rem", color: "#ffffff", marginTop: "2px" }}>
                     Monday – Saturday: 9:00 AM – 7:00 PM IST
                   </div>
-                  <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>Online platform active 24/7 for 365 days</div>
+                  <div style={{ fontSize: "0.8rem", color: "rgba(255, 255, 255, 0.75)" }}>Online platform active 24/7 for 365 days</div>
                 </div>
               </div>
             </div>
@@ -324,11 +340,12 @@ export default function ContactUsPage() {
           {/* Right Column: Contact Form */}
           <div
             style={{
-              backgroundColor: "#f9fafb",
-              borderRadius: "16px",
-              border: "1px solid #e5e7eb",
+              backgroundColor: "rgba(255, 255, 255, 0.96)",
+              borderRadius: "24px",
+              border: "1.5px solid rgba(255, 255, 255, 0.5)",
               padding: "2.5rem",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.03)",
+              boxShadow: "0 25px 60px rgba(0, 0, 0, 0.35)",
+              color: "#111111",
             }}
           >
             {formSubmitted ? (
@@ -355,7 +372,7 @@ export default function ContactUsPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-                <h3 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#111111", margin: "0 0 0.25rem 0" }}>
+                <h3 style={{ fontSize: "1.35rem", fontWeight: 900, color: "#111111", margin: "0 0 0.25rem 0" }}>
                   Send Us an Inquiry
                 </h3>
                 <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: "0 0 0.5rem 0" }}>
@@ -373,7 +390,7 @@ export default function ContactUsPage() {
                       placeholder="e.g. Sudarshan Aher"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none" }}
+                      style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#f9fafb" }}
                     />
                   </div>
                   <div>
@@ -386,7 +403,7 @@ export default function ContactUsPage() {
                       placeholder="e.g. Bella Luxury Studio"
                       value={formData.salonName}
                       onChange={(e) => setFormData({ ...formData, salonName: e.target.value })}
-                      style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none" }}
+                      style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#f9fafb" }}
                     />
                   </div>
                 </div>
@@ -402,7 +419,7 @@ export default function ContactUsPage() {
                       placeholder="+91 98765 43210"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none" }}
+                      style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#f9fafb" }}
                     />
                   </div>
                   <div>
@@ -415,7 +432,7 @@ export default function ContactUsPage() {
                       placeholder="salon@example.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none" }}
+                      style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#f9fafb" }}
                     />
                   </div>
                 </div>
@@ -427,12 +444,12 @@ export default function ContactUsPage() {
                   <select
                     value={formData.topic}
                     onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                    style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#ffffff" }}
+                    style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", backgroundColor: "#f9fafb" }}
                   >
-                    <option value="Wholesale Inquiry">Wholesale Pricing & Catalog</option>
+                    <option value="Wholesale Inquiry">Wholesale Pricing &amp; Catalog</option>
                     <option value="Trade License Verification">Trade License / GST Verification</option>
-                    <option value="Order Tracking & Logistics">Order Tracking & Fulfillment</option>
-                    <option value="Brand Partnership">Brand Distribution & Supply</option>
+                    <option value="Order Tracking & Logistics">Order Tracking &amp; Fulfillment</option>
+                    <option value="Brand Partnership">Brand Distribution &amp; Supply</option>
                     <option value="Other">Other Query</option>
                   </select>
                 </div>
@@ -447,29 +464,40 @@ export default function ContactUsPage() {
                     placeholder="Tell us about your salon requirements, brands needed, or order details..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    style={{ width: "100%", padding: "0.65rem 0.85rem", borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "13px", outline: "none", fontFamily: "inherit" }}
+                    style={{ width: "100%", padding: "0.75rem 0.95rem", borderRadius: "10px", border: "1.5px solid #d1d5db", fontSize: "13px", outline: "none", fontFamily: "inherit", backgroundColor: "#f9fafb" }}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="btn-pill-black"
                   style={{
-                    backgroundColor: "#000000",
+                    backgroundColor: "#be185d",
                     color: "#ffffff",
-                    fontWeight: 800,
-                    padding: "0.75rem",
+                    fontWeight: 900,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    padding: "0.9rem",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
                     cursor: "pointer",
                     border: "none",
-                    borderRadius: "8px",
+                    borderRadius: "10px",
                     marginTop: "0.5rem",
+                    boxShadow: "0 8px 24px rgba(190, 24, 93, 0.4)",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#9d174d";
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#be185d";
+                    e.currentTarget.style.transform = "translateY(0)";
                   }}
                 >
-                  <Send size={15} />
+                  <Send size={16} />
                   <span>Submit Inquiry</span>
                 </button>
               </form>

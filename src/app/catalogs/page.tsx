@@ -101,18 +101,26 @@ export default function CatalogsPage() {
   );
 
   return (
-    <div style={{ backgroundColor: "#ffffff", paddingBottom: "6rem" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundImage: "url(/images/wavy-bg-catalogs-sapphire.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        backgroundAttachment: "fixed",
+        backgroundRepeat: "no-repeat",
+        color: "#ffffff",
+        paddingBottom: "6rem",
+      }}
+    >
       {/* Sapphire Wavy Hero Section */}
       <section
         className="catalogs-hero-section"
         style={{
           position: "relative",
-          backgroundImage: "url(/images/wavy-bg-catalogs-sapphire.svg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
+          backgroundColor: "transparent",
           color: "#ffffff",
-          padding: "70px 24px 80px",
+          padding: "60px 24px 30px",
           overflow: "hidden",
         }}
       >
@@ -177,7 +185,7 @@ export default function CatalogsPage() {
                 lineHeight: 1.6,
                 color: "rgba(255, 255, 255, 0.92)",
                 maxWidth: "600px",
-                margin: "0 0 2rem 0",
+                margin: "0 0 1.75rem 0",
                 textShadow: "0 2px 10px rgba(0, 0, 0, 0.35)",
               }}
             >
@@ -357,11 +365,11 @@ export default function CatalogsPage() {
         <style jsx>{`
           @media (max-width: 960px) {
             .catalogs-hero-section {
-              padding: 42px 18px 48px !important;
+              padding: 42px 18px 24px !important;
             }
             .catalogs-hero-container {
               grid-template-columns: 1fr !important;
-              gap: 32px !important;
+              gap: 28px !important;
             }
             .catalogs-hero-title {
               font-size: 28px !important;
@@ -374,8 +382,8 @@ export default function CatalogsPage() {
         `}</style>
       </section>
 
-      <div className="container-custom" style={{ paddingTop: "2.5rem" }}>
-        {/* Category Tabs */}
+      <div className="container-custom" style={{ paddingTop: "1.5rem" }}>
+        {/* Category Tabs on Wavy Background */}
         <div
           style={{
             display: "flex",
@@ -383,7 +391,7 @@ export default function CatalogsPage() {
             justifyContent: "center",
             gap: "0.75rem",
             flexWrap: "wrap",
-            marginBottom: "3rem",
+            marginBottom: "2.5rem",
           }}
         >
           {[
@@ -399,15 +407,17 @@ export default function CatalogsPage() {
                 key={tab.id}
                 onClick={() => setSelectedCategory(tab.id as any)}
                 style={{
-                  padding: "0.6rem 1.25rem",
+                  padding: "0.7rem 1.4rem",
                   borderRadius: "9999px",
-                  fontSize: "0.88rem",
-                  fontWeight: 700,
+                  fontSize: "0.85rem",
+                  fontWeight: isActive ? 900 : 700,
                   cursor: "pointer",
                   transition: "all 0.2s ease",
-                  backgroundColor: isActive ? "#000000" : "#f5f5f5",
-                  color: isActive ? "#ffffff" : "#444444",
-                  border: isActive ? "1.5px solid #000000" : "1.5px solid #e5e5e5",
+                  backgroundColor: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.16)",
+                  color: isActive ? "#08172e" : "#ffffff",
+                  border: isActive ? "1.5px solid #ffffff" : "1.5px solid rgba(255, 255, 255, 0.3)",
+                  backdropFilter: "blur(10px)",
+                  boxShadow: isActive ? "0 4px 16px rgba(0,0,0,0.3)" : "none",
                 }}
               >
                 {tab.label}
@@ -416,7 +426,7 @@ export default function CatalogsPage() {
           })}
         </div>
 
-        {/* Catalogs Grid */}
+        {/* Catalogs Grid on Wavy Background */}
         <div
           style={{
             display: "grid",
@@ -428,22 +438,25 @@ export default function CatalogsPage() {
             <div
               key={item.id}
               style={{
-                backgroundColor: "#ffffff",
-                borderRadius: "16px",
-                border: "1px solid #e5e5e5",
+                backgroundColor: "rgba(11, 23, 54, 0.85)",
+                borderRadius: "20px",
+                border: "1.5px solid rgba(255, 255, 255, 0.22)",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
-                boxShadow: "0 4px 15px rgba(0,0,0,0.03)",
+                boxShadow: "0 18px 45px rgba(0,0,0,0.35)",
+                backdropFilter: "blur(18px)",
                 transition: "all 0.25s ease",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-4px)";
-                e.currentTarget.style.boxShadow = "0 14px 28px rgba(0,0,0,0.08)";
+                e.currentTarget.style.boxShadow = "0 22px 50px rgba(0,0,0,0.5)";
+                e.currentTarget.style.borderColor = "rgba(56, 189, 248, 0.6)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.03)";
+                e.currentTarget.style.boxShadow = "0 18px 45px rgba(0,0,0,0.35)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.22)";
               }}
             >
               {/* Fake Catalog Cover */}
@@ -474,10 +487,10 @@ export default function CatalogsPage() {
                   <span
                     style={{
                       fontSize: "0.72rem",
-                      backgroundColor: "rgba(255,255,255,0.15)",
+                      backgroundColor: "rgba(255,255,255,0.18)",
                       padding: "0.2rem 0.5rem",
                       borderRadius: "4px",
-                      fontWeight: 600,
+                      fontWeight: 700,
                     }}
                   >
                     {item.pages} Pages
@@ -501,12 +514,12 @@ export default function CatalogsPage() {
               {/* Content Body */}
               <div style={{ padding: "1.5rem", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                 <div>
-                  <p style={{ fontSize: "0.9rem", color: "#555555", lineHeight: 1.5, marginBottom: "1.25rem" }}>
+                  <p style={{ fontSize: "0.9rem", color: "rgba(255, 255, 255, 0.82)", lineHeight: 1.6, marginBottom: "1.25rem" }}>
                     {item.description}
                   </p>
 
                   <div style={{ marginBottom: "1.25rem" }}>
-                    <div style={{ fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", color: "#888888", marginBottom: "0.4rem" }}>
+                    <div style={{ fontSize: "0.75rem", fontWeight: 800, textTransform: "uppercase", color: "#7dd3fc", marginBottom: "0.4rem" }}>
                       Featured In This Catalog:
                     </div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem" }}>
@@ -515,10 +528,11 @@ export default function CatalogsPage() {
                           key={p}
                           style={{
                             fontSize: "0.75rem",
-                            backgroundColor: "#f5f5f5",
-                            color: "#333333",
-                            padding: "0.2rem 0.5rem",
-                            borderRadius: "4px",
+                            backgroundColor: "rgba(255, 255, 255, 0.12)",
+                            color: "#ffffff",
+                            border: "1px solid rgba(255, 255, 255, 0.2)",
+                            padding: "0.25rem 0.6rem",
+                            borderRadius: "6px",
                             fontWeight: 600,
                           }}
                         >
@@ -529,19 +543,46 @@ export default function CatalogsPage() {
                   </div>
                 </div>
 
-                <div style={{ display: "flex", gap: "0.6rem", borderTop: "1px solid #eeeeee", paddingTop: "1rem" }}>
+                <div style={{ display: "flex", gap: "0.6rem", borderTop: "1px solid rgba(255, 255, 255, 0.15)", paddingTop: "1rem" }}>
                   <button
                     onClick={() => setActiveCatalog(item)}
-                    className="btn-pill-black"
-                    style={{ flex: 1, padding: "0.6rem", fontSize: "0.82rem" }}
+                    style={{
+                      flex: 1,
+                      padding: "0.7rem",
+                      fontSize: "0.82rem",
+                      fontWeight: 800,
+                      backgroundColor: "#38bdf8",
+                      color: "#08172e",
+                      borderRadius: "9999px",
+                      border: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "6px",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                    }}
                   >
                     <Eye size={15} /> Preview Lookbook
                   </button>
 
                   <Link
                     href={`/shop?category=${encodeURIComponent(item.shopCategory)}`}
-                    className="btn-pill-white"
-                    style={{ padding: "0.6rem 0.9rem", fontSize: "0.82rem" }}
+                    style={{
+                      padding: "0.7rem 1.1rem",
+                      fontSize: "0.82rem",
+                      fontWeight: 800,
+                      backgroundColor: "rgba(255, 255, 255, 0.15)",
+                      color: "#ffffff",
+                      borderRadius: "9999px",
+                      border: "1.5px solid rgba(255, 255, 255, 0.35)",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "6px",
+                      textDecoration: "none",
+                      transition: "all 0.2s ease",
+                    }}
                   >
                     Shop Items <ArrowRight size={14} />
                   </Link>
