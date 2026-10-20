@@ -3,14 +3,16 @@ import { CuratedBundlesHero } from '@/components/CuratedBundlesHero';
 import { ProManifestoBanner } from '@/components/ProManifestoBanner';
 import { ShopByCategory } from '@/components/ShopByCategory';
 import { BrandPartnersShowcase } from '@/components/BrandPartnersShowcase';
+import { LiquidWaterHeroCanvas } from '@/components/LiquidWaterHeroCanvas';
 
 export default function Home() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. HERO & MANIFESTO: COLORFUL RETRO WAVY BACKGROUND                       */}
+      {/* 1. HERO & MANIFESTO: INTERACTIVE LIQUID WATER WAVY BACKGROUND              */}
       {/* ========================================================================= */}
-      <div className="stuck-wavy-hero-wrapper">
+      <div className="stuck-wavy-hero-wrapper" style={{ overflow: 'hidden' }}>
+        <LiquidWaterHeroCanvas />
         <CuratedBundlesHero transparentBg={true} theme="wavy" />
         <ProManifestoBanner transparentBg={true} theme="wavy" />
       </div>
@@ -23,9 +25,10 @@ export default function Home() {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. OFFICIAL BRAND PARTNERS: COLORFUL RETRO WAVY BACKGROUND                */}
+      {/* 3. OFFICIAL BRAND PARTNERS: INTERACTIVE LIQUID WATER WAVY BACKGROUND       */}
       {/* ========================================================================= */}
-      <div className="wavy-alternating-band">
+      <div className="wavy-alternating-band" style={{ position: 'relative', overflow: 'hidden' }}>
+        <LiquidWaterHeroCanvas />
         <BrandPartnersShowcase theme="wavy" />
       </div>
     </>
