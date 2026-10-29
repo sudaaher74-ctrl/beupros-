@@ -47,10 +47,14 @@ export default function Home() {
         <FlatList
           horizontal
           data={deals}
-          keyExtractor={(p) => p.id}
+          keyExtractor={(p: Product) => p.id}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 8 }}
-          renderItem={({ item }) => <View style={{ width: 180 }}><ProductCard product={item} /></View>}
+          renderItem={({ item }: { item: Product }) => (
+            <View style={{ width: 180 }}>
+              <ProductCard product={item} />
+            </View>
+          )}
         />
       )}
     </ScrollView>

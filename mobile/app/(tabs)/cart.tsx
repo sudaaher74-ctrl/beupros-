@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { FREE_SHIPPING_THRESHOLD, useCart } from "../../src/context/CartContext";
 import { formatINR, imageUrl } from "../../src/lib/api";
+import { CartItem } from "../../src/types/product";
 import { colors } from "../../src/theme";
 
 export default function Cart() {
@@ -24,9 +25,9 @@ export default function Cart() {
       <Text style={s.ship}>{left > 0 ? `Add ${formatINR(left)} more for free shipping` : "🎉 You've unlocked free shipping"}</Text>
       <FlatList
         data={cart}
-        keyExtractor={(i) => i.product.id}
+        keyExtractor={(i: CartItem) => i.product.id}
         contentContainerStyle={{ padding: 12, gap: 10 }}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: CartItem }) => (
           <View style={s.row}>
             <Image source={{ uri: imageUrl(item.product.image) }} style={s.img} contentFit="contain" />
             <View style={{ flex: 1, gap: 4 }}>

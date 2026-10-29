@@ -68,9 +68,9 @@ export default function Shop() {
       {error && <Text style={s.error}>{error}</Text>}
       <FlatList
         data={products}
-        keyExtractor={(p) => p.id}
+        keyExtractor={(p: Product) => p.id}
         numColumns={2}
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }: { item: Product }) => <ProductCard product={item} />}
         contentContainerStyle={{ padding: 6 }}
         onEndReachedThreshold={0.5}
         onEndReached={() => { if (hasNext && !loading) load(page + 1, false); }}
