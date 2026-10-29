@@ -9,11 +9,9 @@ import {
   ChevronRight,
   X,
   Search,
-  CheckCircle2,
   Tag,
   ArrowUpDown,
   RotateCcw,
-  Sparkles,
 } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
 import { Product } from "@/types/product";
@@ -210,41 +208,12 @@ function ShopContent() {
             )}
           </div>
 
-          {/* Title & Badge */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "14px",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                  color: "#fcd34d",
-                  backgroundColor: "rgba(255, 255, 255, 0.16)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  backdropFilter: "blur(8px)",
-                  padding: "4px 12px",
-                  borderRadius: "9999px",
-                  marginBottom: "8px",
-                }}
-              >
-                <Sparkles size={13} color="#fcd34d" />
-                <span>Direct Authorized Salon Warehouse</span>
-              </div>
+          {/* Category / Brand Title (when filtered) */}
+          {(category !== "all" || brand !== "all") && (
+            <div style={{ marginTop: "4px", marginBottom: "4px" }}>
               <h1
                 style={{
-                  fontSize: "clamp(26px, 3.4vw, 42px)",
+                  fontSize: "clamp(24px, 3.2vw, 36px)",
                   fontWeight: 900,
                   color: "#ffffff",
                   letterSpacing: "-0.025em",
@@ -255,33 +224,10 @@ function ShopContent() {
               >
                 {category !== "all"
                   ? `${category} Catalog`
-                  : brand !== "all"
-                  ? `${brand} Professional`
-                  : "All Pro Salon Products"}
+                  : `${brand} Professional`}
               </h1>
             </div>
-
-            {/* Wholesale Pill Badge */}
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                backgroundColor: "rgba(255, 255, 255, 0.18)",
-                border: "1px solid rgba(255, 255, 255, 0.35)",
-                backdropFilter: "blur(12px)",
-                padding: "8px 16px",
-                borderRadius: "9999px",
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#ffffff",
-                boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
-              }}
-            >
-              <CheckCircle2 size={16} color="#34d399" />
-              <span>Verified Pro Wholesale Pricing • GST Input Credit Enabled</span>
-            </div>
-          </div>
+          )}
 
           {/* Quick-Filter Category Horizontal Pill Rail */}
           <div
