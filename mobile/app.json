@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "BeuPros",
+    "slug": "beupros",
+    "scheme": "beupros",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.beupros.app"
+    },
+    "android": {
+      "package": "com.beupros.app"
+    }
+  }
+}
