@@ -82,7 +82,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       return [...prev, { product, quantity }];
     });
-    showToast(`Added "${product.name}" to your bag`);
     setIsCartOpen(true);
   };
 

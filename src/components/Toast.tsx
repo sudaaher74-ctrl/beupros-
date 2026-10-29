@@ -5,9 +5,9 @@ import { CheckCircle2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 export const Toast: React.FC = () => {
-  const { toastMessage } = useCart();
+  const { toastMessage, isCartOpen } = useCart();
 
-  if (!toastMessage) return null;
+  if (!toastMessage || isCartOpen) return null;
 
   return (
     <div className="toast-banner">
