@@ -3,6 +3,18 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Sparkles, ShieldCheck, Truck, CheckCircle2, ArrowRight } from 'lucide-react';
+
+const QUICK_CATEGORIES = [
+  { name: 'Hair Color', image: '/images/categories/hair-color.jpg', href: '/shop?category=Hair' },
+  { name: 'Hair Care', image: '/images/categories/hair-care.jpg', href: '/shop?category=Hair' },
+  { name: 'Skin & Body', image: '/images/categories/skin-body.jpg', href: '/shop?category=Beauty' },
+  { name: 'Tools & Dryers', image: '/images/categories/appliances.jpg', href: '/shop?category=Tools' },
+  { name: 'Backbar Cans', image: '/images/categories/salon-essentials.jpg', href: '/shop?category=Commercial%20Cans' },
+  { name: 'Nails & Spa', image: '/images/categories/nails.jpg', href: '/shop?category=Nails' },
+  { name: 'Hot Deals', image: '/images/categories/deals.svg', href: '/deals' },
+  { name: 'Masterclasses', image: '/images/categories/new.jpg', href: '/education' },
+];
 
 export function CuratedBundlesHero({
   transparentBg = false,
@@ -20,11 +32,13 @@ export function CuratedBundlesHero({
         className="beupros-hero-section"
         style={{
           position: 'relative',
-          padding: '70px 32px 85px',
+          padding: '50px 24px 60px',
           overflow: 'hidden',
           minHeight: '620px',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
+          justifyContent: 'center',
           color: '#ffffff',
           backgroundImage: transparentBg
             ? 'none'
@@ -51,10 +65,10 @@ export function CuratedBundlesHero({
           }}
         >
           {/* =============================================================== */}
-          {/* LEFT: 3D SALON PRODUCT LINEUP & PRO BOX STAGE */}
+          {/* DESKTOP-ONLY: 3D SALON PRODUCT LINEUP & PRO BOX STAGE */}
           {/* =============================================================== */}
           <div
-            className="beupros-hero-stage-column"
+            className="beupros-hero-stage-column desktop-stage"
             style={{
               position: 'relative',
               width: '100%',
@@ -92,7 +106,7 @@ export function CuratedBundlesHero({
                 zIndex: 2,
               }}
             >
-              {/* 1. Large 3D Perspective Pro Box in Background Left (Inspired by Drop Biscuit Mix box) */}
+              {/* 1. Large 3D Perspective Pro Box in Background Left */}
               <div
                 style={{
                   position: 'absolute',
@@ -114,95 +128,92 @@ export function CuratedBundlesHero({
                   transform: 'rotate(-3deg) translateY(-5px)',
                 }}
               >
-                {/* Box Header */}
                 <div>
                   <div style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)' }}>
                     PRO SALON SELECTION
                   </div>
-                  <div style={{ fontSize: '24px', fontWeight: 900, lineHeight: 1.05, marginTop: '4px', letterSpacing: '-0.02em' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 900, letterSpacing: '-0.02em', marginTop: '2px' }}>
                     BeuPROS
                   </div>
-                  <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', color: '#fcd34d', textTransform: 'uppercase', marginTop: '2px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: 800, color: '#f59e0b', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                     SALON IS FASHION
                   </div>
                 </div>
 
-                {/* Box Center Graphic */}
-                <div style={{ margin: 'auto 0', textAlign: 'center' }}>
-                  <div
-                    style={{
-                      width: '110px',
-                      height: '110px',
-                      borderRadius: '50%',
-                      margin: '0 auto',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      border: '1px dashed rgba(255, 255, 255, 0.4)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '8px',
-                    }}
-                  >
-                    <span style={{ fontSize: '11px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>PRO TRADE</span>
-                    <span style={{ fontSize: '18px', fontWeight: 900, color: '#fcd34d' }}>BOX</span>
-                    <span style={{ fontSize: '9px', opacity: 0.8 }}>CURATED KIT</span>
+                <div
+                  style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.25)',
+                    borderRadius: '50%',
+                    width: '120px',
+                    height: '120px',
+                    alignSelf: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '2px dashed rgba(255, 255, 255, 0.4)',
+                    boxShadow: 'inset 0 0 15px rgba(0,0,0,0.3)',
+                    textAlign: 'center',
+                    padding: '8px',
+                  }}
+                >
+                  <div style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', color: '#f59e0b', letterSpacing: '0.05em' }}>
+                    PRO TRADE
+                  </div>
+                  <div style={{ fontSize: '18px', fontWeight: 900, color: '#ffffff' }}>
+                    BOX
+                  </div>
+                  <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>
+                    CURATED KITS
                   </div>
                 </div>
 
-                {/* Box Footer */}
-                <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.2)', paddingTop: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                  <div>
-                    <div style={{ fontSize: '10px', fontWeight: 800 }}>EST. WHOLESALE</div>
-                    <div style={{ fontSize: '8px', opacity: 0.75 }}>VERIFIED SALON PROS</div>
+                <div>
+                  <div style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#ffffff' }}>
+                    EST. WHOLESALE
                   </div>
-                  <div style={{ fontSize: '8px', fontWeight: 700, opacity: 0.75 }}>NET WT. 10 LBS</div>
+                  <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>
+                    VERIFIED SALON PROS
+                  </div>
                 </div>
               </div>
 
-              {/* 2. Jar 1: Asta Berry Wine Facial Kit (Left Foreground Jar) */}
+              {/* 2. Wine Facial Kit Box */}
               <div
                 style={{
                   position: 'absolute',
-                  left: '140px',
+                  left: '160px',
                   bottom: '10px',
-                  width: '125px',
-                  height: '160px',
+                  width: '150px',
+                  height: '170px',
                   backgroundColor: '#ffffff',
-                  borderRadius: '14px',
-                  boxShadow: '0 18px 30px rgba(0, 0, 0, 0.45)',
+                  borderRadius: '10px',
                   border: '3px solid #ffffff',
+                  boxShadow: '0 15px 35px rgba(0, 0, 0, 0.45)',
                   overflow: 'hidden',
                   zIndex: 4,
                   display: 'flex',
                   flexDirection: 'column',
-                  transition: 'transform 0.2s ease',
                 }}
               >
-                {/* Black Screw Lid */}
-                <div style={{ height: '22px', backgroundColor: '#111111', borderBottom: '2px solid #222222', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ width: '40px', height: '2px', backgroundColor: '#444444' }} />
-                </div>
-                {/* Product Image */}
                 <div style={{ flex: 1, position: 'relative', backgroundColor: '#fafafa' }}>
                   <Image
-                    src="/product-images/d156ecd4e3536f793f0c.jpg"
-                    alt="Asta Berry Wine Facial Kit"
+                    src="/product-images/6573e04a43ee627346dc.jpg"
+                    alt="Aroma Magic Wine Facial Kit"
                     fill
-                    sizes="130px"
+                    sizes="150px"
                     style={{ objectFit: 'cover' }}
                   />
                 </div>
-                {/* Product Trade Label */}
-                <div style={{ padding: '4px 6px', backgroundColor: '#111111', color: '#ffffff', textAlign: 'center' }}>
-                  <div style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div style={{ padding: '4px 6px', backgroundColor: '#1e1e24', color: '#ffffff', textAlign: 'center' }}>
+                  <div style={{ fontSize: '8px', fontWeight: 800, textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     FACIAL KIT
                   </div>
                   <div style={{ fontSize: '7px', color: '#e5b95f' }}>WINE TREATMENT</div>
                 </div>
               </div>
 
-              {/* 3. Centerpiece Tall Bottle (Inspired by the Lemon Pepper Hot Sauce Bottle in reference!) */}
+              {/* 3. Centerpiece Tall Bottle */}
               <div
                 style={{
                   position: 'absolute',
@@ -216,7 +227,6 @@ export function CuratedBundlesHero({
                   alignItems: 'center',
                 }}
               >
-                {/* Black Dispenser Neck / Cap */}
                 <div
                   style={{
                     width: '32px',
@@ -229,7 +239,6 @@ export function CuratedBundlesHero({
                     marginBottom: '-2px',
                   }}
                 />
-                {/* Bottle Body */}
                 <div
                   style={{
                     width: '100%',
@@ -254,7 +263,6 @@ export function CuratedBundlesHero({
                       style={{ objectFit: 'cover' }}
                     />
                   </div>
-                  {/* Central Trade Label */}
                   <div style={{ padding: '6px 8px', backgroundColor: '#0f172a', color: '#ffffff', textAlign: 'center' }}>
                     <div style={{ fontSize: '9px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#f59e0b' }}>
                       BEUPROS PRO
@@ -267,7 +275,7 @@ export function CuratedBundlesHero({
                 </div>
               </div>
 
-              {/* 4. Bottle 2: Brasil Cacau Anti-Frizz Treatment (Right Center Bottle) */}
+              {/* 4. Bottle 2: Brasil Cacau Anti-Frizz Treatment */}
               <div
                 style={{
                   position: 'absolute',
@@ -285,7 +293,6 @@ export function CuratedBundlesHero({
                   flexDirection: 'column',
                 }}
               >
-                {/* White Top Cap */}
                 <div style={{ height: '20px', backgroundColor: '#18181b', borderBottom: '1px solid #333' }} />
                 <div style={{ flex: 1, position: 'relative', backgroundColor: '#ffffff' }}>
                   <Image
@@ -302,7 +309,7 @@ export function CuratedBundlesHero({
                 </div>
               </div>
 
-              {/* 5. Jar 3: Lotus Hand & Foot Massage Cream (Right-hand jar, matching Flavored Honey in reference!) */}
+              {/* 5. Jar 3: Lotus Hand & Foot Massage Cream */}
               <div
                 style={{
                   position: 'absolute',
@@ -320,7 +327,6 @@ export function CuratedBundlesHero({
                   flexDirection: 'column',
                 }}
               >
-                {/* Black Jar Lid */}
                 <div style={{ height: '22px', backgroundColor: '#111111', borderBottom: '2px solid #222222' }} />
                 <div style={{ flex: 1, position: 'relative', backgroundColor: '#fafafa' }}>
                   <Image
@@ -342,7 +348,7 @@ export function CuratedBundlesHero({
           </div>
 
           {/* =============================================================== */}
-          {/* RIGHT: TYPOGRAPHY, SUBTITLE & SHOP NOW PILL BUTTON */}
+          {/* TYPOGRAPHY, VALUE PROP & ACTION BUTTONS */}
           {/* =============================================================== */}
           <div
             className="beupros-hero-typography"
@@ -350,17 +356,40 @@ export function CuratedBundlesHero({
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              gap: '24px',
+              gap: '20px',
               paddingLeft: '10px',
             }}
           >
+            {/* Direct Authorized Trade Tag */}
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                border: '1px solid rgba(255, 255, 255, 0.35)',
+                backdropFilter: 'blur(10px)',
+                fontSize: '11px',
+                fontWeight: 800,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#fef08a',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
+              }}
+            >
+              <Sparkles size={14} color="#fef08a" />
+              <span>DIRECT FROM BRAND WAREHOUSES</span>
+            </div>
+
             {/* Massive Bold Headline */}
             <h1
               className="beupros-hero-headline"
               style={{
-                fontSize: 'clamp(34px, 5vw, 84px)',
+                fontSize: 'clamp(30px, 4.4vw, 68px)',
                 fontWeight: 900,
-                lineHeight: 1.02,
+                lineHeight: 1.05,
                 letterSpacing: '-0.025em',
                 textTransform: 'uppercase',
                 margin: 0,
@@ -369,115 +398,455 @@ export function CuratedBundlesHero({
                 textShadow: '0 6px 25px rgba(0,0,0,0.3)',
               }}
             >
-              CHOOSE YOUR
+              INDIA&apos;S PREMIER
               <br className="hero-desktop-br" />
-              {' '}FAVORITE STYLE!
+              {' '}SALON TRADE
+              <br className="hero-desktop-br" />
+              {' '}MARKETPLACE
             </h1>
 
             {/* Subtitle */}
             <p
               className="beupros-hero-subhead"
               style={{
-                fontSize: 'clamp(15px, 1.8vw, 24px)',
-                fontWeight: 700,
-                lineHeight: 1.4,
-                color: '#ffffff',
+                fontSize: 'clamp(14px, 1.6vw, 20px)',
+                fontWeight: 600,
+                lineHeight: 1.5,
+                color: 'rgba(255, 255, 255, 0.94)',
                 margin: 0,
-                maxWidth: '560px',
+                maxWidth: '580px',
                 textShadow: '0 3px 12px rgba(0,0,0,0.25)',
               }}
             >
-              No matter your taste, our ProBox, ProBag or Salon Essentials Crate gets you a variety of salon essentials.
+              4,200+ authentic salon consumables, backbar supplies &amp; professional tools at verified wholesale pricing.
             </p>
 
-            {/* Iconic Wide Pill Button */}
-            <div style={{ marginTop: '8px' }}>
+            {/* Action Buttons Row */}
+            <div
+              className="hero-btn-row"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '12px',
+                marginTop: '6px',
+              }}
+            >
               <Link
                 href="/shop"
-                className="beupros-hero-btn"
+                className="beupros-hero-btn primary-btn"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
+                  gap: '8px',
                   justifyContent: 'center',
-                  backgroundColor: 'transparent',
-                  color: '#ffffff',
-                  border: '3px solid #ffffff',
+                  backgroundColor: '#ffffff',
+                  color: '#0f172a',
                   borderRadius: '9999px',
-                  padding: '16px 54px',
-                  fontSize: '15px',
+                  padding: '15px 36px',
+                  fontSize: '14px',
                   fontWeight: 900,
-                  letterSpacing: '0.24em',
+                  letterSpacing: '0.12em',
                   textTransform: 'uppercase',
                   textDecoration: 'none',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.22s ease',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.28)',
                   cursor: 'pointer',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#ffffff';
-                  e.currentTarget.style.color = '#b80c55';
-                  e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.35)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.25)';
+              >
+                <span>SHOP WHOLESALE</span>
+                <ArrowRight size={16} />
+              </Link>
+
+              <Link
+                href="/register"
+                className="beupros-hero-btn secondary-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(255, 255, 255, 0.14)',
+                  color: '#ffffff',
+                  border: '2px solid rgba(255, 255, 255, 0.65)',
+                  backdropFilter: 'blur(8px)',
+                  borderRadius: '9999px',
+                  padding: '14px 28px',
+                  fontSize: '13px',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  transition: 'all 0.22s ease',
+                  boxShadow: '0 6px 18px rgba(0, 0, 0, 0.18)',
+                  cursor: 'pointer',
                 }}
               >
-                <span>SHOP NOW</span>
+                <ShieldCheck size={16} />
+                <span>APPLY TRADE ACCOUNT</span>
+              </Link>
+            </div>
+
+            {/* Value Pillars Badges */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '14px',
+                fontSize: '12px',
+                fontWeight: 700,
+                color: 'rgba(255, 255, 255, 0.92)',
+                marginTop: '4px',
+              }}
+            >
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <CheckCircle2 size={15} color="#34d399" />
+                <span>100% Genuine Brands</span>
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Truck size={15} color="#38bdf8" />
+                <span>Free Shipping ₹1,500+</span>
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <ShieldCheck size={15} color="#fcd34d" />
+                <span>GST Input Credit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =============================================================== */}
+        {/* MOBILE HERO PRODUCT SHOWCASE CARD (FITS 100% ON PHONES) */}
+        {/* =============================================================== */}
+        <div className="mobile-hero-card-wrapper">
+          <div className="mobile-hero-card">
+            <div className="mobile-hero-card-header">
+              <span className="mobile-card-tag">PRO SALON BESTSELLERS</span>
+              <span className="mobile-card-rating">★ 4.9 Verified Trade</span>
+            </div>
+
+            <div className="mobile-card-products-grid">
+              <Link href="/product/750" className="mobile-card-item">
+                <div className="mobile-card-item-img">
+                  <Image
+                    src="/product-images/5db63c4f7c670f2bcec2.jpg"
+                    alt="Brazilian Keratin"
+                    fill
+                    sizes="90px"
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <span className="item-badge">95% OFF</span>
+                </div>
+                <div className="item-title">Global Amazon Keratin</div>
+                <div className="item-price">₹700 <span className="item-mrp">₹14,000</span></div>
+              </Link>
+
+              <Link href="/product/4" className="mobile-card-item">
+                <div className="mobile-card-item-img">
+                  <Image
+                    src="/product-images/024f8a44c5b7d06ff573.jpg"
+                    alt="Shower Gel 4500 ML"
+                    fill
+                    sizes="90px"
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <span className="item-badge">46% OFF</span>
+                </div>
+                <div className="item-title">Commercial Can 4.5L</div>
+                <div className="item-price">₹700 <span className="item-mrp">₹1,295</span></div>
+              </Link>
+
+              <Link href="/product/6" className="mobile-card-item">
+                <div className="mobile-card-item-img">
+                  <Image
+                    src="/product-images/c46d8590ae9e140188bb.jpg"
+                    alt="Wax Heater"
+                    fill
+                    sizes="90px"
+                    style={{ objectFit: 'contain' }}
+                  />
+                  <span className="item-badge">47% OFF</span>
+                </div>
+                <div className="item-title">Wax Heater &amp; Warmer</div>
+                <div className="item-price">₹2,500 <span className="item-mrp">₹4,700</span></div>
               </Link>
             </div>
           </div>
         </div>
+
+        {/* =============================================================== */}
+        {/* QUICK CATEGORY CIRCLES RAIL (RESPONSIVE HORIZONTAL SCROLL) */}
+        {/* =============================================================== */}
+        <div className="quick-categories-section">
+          <div className="quick-cat-header">
+            <span className="quick-cat-label">POPULAR SALON DEPARTMENTS</span>
+            <Link href="/shop" className="quick-cat-all-link">
+              View All 4,200+ &rarr;
+            </Link>
+          </div>
+
+          <div className="quick-categories-scroll hide-scrollbar">
+            {QUICK_CATEGORIES.map((cat) => (
+              <Link key={cat.name} href={cat.href} className="quick-cat-circle-item">
+                <div className="quick-cat-circle-avatar">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    sizes="72px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </div>
+                <span className="quick-cat-circle-title">{cat.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Responsive adjustments */}
+      {/* Responsive Stylesheet */}
       <style jsx>{`
+        /* Desktop vs Mobile Toggle */
+        .desktop-stage {
+          display: flex !important;
+        }
+        .mobile-hero-card-wrapper {
+          display: none;
+        }
+
+        /* Quick Categories Rail */
+        .quick-categories-section {
+          width: 100%;
+          max-width: 1440px;
+          margin: 36px auto 0;
+          position: relative;
+          z-index: 3;
+        }
+        .quick-cat-header {
+          display: flex;
+          align-items: center;
+          justifyContent: space-between;
+          padding: 0 4px 10px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+          margin-bottom: 14px;
+        }
+        .quick-cat-label {
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.85);
+        }
+        .quick-cat-all-link {
+          font-size: 12px;
+          font-weight: 800;
+          color: #fef08a;
+          text-decoration: none;
+          transition: opacity 0.2s;
+        }
+        .quick-cat-all-link:hover {
+          opacity: 0.8;
+        }
+        .quick-categories-scroll {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          overflow-x: auto;
+          padding-bottom: 8px;
+          -webkit-overflow-scrolling: touch;
+        }
+        .quick-cat-circle-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+          flex-shrink: 0;
+          width: 78px;
+          transition: transform 0.2s ease;
+        }
+        .quick-cat-circle-item:hover {
+          transform: translateY(-3px);
+        }
+        .quick-cat-circle-avatar {
+          position: relative;
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          overflow: hidden;
+          background-color: #ffffff;
+          border: 2px solid rgba(255, 255, 255, 0.85);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+        }
+        .quick-cat-circle-title {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #ffffff;
+          text-align: center;
+          line-height: 1.25;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Mobile Breakpoint */
         @media (max-width: 960px) {
           .beupros-hero-section {
-            padding: 36px 16px 44px !important;
+            padding: 32px 16px 36px !important;
             min-height: auto !important;
           }
           .beupros-hero-container {
             display: flex !important;
-            flex-direction: column-reverse !important;
-            gap: 28px !important;
-            text-align: center !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+            text-align: left !important;
           }
           .beupros-hero-typography {
-            align-items: center !important;
+            align-items: flex-start !important;
             padding-left: 0 !important;
-            gap: 16px !important;
+            gap: 14px !important;
+            width: 100% !important;
+          }
+          .beupros-hero-headline {
+            font-size: 28px !important;
+            line-height: 1.12 !important;
+            text-align: left !important;
           }
           .beupros-hero-subhead {
-            max-width: 440px !important;
-            font-size: 15px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            text-align: left !important;
           }
           .hero-desktop-br {
             display: inline;
           }
-          .beupros-hero-stage-column {
-            min-height: auto !important;
-            transform: scale(0.78) !important;
-            transform-origin: center top !important;
-            margin-bottom: -70px !important;
-            margin-top: 0 !important;
+          .hero-btn-row {
+            width: 100% !important;
+            flex-direction: column !important;
+            gap: 10px !important;
           }
-          :global(.beupros-hero-btn) {
-            padding: 13px 40px !important;
-            font-size: 13px !important;
-            letter-spacing: 0.18em !important;
+          :global(.beupros-hero-btn.primary-btn) {
+            width: 100% !important;
+            padding: 14px 20px !important;
+            font-size: 13.5px !important;
+            letter-spacing: 0.08em !important;
           }
-        }
-        @media (max-width: 440px) {
-          .beupros-hero-stage-column {
-            transform: scale(0.7) !important;
-            margin-bottom: -100px !important;
+          :global(.beupros-hero-btn.secondary-btn) {
+            width: 100% !important;
+            padding: 13px 20px !important;
+            font-size: 12.5px !important;
+            letter-spacing: 0.05em !important;
           }
-          :global(.beupros-hero-headline) {
-            font-size: 32px !important;
+
+          /* Hide Desktop Stage, Show Mobile Hero Card */
+          .desktop-stage {
+            display: none !important;
+          }
+          .mobile-hero-card-wrapper {
+            display: block !important;
+            width: 100% !important;
+            margin-top: 18px !important;
+          }
+          .mobile-hero-card {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+          }
+          .mobile-hero-card-header {
+            display: flex;
+            align-items: center;
+            justifyContent: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+          }
+          .mobile-card-tag {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: #fef08a;
+            text-transform: uppercase;
+          }
+          .mobile-card-rating {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #ffffff;
+          }
+          .mobile-card-products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+          }
+          .mobile-card-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+          }
+          .mobile-card-item-img {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f8f9fa;
+          }
+          .item-badge {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 4px;
+            border-radius: 4px;
+          }
+          .item-title {
+            font-size: 10.5px;
+            font-weight: 800;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+          }
+          .item-price {
+            font-size: 12px;
+            font-weight: 900;
+            color: #0f172a;
+          }
+          .item-mrp {
+            font-size: 9.5px;
+            color: #94a3b8;
+            text-decoration: line-through;
+            font-weight: 600;
+          }
+
+          /* Quick Categories adjustments for mobile */
+          .quick-categories-section {
+            margin-top: 24px !important;
+          }
+          .quick-categories-scroll {
+            gap: 12px !important;
+          }
+          .quick-cat-circle-item {
+            width: 66px !important;
+          }
+          .quick-cat-circle-avatar {
+            width: 56px !important;
+            height: 56px !important;
+          }
+          .quick-cat-circle-title {
+            font-size: 10px !important;
           }
         }
       `}</style>
