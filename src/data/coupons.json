@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "cp-pro10",
+    "code": "PRO10",
+    "name": "Pro Trade 10%",
+    "type": "percentage",
+    "discountText": "10% OFF",
+    "discountValue": 10,
+    "minOrder": 0,
+    "usageLimit": 1000000,
+    "usedCount": 0,
+    "validity": "Ongoing Campaign",
+    "status": "active",
+    "category": "All Categories"
+  },
+  {
+    "id": "cp-beupros10",
+    "code": "BEUPROS10",
+    "name": "Beupros Welcome 10%",
+    "type": "percentage",
+    "discountText": "10% OFF",
+    "discountValue": 10,
+    "minOrder": 0,
+    "usageLimit": 1000000,
+    "usedCount": 0,
+    "validity": "Ongoing Campaign",
+    "status": "active",
+    "category": "All Categories"
+  }
+]

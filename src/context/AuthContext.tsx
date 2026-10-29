@@ -29,9 +29,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } catch {
       // ignore
-    } finally {
-      setLoading(false);
     }
+    // Validate the server session (httpOnly cookie) and refresh the user record
+    fetch("/api/auth/me")
+      .then(async (res) => {
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+          localStorage.setItem("beupros_user_session", JSON.stringify(data.user));
+        } else {
+          setUser(null);
+          localStorage.removeItem("beupros_user_session");
+        }
+      })
+      .catch(() => {
+        // offline: keep cached user
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -77,6 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     setUser(null);
     localStorage.removeItem("beupros_user_session");
   };

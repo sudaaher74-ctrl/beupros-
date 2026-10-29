@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import productsData from "@/data/products.json";
-import { Product } from "@/types/product";
-
-const allProducts = productsData as Product[];
+import { productsStore } from "@/lib/stores";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -18,7 +15,7 @@ export async function GET(request: Request) {
   const sort = searchParams.get("sort") || "featured";
   const ids = searchParams.get("ids")?.split(",").filter(Boolean);
 
-  let filtered = [...allProducts];
+  let filtered = [...(await productsStore.all())];
 
   // Specific IDs
   if (ids && ids.length > 0) {

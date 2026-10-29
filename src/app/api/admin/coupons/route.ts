@@ -1,47 +1,21 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { requireUser } from "@/lib/auth";
 
-const couponsFilePath = path.join(process.cwd(), "src/data/coupons.json");
+import { couponsStore, CouponItem } from "@/lib/stores";
 
-export interface CouponItem {
-  id: string;
-  code: string;
-  name: string;
-  type: "percentage" | "flat" | "free_shipping";
-  discountText: string;
-  discountValue: number;
-  minOrder: number;
-  usageLimit: number;
-  usedCount: number;
-  validity: string;
-  status: "active" | "scheduled" | "expired";
-  category: string;
-}
-
-function getCoupons(): CouponItem[] {
-  try {
-    if (!fs.existsSync(couponsFilePath)) {
-      return [];
-    }
-    const fileContent = fs.readFileSync(couponsFilePath, "utf-8");
-    return JSON.parse(fileContent) as CouponItem[];
-  } catch {
-    return [];
-  }
-}
-
-function saveCoupons(coupons: CouponItem[]) {
-  fs.writeFileSync(couponsFilePath, JSON.stringify(coupons, null, 2), "utf-8");
-}
+export type { CouponItem };
 
 export async function GET(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase();
     const status = searchParams.get("status");
 
-    let coupons = getCoupons();
+    const allCoupons = await couponsStore.all();
+    let coupons = allCoupons;
 
     if (status && status !== "all") {
       coupons = coupons.filter((c) => c.status === status);
@@ -56,7 +30,6 @@ export async function GET(request: Request) {
       );
     }
 
-    const allCoupons = getCoupons();
     const activeCoupons = allCoupons.filter((c) => c.status === "active").length;
     const expiredCoupons = allCoupons.filter((c) => c.status === "expired").length;
 
@@ -86,6 +59,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const { code, name, type, discountValue, minOrder, usageLimit, validFrom, validUntil, category, isActive } = body;
 
@@ -93,7 +69,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Coupon code and campaign name are required." }, { status: 400 });
     }
 
-    const coupons = getCoupons();
+    const coupons = await couponsStore.all();
     const normalizedCode = code.trim().toUpperCase();
 
     if (coupons.some((c) => c.code === normalizedCode)) {
@@ -125,8 +101,7 @@ export async function POST(request: Request) {
       category: category || "All Categories",
     };
 
-    coupons.unshift(newCoupon);
-    saveCoupons(coupons);
+    await couponsStore.put(newCoupon, { front: true });
 
     return NextResponse.json({
       success: true,
@@ -141,6 +116,9 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -148,15 +126,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Coupon ID is required" }, { status: 400 });
     }
 
-    let coupons = getCoupons();
-    const initialLen = coupons.length;
-    coupons = coupons.filter((c) => c.id !== id);
-
-    if (coupons.length === initialLen) {
+    if (!(await couponsStore.remove(id))) {
       return NextResponse.json({ error: "Coupon not found" }, { status: 404 });
     }
 
-    saveCoupons(coupons);
     return NextResponse.json({ success: true, message: "Coupon deleted successfully" });
   } catch (error: any) {
     console.error("Admin DELETE coupon error:", error);

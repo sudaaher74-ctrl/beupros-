@@ -1,18 +1,7 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-import { SalonUser } from "@/types/user";
-
-const usersFilePath = path.join(process.cwd(), "src/data/users.json");
-
-function getUsers(): SalonUser[] {
-  try {
-    const fileContent = fs.readFileSync(usersFilePath, "utf-8");
-    return JSON.parse(fileContent) as SalonUser[];
-  } catch {
-    return [];
-  }
-}
+import { setSessionCookie, signToken } from "@/lib/auth";
+import { usersStore } from "@/lib/stores";
+import { hashPassword, needsRehash, verifyPassword } from "@/lib/password";
 
 export async function POST(request: Request) {
   try {
@@ -26,9 +15,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const users = getUsers();
+    const users = await usersStore.all();
     const user = users.find(
-      (u) => u.email.toLowerCase() === email.trim().toLowerCase()
+      (u) => u.email.toLowerCase() === String(email).trim().toLowerCase()
     );
 
     if (!user) {
@@ -38,21 +27,31 @@ export async function POST(request: Request) {
       );
     }
 
-    if (user.password && user.password !== password) {
+    if (!user.password || !(await verifyPassword(password, user.password))) {
       return NextResponse.json(
         { error: "Incorrect password. Please verify your credentials." },
         { status: 401 }
       );
     }
 
+    // Upgrade legacy plaintext passwords to bcrypt on successful login
+    if (needsRehash(user.password)) {
+      user.password = await hashPassword(password);
+      await usersStore.put(user);
+    }
+
     const safeUser = { ...user };
     delete (safeUser as { password?: string }).password;
 
-    return NextResponse.json({
+    const token = signToken(safeUser.id);
+    const res = NextResponse.json({
       success: true,
       user: safeUser,
       status: safeUser.status,
+      token,
     });
+    setSessionCookie(res, token);
+    return res;
   } catch (error: any) {
     console.error("Login API error:", error);
     return NextResponse.json(

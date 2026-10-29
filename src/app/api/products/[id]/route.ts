@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
-import productsData from "@/data/products.json";
-import { Product } from "@/types/product";
-
-const allProducts = productsData as Product[];
+import { productsStore } from "@/lib/stores";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
+  const allProducts = await productsStore.all();
   const product = allProducts.find((p) => p.id === id);
 
   if (!product) {

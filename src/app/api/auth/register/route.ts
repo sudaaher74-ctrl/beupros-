@@ -1,22 +1,8 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { setSessionCookie, signToken } from "@/lib/auth";
 import { SalonUser } from "@/types/user";
-
-const usersFilePath = path.join(process.cwd(), "src/data/users.json");
-
-function getUsers(): SalonUser[] {
-  try {
-    const fileContent = fs.readFileSync(usersFilePath, "utf-8");
-    return JSON.parse(fileContent) as SalonUser[];
-  } catch {
-    return [];
-  }
-}
-
-function saveUsers(users: SalonUser[]) {
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2), "utf-8");
-}
+import { usersStore } from "@/lib/stores";
+import { hashPassword } from "@/lib/password";
 
 export async function POST(request: Request) {
   try {
@@ -43,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const users = getUsers();
+    const users = await usersStore.all();
     const existing = users.find((u) => u.email.toLowerCase() === email.trim().toLowerCase());
     if (existing) {
       return NextResponse.json(
@@ -55,7 +41,7 @@ export async function POST(request: Request) {
     const newUser: SalonUser = {
       id: `usr-${Date.now()}`,
       email: email.trim().toLowerCase(),
-      password: password,
+      password: await hashPassword(password),
       name: name.trim(),
       phone: phone.trim(),
       role: "salon_pro",
@@ -71,17 +57,20 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     };
 
-    users.push(newUser);
-    saveUsers(users);
+    await usersStore.put(newUser);
 
     // Return safe user without raw password
     const safeUser = { ...newUser };
     delete (safeUser as { password?: string }).password;
-    return NextResponse.json({
+    const token = signToken(safeUser.id);
+    const res = NextResponse.json({
       success: true,
       message: "Salon registration submitted! Your account is now under review by our admin team.",
       user: safeUser,
+      token,
     });
+    setSessionCookie(res, token);
+    return res;
   } catch (error: any) {
     console.error("Register API error:", error);
     return NextResponse.json({ error: "Failed to process registration" }, { status: 500 });

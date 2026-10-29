@@ -1,30 +1,19 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { requireUser } from "@/lib/auth";
 import { SalonUser } from "@/types/user";
-
-const usersFilePath = path.join(process.cwd(), "src/data/users.json");
-
-function getUsers(): SalonUser[] {
-  try {
-    const fileContent = fs.readFileSync(usersFilePath, "utf-8");
-    return JSON.parse(fileContent) as SalonUser[];
-  } catch {
-    return [];
-  }
-}
-
-function saveUsers(users: SalonUser[]) {
-  fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2), "utf-8");
-}
+import { usersStore } from "@/lib/stores";
 
 export async function GET(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status"); // all, pending, approved, rejected
     const search = searchParams.get("search")?.toLowerCase();
 
-    let users = getUsers();
+    const allUsers = await usersStore.all();
+    let users = allUsers;
 
     if (status && status !== "all") {
       users = users.filter((u) => u.status === status);
@@ -52,10 +41,10 @@ export async function GET(request: Request) {
       users: safeUsers,
       total: safeUsers.length,
       counts: {
-        all: getUsers().length,
-        pending: getUsers().filter((u) => u.status === "pending").length,
-        approved: getUsers().filter((u) => u.status === "approved").length,
-        rejected: getUsers().filter((u) => u.status === "rejected").length,
+        all: allUsers.length,
+        pending: allUsers.filter((u) => u.status === "pending").length,
+        approved: allUsers.filter((u) => u.status === "approved").length,
+        rejected: allUsers.filter((u) => u.status === "rejected").length,
       },
     });
   } catch (error: any) {
@@ -66,6 +55,9 @@ export async function GET(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const { id, status, rejectionReason, salonName, city, state, phone, businessType } = body;
 
@@ -73,14 +65,11 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "User ID is required" }, { status: 400 });
     }
 
-    const users = getUsers();
-    const index = users.findIndex((u) => u.id === id);
+    const targetUser = await usersStore.get(id);
 
-    if (index === -1) {
+    if (!targetUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-
-    const targetUser = users[index];
 
     if (status) targetUser.status = status;
     if (rejectionReason !== undefined) targetUser.rejectionReason = rejectionReason;
@@ -90,8 +79,7 @@ export async function PUT(request: Request) {
     if (phone) targetUser.phone = phone;
     if (businessType) targetUser.businessType = businessType;
 
-    users[index] = targetUser;
-    saveUsers(users);
+    await usersStore.put(targetUser);
 
     const safeUser = { ...targetUser };
     delete (safeUser as { password?: string }).password;
@@ -108,6 +96,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -115,15 +106,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "User ID is required" }, { status: 400 });
     }
 
-    let users = getUsers();
-    const initialLength = users.length;
-    users = users.filter((u) => u.id !== id);
-
-    if (users.length === initialLength) {
+    if (!(await usersStore.remove(id))) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    saveUsers(users);
     return NextResponse.json({ success: true, message: "User deleted successfully" });
   } catch (error: any) {
     console.error("Admin DELETE user error:", error);

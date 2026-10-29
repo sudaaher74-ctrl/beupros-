@@ -25,6 +25,7 @@ export interface OrderItem {
 
 export interface Order {
   id: string;
+  userId?: string;
   createdAt: string;
   salonName: string;
   customerName: string;

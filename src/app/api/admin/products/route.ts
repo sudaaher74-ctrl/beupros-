@@ -1,25 +1,13 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { requireUser } from "@/lib/auth";
 import { Product } from "@/types/product";
-
-const productsFilePath = path.join(process.cwd(), "src/data/products.json");
-
-function getProducts(): Product[] {
-  try {
-    const fileContent = fs.readFileSync(productsFilePath, "utf-8");
-    return JSON.parse(fileContent) as Product[];
-  } catch {
-    return [];
-  }
-}
-
-function saveProducts(products: Product[]) {
-  fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2), "utf-8");
-}
+import { productsStore } from "@/lib/stores";
 
 export async function GET(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.toLowerCase();
     const category = searchParams.get("category");
@@ -29,7 +17,7 @@ export async function GET(request: Request) {
     const limitParam = searchParams.get("limit");
     const limit = limitParam === "all" ? 10000 : parseInt(limitParam || "20", 10);
 
-    const allProducts = getProducts();
+    const allProducts = await productsStore.all();
 
     // Compute inventory aggregates over all products
     let totalStockValue = 0;
@@ -133,6 +121,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const { name, brand, category, salePrice, mrp, image, description, availability, stock, sku } = body;
 
@@ -166,10 +157,8 @@ export async function POST(request: Request) {
       availability: availability || "In Stock",
     };
 
-    const products = getProducts();
     // Insert at front so new product shows up first
-    products.unshift(newProduct);
-    saveProducts(products);
+    await productsStore.put(newProduct, { front: true });
 
     return NextResponse.json({
       success: true,
@@ -184,6 +173,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const { id, name, brand, category, salePrice, mrp, image, description, availability, stock, sku } = body;
 
@@ -191,14 +183,13 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
     }
 
-    const products = getProducts();
-    const index = products.findIndex((p) => p.id === id);
+    const existing = (await productsStore.all()).find((p) => p.id === id);
 
-    if (index === -1) {
+    if (!existing) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    const target = products[index];
+    const target: Product = { ...existing };
 
     if (name) target.name = name.trim();
     if (brand) target.brand = brand.trim();
@@ -218,8 +209,7 @@ export async function PUT(request: Request) {
       target.discount = target.discountPercent > 0 ? `${target.discountPercent}% OFF` : "";
     }
 
-    products[index] = target;
-    saveProducts(products);
+    await productsStore.put(target);
 
     return NextResponse.json({
       success: true,
@@ -234,6 +224,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -241,19 +234,14 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
     }
 
-    let products = getProducts();
-    const initialLength = products.length;
-    products = products.filter((p) => p.id !== id);
-
-    if (products.length === initialLength) {
+    if (!(await productsStore.remove(id))) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
-
-    saveProducts(products);
+    const totalRemaining = (await productsStore.all()).length;
     return NextResponse.json({
       success: true,
       message: "Product removed from catalog",
-      totalRemaining: products.length,
+      totalRemaining,
     });
   } catch (error: any) {
     console.error("Admin DELETE product error:", error);

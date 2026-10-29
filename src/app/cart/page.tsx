@@ -50,14 +50,27 @@ export default function CartPage() {
     notes: "Please call upon arrival at salon premises.",
   });
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
-    const code = couponCode.trim().toUpperCase();
-    if (code === "PRO10" || code === "BEUPROS10") {
-      setCouponApplied(true);
-      setDiscountAmount(Math.round(subtotal * 0.1));
-    } else if (couponCode.trim()) {
-      alert("Invalid code. Try 'PRO10' or 'BEUPROS10' for 10% pro discount!");
+    const code = couponCode.trim();
+    if (!code) return;
+    try {
+      const res = await fetch("/api/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCouponApplied(true);
+        setDiscountAmount(data.discount);
+      } else {
+        setCouponApplied(false);
+        setDiscountAmount(0);
+        alert(data.error || "Invalid coupon code.");
+      }
+    } catch {
+      alert("Could not validate coupon. Please try again.");
     }
   };
 
@@ -899,7 +912,7 @@ export default function CartPage() {
                     e.preventDefault();
                     setSubmittingOrder(true);
                     try {
-                      const res = await fetch("/api/admin/orders", {
+                      const res = await fetch("/api/orders", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -915,17 +928,9 @@ export default function CartPage() {
                           },
                           items: cart.map((item) => ({
                             productId: item.product.id,
-                            name: item.product.name,
-                            brand: item.product.brand,
-                            image: item.product.image,
                             quantity: item.quantity,
-                            price: item.product.salePrice,
-                            mrp: item.product.mrp,
                           })),
-                          subtotal,
-                          discount: discountAmount,
-                          shipping: shippingCost,
-                          total: grandTotal,
+                          couponCode: couponApplied ? couponCode.trim() : undefined,
                           paymentMethod: checkoutData.paymentMethod,
                           notes: checkoutData.notes,
                         }),
@@ -936,7 +941,7 @@ export default function CartPage() {
                         setConfirmedOrder(data.order);
                         clearCart();
                       } else {
-                        alert(data.error || "Failed to place order.");
+                        alert(res.status === 401 ? "Please sign in with your approved trade account to place an order." : data.error || "Failed to place order.");
                       }
                     } catch {
                       alert("Error processing wholesale order.");

@@ -1,33 +1,19 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { requireUser } from "@/lib/auth";
 import { Order, OrderStatus } from "@/types/order";
-
-const ordersFilePath = path.join(process.cwd(), "src/data/orders.json");
-
-function getOrders(): Order[] {
-  try {
-    if (!fs.existsSync(ordersFilePath)) {
-      return [];
-    }
-    const fileContent = fs.readFileSync(ordersFilePath, "utf-8");
-    return JSON.parse(fileContent) as Order[];
-  } catch {
-    return [];
-  }
-}
-
-function saveOrders(orders: Order[]) {
-  fs.writeFileSync(ordersFilePath, JSON.stringify(orders, null, 2), "utf-8");
-}
+import { ordersStore } from "@/lib/stores";
 
 export async function GET(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status"); // all, Pending, Confirmed, Packing, Dispatched, Delivered, Cancelled
     const search = searchParams.get("search")?.toLowerCase();
 
-    let orders = getOrders();
+    const allOrders = await ordersStore.all();
+    let orders = [...allOrders];
 
     // Sort newest first
     orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -48,7 +34,6 @@ export async function GET(request: Request) {
       );
     }
 
-    const allOrders = getOrders();
     const totalRevenue = allOrders
       .filter((o) => o.status !== "Cancelled")
       .reduce((sum, o) => sum + (o.total || 0), 0);
@@ -81,6 +66,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const {
       salonName,
@@ -104,7 +92,6 @@ export async function POST(request: Request) {
       );
     }
 
-    const orders = getOrders();
     const newOrderId = `ORD-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const newOrder: Order = {
@@ -139,8 +126,7 @@ export async function POST(request: Request) {
       notes: notes || undefined,
     };
 
-    orders.unshift(newOrder);
-    saveOrders(orders);
+    await ordersStore.put(newOrder, { front: true });
 
     return NextResponse.json({
       success: true,
@@ -155,6 +141,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const body = await request.json();
     const { id, status, paymentStatus, trackingNumber, notes } = body;
 
@@ -162,24 +151,23 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Order ID is required" }, { status: 400 });
     }
 
-    const orders = getOrders();
-    const index = orders.findIndex((o) => o.id === id);
+    const order = await ordersStore.get(id);
 
-    if (index === -1) {
+    if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    if (status) orders[index].status = status as OrderStatus;
-    if (paymentStatus) orders[index].paymentStatus = paymentStatus;
-    if (trackingNumber !== undefined) orders[index].trackingNumber = trackingNumber;
-    if (notes !== undefined) orders[index].notes = notes;
+    if (status) order.status = status as OrderStatus;
+    if (paymentStatus) order.paymentStatus = paymentStatus;
+    if (trackingNumber !== undefined) order.trackingNumber = trackingNumber;
+    if (notes !== undefined) order.notes = notes;
 
-    saveOrders(orders);
+    await ordersStore.put(order);
 
     return NextResponse.json({
       success: true,
-      message: `Order status updated to ${orders[index].status}`,
-      order: orders[index],
+      message: `Order status updated to ${order.status}`,
+      order,
     });
   } catch (error: any) {
     console.error("Orders PUT error:", error);
@@ -189,6 +177,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const admin = await requireUser(request, "admin");
+    if (admin instanceof Response) return admin;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
@@ -196,9 +187,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Order ID is required" }, { status: 400 });
     }
 
-    let orders = getOrders();
-    orders = orders.filter((o) => o.id !== id);
-    saveOrders(orders);
+    await ordersStore.remove(id);
 
     return NextResponse.json({
       success: true,
